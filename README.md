@@ -39,23 +39,28 @@
 
 ## Tools
     - [] Java 11?
-    - [] Java 17?
-    - [x] EDA - Event Driven Architecture
+    - [] Java 17? Check if exist official image on docker
+    - [] EDA - Event Driven Architecture
     - [] RabbitMQ?
     - [] Kafka?
-    - [x] keycloack
-    - [x] Stack Spring
-      - [x] Security integrated with keycloack -> Identity Manager
-      - [x] Boot
-      - [x] Actuator, Prometheus and Grafana -> Monitoring
-      - [x] Hateoas -> Restful
-      - [x] Config -> configure times to process doc / ted and card invoice time
-      - [x] Batch -> batches to process doc / ted and card invoice time
+    - [] keycloack
+    - [] Stack Spring
+      - [] Security integrated with keycloack -> Identity Manager
+      - [] Boot
+      - [] Actuator, Prometheus and Grafana -> Monitoring
+      - [] Hateoas -> Restful
+      - [] Config -> configure times to process doc / ted and card invoice time
+      - [] Batch -> batches to process doc / ted and card invoice time
       - [] Eureka? API Gateway
       - [] Service Registration and Discovery with Netflix Eureka and Spring cloud
       - [] Cloud Load Balancer
       - [] Distributed tracing and Log aggregation patterns and visualization with Elasticsearch, Logstash and Kibana
       - [] Spring Cloud Sleuth and Zipkin
-    - [x] Mysql
-    - [x] Docker
-    - [x] Kubernetes (kind - local cluster)
+    - [] Mysql
+    - [] Docker
+    - [] Kubernetes (kind - local cluster)
+    - [] Elasticsearch
+    - [] Logstash
+    - [] Kibana
+    - [] Prometheus
+    - [] Grafana
