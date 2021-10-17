@@ -31,3 +31,4 @@ mvnw
 mvnw.cmd
 
 target/
+.vscode/

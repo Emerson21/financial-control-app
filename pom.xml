@@ -12,7 +12,7 @@
 	<artifactId>financial-control-app</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>financial-control-app</name>
-	<description>Demo project for Spring Boot</description>
+	<description>Project to control income and expensive entries, project to you take control your financial`s life.</description>
 	<properties>
 		<java.version>11</java.version>
 	</properties>
