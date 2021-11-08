@@ -8,7 +8,7 @@
 		<version>2.5.5</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>br.com.vr.development.emerson.chapter</groupId>
+	<groupId>br.com.vr.development</groupId>
 	<artifactId>financial-control-app</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>financial-control-app</name>
