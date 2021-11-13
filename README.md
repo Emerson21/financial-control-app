@@ -62,3 +62,8 @@
 - [ ] Kibana
 - [ ] Prometheus
 - [ ] Grafana
+
+
+## Installing Keycloak Docker Image
+
+```docker run --name keycloack-authenticator -p 8180:8080 -e KEYCLOAK_USER=admin -e KEYCLOAK_PASSWORD=admin quay.io/keycloak/keycloak:15.0.2```
