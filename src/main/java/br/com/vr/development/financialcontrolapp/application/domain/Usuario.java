@@ -19,5 +19,6 @@ public class Usuario {
     private BigDecimal rendaMensal;
     private Email email;
     private Telefone celular;
+    private ContaBancaria contaBancaria;
     
 }

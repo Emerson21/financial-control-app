@@ -3,12 +3,10 @@ package br.com.vr.development.financialcontrolapp.application.commons;
 import org.apache.commons.lang3.StringUtils;
 
 import br.com.vr.development.financialcontrolapp.application.enums.TipoDocumento;
-import lombok.AllArgsConstructor;
 
-@AllArgsConstructor
-public class Cpf implements Documento {
+public class Cnpj implements Documento {
 
-    private static final int TAMANHO_CPF = 11;
+    private static final int TAMANHO_CNPJ = 14;
 
     private String numero;
 
@@ -18,8 +16,8 @@ public class Cpf implements Documento {
             return false;
         }
 
-        String cpf = this.numero.replaceAll("\\D", "");
-        return StringUtils.isNotBlank(cpf) && cpf.length() == TAMANHO_CPF;
+        String cnpj = this.numero.replaceAll("\\D", "");
+        return StringUtils.isNotBlank(cnpj) && cnpj.length() == TAMANHO_CNPJ;
     }
 
     @Override
@@ -29,7 +27,7 @@ public class Cpf implements Documento {
 
     @Override
     public TipoDocumento getTipoDocumento() {
-        return TipoDocumento.CPF;
+        return TipoDocumento.CNPJ;
     }
     
 }
