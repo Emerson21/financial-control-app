@@ -1,4 +1,4 @@
-package br.com.vr.development.emerson.chapter.financialcontrolapp;
+package br.com.vr.development.financialcontrolapp;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
