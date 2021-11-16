@@ -1,6 +1,9 @@
 package br.com.vr.development.financialcontrolapp.application.domain;
 
-import br.com.vr.development.financialcontrolapp.application.commons.AgenciaBancaria;
+import java.math.BigDecimal;
+import java.util.Collections;
+import java.util.List;
+
 import br.com.vr.development.financialcontrolapp.application.enums.TipoContaBancaria;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -16,8 +19,28 @@ public class ContaCorrente implements ContaBancaria {
     private Long digito;
 
     @Override
-    public TipoContaBancaria getTipoContaBancaria() {
+    public TipoContaBancaria getTipo() {
         return TipoContaBancaria.CONTA_CORRENTE;
+    }
+
+    @Override
+    public BigDecimal getSaldo() {
+        return BigDecimal.ZERO;
+    }
+
+    @Override
+    public boolean isPossuiLimite() {
+        return false;
+    }
+
+    @Override
+    public BigDecimal getLimite() {
+        return BigDecimal.ZERO;
+    }
+
+    @Override
+    public List<Lancamento> getLancamentos() {
+        return Collections.emptyList();
     }
     
 }

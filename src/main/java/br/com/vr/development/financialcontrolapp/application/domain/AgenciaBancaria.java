@@ -1,6 +1,5 @@
-package br.com.vr.development.financialcontrolapp.application.commons;
+package br.com.vr.development.financialcontrolapp.application.domain;
 
-import br.com.vr.development.financialcontrolapp.application.domain.Banco;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.ToString;
