@@ -53,21 +53,16 @@ public class ContaResourceTest {
     public void deveReceberDadosParaAberturaDaContaCorrente() throws Exception {
         String uri = "/v1/banco/conta";
 
-        Pessoa pessoa = new Pessoa(new Nome("Emerson", "Haraguchi"), 
-        new Cpf("29222004000"), new DataNascimento(LocalDate.of(1988, 10, 21)));
+        Pessoa pessoa = new Pessoa(
+            new Nome("Emerson", "Haraguchi"), 
+            new Cpf("29222004000"), 
+            new DataNascimento(LocalDate.of(1988, 10, 21)));
 
-        Endereco endereco = new EnderecoResidencial();
-        endereco.setCep("13940-970");
-        endereco.setBairro("Centro");
-        endereco.setCidade("Águas de Lindóia");
-        endereco.setEstado(UF.SAO_PAULO);
-        endereco.setLogradouro("Avenida Brasil 160");
-        endereco.setNumero("607");
+        Endereco endereco = getEndereco();
 
         Telefone telefone = new Celular("19", "2901-7197");
         Email email = new Email("thomascauajorgebarbosa-98@agnet.com.br");
         Renda renda = new Renda(new BigDecimal("2000"));
-
 
         FormularioAberturaConta formulario = new FormularioAberturaConta(pessoa, endereco, telefone, email, renda);
 
@@ -79,6 +74,17 @@ public class ContaResourceTest {
             .contentType(MediaType.APPLICATION_JSON))
             .andExpect(MockMvcResultMatchers.status().isCreated());
 
+    }
+
+    private Endereco getEndereco() {
+        Endereco endereco = new EnderecoResidencial();
+        endereco.setCep("13940-970");
+        endereco.setBairro("Centro");
+        endereco.setCidade("Águas de Lindóia");
+        endereco.setEstado(UF.SAO_PAULO);
+        endereco.setLogradouro("Avenida Brasil 160");
+        endereco.setNumero("607");
+        return endereco;
     }
 
 
