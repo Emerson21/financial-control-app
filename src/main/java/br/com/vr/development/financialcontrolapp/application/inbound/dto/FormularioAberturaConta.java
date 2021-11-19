@@ -1,22 +1,26 @@
 package br.com.vr.development.financialcontrolapp.application.inbound.dto;
 
+import java.io.Serializable;
+
+import br.com.vr.development.financialcontrolapp.application.commons.Celular;
 import br.com.vr.development.financialcontrolapp.application.commons.Email;
-import br.com.vr.development.financialcontrolapp.application.commons.Endereco;
-import br.com.vr.development.financialcontrolapp.application.commons.Telefone;
+import br.com.vr.development.financialcontrolapp.application.commons.EnderecoResidencial;
 import br.com.vr.development.financialcontrolapp.application.domain.Renda;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 @Getter
 @ToString
-@RequiredArgsConstructor
-public class FormularioAberturaConta {
+@AllArgsConstructor
+@NoArgsConstructor
+public class FormularioAberturaConta implements Serializable {
     
-    private final Pessoa prospect;
-    private final Endereco endereco;
-    private final Telefone telefone;
-    private final Email email;
-    private final Renda renda;
+    private Pessoa prospect;
+    private EnderecoResidencial endereco;
+    private Celular telefone;
+    private Email email;
+    private Renda renda;
 
 }

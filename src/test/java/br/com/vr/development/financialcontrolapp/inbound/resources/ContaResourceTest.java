@@ -23,7 +23,6 @@ import br.com.vr.development.financialcontrolapp.application.commons.Cpf;
 import br.com.vr.development.financialcontrolapp.application.commons.Email;
 import br.com.vr.development.financialcontrolapp.application.commons.Endereco;
 import br.com.vr.development.financialcontrolapp.application.commons.EnderecoResidencial;
-import br.com.vr.development.financialcontrolapp.application.commons.Telefone;
 import br.com.vr.development.financialcontrolapp.application.domain.Renda;
 import br.com.vr.development.financialcontrolapp.application.enums.UF;
 import br.com.vr.development.financialcontrolapp.application.inbound.ContaResource;
@@ -50,17 +49,16 @@ public class ContaResourceTest {
     }
 
     @Test
-    public void deveReceberDadosParaAberturaDaContaCorrente() throws Exception {
-        String uri = "/v1/banco/conta";
+    public void deveRetornarStatus_201_AoReceberDadosParaAberturaDaContaCorrente() throws Exception {
 
         Pessoa pessoa = new Pessoa(
             new Nome("Emerson", "Haraguchi"), 
             new Cpf("29222004000"), 
             new DataNascimento(LocalDate.of(1988, 10, 21)));
 
-        Endereco endereco = getEndereco();
+        EnderecoResidencial endereco = (EnderecoResidencial) getEndereco();
 
-        Telefone telefone = new Celular("19", "2901-7197");
+        Celular telefone = new Celular("19", "2901-7197");
         Email email = new Email("thomascauajorgebarbosa-98@agnet.com.br");
         Renda renda = new Renda(new BigDecimal("2000"));
 
@@ -69,7 +67,7 @@ public class ContaResourceTest {
         String jsonPayload = new ObjectMapper().registerModule(new JavaTimeModule())
             .writeValueAsString(formulario);
 
-        this.mockMvc.perform(MockMvcRequestBuilders.post(uri)
+        this.mockMvc.perform(MockMvcRequestBuilders.post("/v1/conta")
             .content(jsonPayload)
             .contentType(MediaType.APPLICATION_JSON))
             .andExpect(MockMvcResultMatchers.status().isCreated());

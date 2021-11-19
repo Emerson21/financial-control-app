@@ -1,15 +1,19 @@
 package br.com.vr.development.financialcontrolapp.application.inbound.dto;
 
-import br.com.vr.development.financialcontrolapp.application.commons.Documento;
-import lombok.Getter;
-import lombok.RequiredArgsConstructor;
+import java.io.Serializable;
 
-@RequiredArgsConstructor
+import br.com.vr.development.financialcontrolapp.application.commons.Cpf;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+
+@AllArgsConstructor
+@NoArgsConstructor
 @Getter
-public class Pessoa {
+public class Pessoa implements Serializable {
  
-    private final Nome nome;
-    private final Documento documento;
-    private final DataNascimento dataDeNascimento;
+    private Nome nome;
+    private Cpf documento;
+    private DataNascimento dataDeNascimento;
 
 }

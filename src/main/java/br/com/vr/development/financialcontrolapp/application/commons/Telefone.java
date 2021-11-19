@@ -1,6 +1,8 @@
 package br.com.vr.development.financialcontrolapp.application.commons;
 
-public interface Telefone {
+import java.io.Serializable;
+
+public interface Telefone extends Serializable {
 
     String getDdd();
     String getNumero();

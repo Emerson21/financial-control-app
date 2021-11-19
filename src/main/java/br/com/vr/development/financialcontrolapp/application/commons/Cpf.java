@@ -4,8 +4,10 @@ import org.apache.commons.lang3.StringUtils;
 
 import br.com.vr.development.financialcontrolapp.application.enums.TipoDocumento;
 import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 
 @AllArgsConstructor
+@NoArgsConstructor
 public class Cpf implements Documento {
 
     private static final int TAMANHO_CPF = 11;
