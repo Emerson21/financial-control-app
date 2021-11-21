@@ -32,3 +32,5 @@ mvnw.cmd
 
 target/
 .vscode/
+.bloop/
+.metals/

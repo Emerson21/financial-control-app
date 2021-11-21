@@ -51,10 +51,7 @@ public class ContaResourceTest {
     @Test
     public void deveRetornarStatus_201_AoReceberDadosParaAberturaDaContaCorrente() throws Exception {
 
-        Pessoa pessoa = new Pessoa(
-            new Nome("Emerson", "Haraguchi"), 
-            new Cpf("29222004000"), 
-            new DataNascimento(LocalDate.of(1988, 10, 21)));
+        Pessoa pessoa = getPessoa();
 
         EnderecoResidencial endereco = (EnderecoResidencial) getEndereco();
 
@@ -62,7 +59,7 @@ public class ContaResourceTest {
         Email email = new Email("thomascauajorgebarbosa-98@agnet.com.br");
         Renda renda = new Renda(new BigDecimal("2000"));
 
-        FormularioAberturaConta formulario = new FormularioAberturaConta(pessoa, endereco, telefone, email, renda);
+        FormularioAberturaConta formulario = new FormularioAberturaConta(pessoa, endereco, telefone, email, renda, new BigDecimal("50"));
 
         String jsonPayload = new ObjectMapper().registerModule(new JavaTimeModule())
             .writeValueAsString(formulario);
@@ -72,6 +69,34 @@ public class ContaResourceTest {
             .contentType(MediaType.APPLICATION_JSON))
             .andExpect(MockMvcResultMatchers.status().isCreated());
 
+    }
+
+    private Pessoa getPessoa() {
+        Pessoa pessoa = new Pessoa(
+            new Nome("Emerson", "Haraguchi"), 
+            new Cpf("29222004000"), 
+            new DataNascimento(LocalDate.of(1988, 10, 21)));
+        return pessoa;
+    }
+
+    @Test
+    public void deveRetornarStatus_400_paraValorAberturaMenorQue50() throws Exception {
+        Pessoa pessoa = getPessoa();
+
+        EnderecoResidencial endereco = (EnderecoResidencial) getEndereco();
+
+        Celular telefone = new Celular("19", "2901-7197");
+        Email email = new Email("thomascauajorgebarbosa-98@agnet.com.br");
+        Renda renda = new Renda(new BigDecimal("2000"));
+
+        FormularioAberturaConta formulario = new FormularioAberturaConta(pessoa, endereco, telefone, email, renda, new BigDecimal("49.99"));
+        String jsonPayload = new ObjectMapper().registerModule(new JavaTimeModule())
+            .writeValueAsString(formulario);
+
+        this.mockMvc.perform(MockMvcRequestBuilders.post("/v1/conta")
+            .content(jsonPayload)
+            .contentType(MediaType.APPLICATION_JSON))
+            .andExpect(MockMvcResultMatchers.status().isBadRequest());
     }
 
     private Endereco getEndereco() {

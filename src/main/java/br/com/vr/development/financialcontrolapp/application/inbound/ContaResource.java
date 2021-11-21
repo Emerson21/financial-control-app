@@ -1,5 +1,7 @@
 package br.com.vr.development.financialcontrolapp.application.inbound;
 
+import javax.validation.Valid;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,11 +18,10 @@ import lombok.extern.slf4j.Slf4j;
 public class ContaResource {
     
     @PostMapping
-    public ResponseEntity aberturaContaCorrente(@RequestBody FormularioAberturaConta formularioAberturaConta) {
+    public ResponseEntity aberturaContaCorrente(@RequestBody @Valid FormularioAberturaConta formularioAberturaConta) {
         log.info("Formulario Abertura Conta {}", formularioAberturaConta);  
         
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
     
-
 }

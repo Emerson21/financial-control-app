@@ -1,5 +1,11 @@
 Financial Control App
 
+- Abertura da conta corrente:
+    - Deverá ter no mínimo R$ 50,00 reais para realizar a abertura da conta corrente;
+    
+
+
+
 Aplicacao deverá conter um login e senha para controlar o acesso aos relatorios e lançamentos de débito ou crédito de acordo com 
 cada instituição financeira criada para cadastro como também cada cartão de crédito cadastrado.
 
