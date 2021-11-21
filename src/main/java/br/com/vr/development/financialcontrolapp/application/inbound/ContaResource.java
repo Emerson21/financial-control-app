@@ -9,18 +9,23 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import br.com.vr.development.financialcontrolapp.application.business.service.ContaService;
 import br.com.vr.development.financialcontrolapp.application.inbound.dto.FormularioAberturaConta;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @RestController
 @RequestMapping("/v1/conta")
+@AllArgsConstructor
 public class ContaResource {
     
+    private ContaService contaService;
+
     @PostMapping
     public ResponseEntity aberturaContaCorrente(@RequestBody @Valid FormularioAberturaConta formularioAberturaConta) {
         log.info("Formulario Abertura Conta {}", formularioAberturaConta);  
-        
+        contaService.abrir();
         return ResponseEntity.status(HttpStatus.CREATED).build();
     }
     
