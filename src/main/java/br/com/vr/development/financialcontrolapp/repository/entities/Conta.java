@@ -1,4 +1,4 @@
-package br.com.vr.development.financialcontrolapp.repository.entiies;
+package br.com.vr.development.financialcontrolapp.repository.entities;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;

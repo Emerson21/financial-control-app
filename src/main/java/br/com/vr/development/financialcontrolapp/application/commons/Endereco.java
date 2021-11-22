@@ -19,7 +19,7 @@ public abstract class Endereco implements Serializable {
     private UF estado;
     private String complemento; 
     private String bairro;
-    private String cidade;
+    private String municipio;
 
     abstract TipoEndereco getTipoEndereco();
 

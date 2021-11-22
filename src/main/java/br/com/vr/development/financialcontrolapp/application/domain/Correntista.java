@@ -1,6 +1,5 @@
 package br.com.vr.development.financialcontrolapp.application.domain;
 
-import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 
@@ -20,7 +19,7 @@ public class Correntista {
     private Documento documento;
     private Endereco endereco;
     private LocalDate dataDeNascimento;
-    private BigDecimal rendaMensal;
+    private Renda rendaMensal;
     private Email email;
     private Telefone celular;
     private ContaBancaria contaBancaria;
