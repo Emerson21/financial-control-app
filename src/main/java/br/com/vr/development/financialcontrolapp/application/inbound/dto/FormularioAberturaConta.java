@@ -1,9 +1,8 @@
 package br.com.vr.development.financialcontrolapp.application.inbound.dto;
 
-import java.io.Serializable;
 import java.math.BigDecimal;
 
-import javax.validation.constraints.DecimalMin;
+import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
 import br.com.vr.development.financialcontrolapp.application.commons.Celular;
@@ -19,25 +18,33 @@ import lombok.ToString;
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
-public class FormularioAberturaConta implements Serializable {
+public class FormularioAberturaConta {
 
     @NotNull
+    @Valid
     private Pessoa prospect;
     
     @NotNull
+    @Valid
     private EnderecoResidencial endereco;
     
     @NotNull
+    @Valid
     private Celular telefone;
     
     @NotNull
+    @Valid
     private Email email;
 
     @NotNull
+    @Valid
     private Renda renda;
 
     @NotNull
-    @DecimalMin(value = "50.00")
     private BigDecimal valorDepositoAbertura;
+
+    public boolean isValorDepositoPermitido(BigDecimal valorMinimoPermitido) {
+        return this.valorDepositoAbertura.compareTo(valorMinimoPermitido) < 0;
+    }
 
 }

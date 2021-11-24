@@ -1,7 +1,8 @@
 package br.com.vr.development.financialcontrolapp.application.inbound.dto;
 
-import java.io.Serializable;
 import java.time.LocalDate;
+
+import javax.validation.constraints.NotNull;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -10,8 +11,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
-public class DataNascimento implements Serializable {
+public class DataNascimento {
 
+    @NotNull
     private LocalDate data;
     
 }

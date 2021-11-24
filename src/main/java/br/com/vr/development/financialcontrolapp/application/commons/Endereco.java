@@ -1,7 +1,5 @@
 package br.com.vr.development.financialcontrolapp.application.commons;
 
-import java.io.Serializable;
-
 import br.com.vr.development.financialcontrolapp.application.enums.TipoEndereco;
 import br.com.vr.development.financialcontrolapp.application.enums.UF;
 import lombok.Getter;
@@ -11,7 +9,7 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString
-public abstract class Endereco implements Serializable {
+public abstract class Endereco {
 
     private String cep;
     private String logradouro;

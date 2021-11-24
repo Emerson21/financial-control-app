@@ -1,10 +1,8 @@
 package br.com.vr.development.financialcontrolapp.application.commons;
 
-import java.io.Serializable;
-
 import br.com.vr.development.financialcontrolapp.application.enums.TipoDocumento;
 
-public interface Documento extends Serializable {
+public interface Documento {
     
     boolean isValido();
     String getNumero();

@@ -5,7 +5,6 @@ import java.time.LocalDate;
 import br.com.vr.development.financialcontrolapp.application.domain.ContaBancaria;
 import br.com.vr.development.financialcontrolapp.application.enums.Bandeira;
 import br.com.vr.development.financialcontrolapp.application.enums.FuncaoCartao;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 @Getter

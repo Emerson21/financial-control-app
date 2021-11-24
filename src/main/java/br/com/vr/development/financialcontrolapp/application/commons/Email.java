@@ -1,7 +1,5 @@
 package br.com.vr.development.financialcontrolapp.application.commons;
 
-import java.io.Serializable;
-
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -11,7 +9,7 @@ import lombok.ToString;
 @NoArgsConstructor
 @Getter
 @ToString
-public class Email implements Serializable {
+public class Email {
 
     private String email;
     

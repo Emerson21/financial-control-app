@@ -6,10 +6,11 @@ spring:
         physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
   database: default
   datasource:
-    url: jdbc:mysql://localhost:3306/financial_app?useTimezone=true&serverTimezone=UTC
+    url: jdbc:h2:mem:myDb;DB_CLOSE_DELAY=-1
     username: root
     password: root
-    driverClassName: com.mysql.cj.jdbc.Driver
-conta:
-  abertura:
-    valorMinimo: 50
+    driverClassName: org.h2.Driver
+hibernate:
+    dialect: org.hibernate.dialect.H2Dialect
+    hbm2ddl:
+        auto: create
