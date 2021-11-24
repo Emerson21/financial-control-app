@@ -79,7 +79,6 @@ public class ContaResourceTest {
             .andExpect(MockMvcResultMatchers.status().isBadRequest());
     }
 
-
     @Test
     public void deveRetornarStatus_400_paraDocumentoNuloNoFormularioAbertura() throws Exception {
 
