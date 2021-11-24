@@ -18,9 +18,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import br.com.vr.development.financialcontrolapp.application.inbound.ContaResource;
 import br.com.vr.development.financialcontrolapp.exception.BancoExceptionHandler;
-import lombok.extern.slf4j.Slf4j;
 
-@Slf4j
 @WebMvcTest
 @TestInstance(Lifecycle.PER_CLASS)
 public class ContaResourceTest {
