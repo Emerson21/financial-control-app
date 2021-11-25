@@ -4,7 +4,6 @@ spring:
     hibernate:
       naming:     
         physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
-  database: default
   datasource:
     url: jdbc:mysql://localhost:3306/financial_app?useTimezone=true&serverTimezone=UTC
     username: root

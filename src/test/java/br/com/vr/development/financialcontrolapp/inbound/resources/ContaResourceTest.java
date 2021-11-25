@@ -9,6 +9,7 @@ import org.junit.jupiter.api.TestInstance.Lifecycle;
 import org.mockito.InjectMocks;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.test.web.servlet.MockMvc;
@@ -17,6 +18,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import br.com.vr.development.financialcontrolapp.application.inbound.ContaResource;
+import br.com.vr.development.financialcontrolapp.application.service.ContaService;
 import br.com.vr.development.financialcontrolapp.exception.BancoExceptionHandler;
 
 @WebMvcTest
@@ -29,6 +31,9 @@ public class ContaResourceTest {
 
     @InjectMocks
     private ContaResource contaResource;
+
+    @MockBean
+    private ContaService contaService;
 
     private MockMvc mockMvc;
 

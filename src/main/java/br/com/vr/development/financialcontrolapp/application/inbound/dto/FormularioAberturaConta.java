@@ -6,8 +6,12 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
 import br.com.vr.development.financialcontrolapp.application.commons.Celular;
+import br.com.vr.development.financialcontrolapp.application.commons.Cnpj;
 import br.com.vr.development.financialcontrolapp.application.commons.Email;
 import br.com.vr.development.financialcontrolapp.application.commons.EnderecoResidencial;
+import br.com.vr.development.financialcontrolapp.application.domain.AgenciaBancaria;
+import br.com.vr.development.financialcontrolapp.application.domain.Banco;
+import br.com.vr.development.financialcontrolapp.application.domain.ContaCorrente;
 import br.com.vr.development.financialcontrolapp.application.domain.Renda;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -45,6 +49,16 @@ public class FormularioAberturaConta {
 
     public boolean isValorDepositoPermitido(BigDecimal valorMinimoPermitido) {
         return this.valorDepositoAbertura.compareTo(valorMinimoPermitido) < 0;
+    }
+
+    public ContaCorrente toContaCorrente() {
+        AgenciaBancaria agencia = 
+            new AgenciaBancaria(
+                new Banco(new Nome("INTER", ""), "077", new Cnpj("42500796000191")),
+                 1, 
+                 1);
+                 
+        return new ContaCorrente(agencia);
     }
 
 }
