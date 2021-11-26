@@ -4,6 +4,6 @@ import br.com.vr.development.financialcontrolapp.application.domain.ContaCorrent
 
 public interface ContaService {
 
-    void abrir(ContaCorrente contaCorrente);
+    ContaCorrente abrir(ContaCorrente contaCorrente);
 
 }
