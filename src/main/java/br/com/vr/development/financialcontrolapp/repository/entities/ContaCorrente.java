@@ -8,8 +8,11 @@ import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import lombok.Data;
+
 @Entity
 @Table(name = "conta_corrente", schema = "financial_app")
+@Data
 public class ContaCorrente {
 
     @Id
