@@ -10,11 +10,14 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
-import lombok.Data;
+import lombok.*;
 
 @Entity
 @Table(name = "banco", schema = "financial_app")
 @Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class Banco {
     
     @Id

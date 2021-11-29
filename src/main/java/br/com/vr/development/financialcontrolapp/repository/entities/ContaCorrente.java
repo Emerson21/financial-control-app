@@ -8,11 +8,14 @@ import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
-import lombok.Data;
+import lombok.*;
 
 @Entity
 @Table(name = "conta_corrente", schema = "financial_app")
 @Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class ContaCorrente {
 
     @Id
@@ -27,5 +30,9 @@ public class ContaCorrente {
 
     @Column(name = "digito")
     private int digito;
+
+    @Column(name = "correntista")
+    @OneToOne(mappedBy = "id_correntista")
+    private Correntista correntista;
 
 }

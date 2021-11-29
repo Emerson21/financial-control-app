@@ -8,11 +8,14 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import lombok.Data;
+import lombok.*;
 
 @Entity
 @Table(name = "agencia", schema = "financial_app")
 @Data
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class Agencia {
     
     @Id
@@ -20,7 +23,7 @@ public class Agencia {
     private Long id;
 
     @Column(name = "numero")
-    private Long numero;
+    private Integer numero;
 
     @Column(name = "digito")
     private int digito;
