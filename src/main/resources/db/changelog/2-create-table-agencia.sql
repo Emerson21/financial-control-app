@@ -3,7 +3,6 @@ create table financial_app.agencia(
     numero int(100) not null,
     digito int(2) not null,
     id_banco int(11) not null,
-    INDEX(numero int(100)),
     primary key (id),
-    foreign key (id_banco)
+    foreign key (id_banco) references financial_app.banco(id)
 );

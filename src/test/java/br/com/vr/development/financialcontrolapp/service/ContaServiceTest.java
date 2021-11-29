@@ -14,8 +14,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import org.modelmapper.ModelMapper;
-import org.modelmapper.convention.MatchingStrategies;
 
 import br.com.vr.development.financialcontrolapp.application.commons.Celular;
 import br.com.vr.development.financialcontrolapp.application.commons.Cpf;
@@ -30,6 +28,8 @@ import br.com.vr.development.financialcontrolapp.application.inbound.dto.Nome;
 import br.com.vr.development.financialcontrolapp.application.inbound.dto.Pessoa;
 import br.com.vr.development.financialcontrolapp.application.service.ContaServiceImpl;
 import br.com.vr.development.financialcontrolapp.repository.ContaRepository;
+import br.com.vr.development.financialcontrolapp.repository.entities.Agencia;
+import br.com.vr.development.financialcontrolapp.repository.entities.Banco;
 import br.com.vr.development.financialcontrolapp.repository.entities.ContaCorrente;
 
 @TestInstance(Lifecycle.PER_CLASS)
@@ -63,18 +63,36 @@ public class ContaServiceTest {
         Renda renda = new Renda(new BigDecimal("2000"));
 
         FormularioAberturaConta formulario = new FormularioAberturaConta(pessoa, endereco, telefone, email, renda, new BigDecimal("50"));
-        ModelMapper mapper = new ModelMapper();
-        mapper.getConfiguration().setMatchingStrategy(MatchingStrategies.STRICT);
-        mapper.getConfiguration().setAmbiguityIgnored(true);
-        ContaCorrente entity = mapper.map(formulario.toContaCorrente(), br.com.vr.development.financialcontrolapp.repository.entities.ContaCorrente.class);
-
+        ContaCorrente entity = getContaCorrenteEntity(formulario.toContaCorrente());
 
         when(contaRepository.save(Mockito.any(ContaCorrente.class))).thenReturn(entity);
-
         br.com.vr.development.financialcontrolapp.application.domain.ContaCorrente conta = contaService.abrir(formulario.toContaCorrente());
 
         Assert.assertNotNull(conta);
 
+    }
+
+
+    private ContaCorrente getContaCorrenteEntity(br.com.vr.development.financialcontrolapp.application.domain.ContaCorrente contaCorrente) {
+        Banco banco = Banco.builder()
+            .codigo(contaCorrente.getAgencia().getBanco().getCodigo())
+            .nome(contaCorrente.getAgencia().getBanco().getNome().getNomeCompleto())
+            .build();
+
+        Agencia agencia = Agencia.builder()
+            .banco(banco)
+            .numero(contaCorrente.getAgencia().getNumero())
+            .digito(contaCorrente.getAgencia().getDigito())
+            .build();
+
+        br.com.vr.development.financialcontrolapp.repository.entities.ContaCorrente entity = 
+            br.com.vr.development.financialcontrolapp.repository.entities.ContaCorrente.builder()
+                .agencia(agencia)
+                .numero(contaCorrente.getNumero())
+                .digito(contaCorrente.getDigito())
+                .build();
+        
+        return entity;
     }
 
 

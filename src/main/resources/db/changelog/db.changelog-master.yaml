@@ -3,7 +3,7 @@ databaseChangeLog:
       file: db/changelog/1-create-table-banco.sql
   
   - include:
-      file: db/changelog/2-create-table-agencias.sql
+      file: db/changelog/2-create-table-agencia.sql
 
   - include:
       file: db/changelog/3-create-table-endereco-correntista.sql
@@ -13,3 +13,6 @@ databaseChangeLog:
 
   - include:
       file: db/changelog/5-create-table-conta-corrente.sql
+
+  - include:
+      file: db/changelog/6-add-constraint-table-endereco-correntista.sql

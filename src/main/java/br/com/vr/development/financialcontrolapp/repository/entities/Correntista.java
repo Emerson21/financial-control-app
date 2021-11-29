@@ -12,8 +12,8 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -32,12 +32,12 @@ public class Correntista {
 
     @NotNull
     @NotBlank
-    @Column(name = "nomeCompleto", nullable = false)
+    @Column(name = "nome_completo", nullable = false)
     private String nomeCompleto;
     
     @NotNull
     @NotBlank
-    @Column(name = "numeroDocumento", nullable = false)
+    @Column(name = "numero_documento", nullable = false)
     private String numeroDocumento;
 
     @NotNull
@@ -46,8 +46,8 @@ public class Correntista {
     @Enumerated(EnumType.STRING)
     private TipoDocumento tipoDocumento;
 
-    @JoinColumn(columnDefinition = "", referencedColumnName = "")
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "")
+    // @JoinColumn(referencedColumnName = "id_endereco")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "correntista")
     private List<EnderecoCorrentista> enderecos;
 
     @NotNull
@@ -69,5 +69,8 @@ public class Correntista {
     @NotBlank
     @Column(name = "celular", nullable = false)
     private String celular;
+
+    @OneToOne
+    private ContaCorrente contaCorrente;
 
 }
