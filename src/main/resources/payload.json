@@ -1,0 +1,33 @@
+{
+    "email": {
+      "email": "emerson.haraguchi.ext@vr.com.br"
+    },
+    "endereco": {
+      "bairro": "Mailasque",
+      "cep": "18143627",
+      "estado": "SAO_PAULO",
+      "logradouro": "Rua das Flores",
+      "municipio": "Sao Roque",
+      "numero": "256"
+    },
+    "prospect": {
+      "dataDeNascimento": {
+        "data": "2000-11-29"
+      },
+      "documento": {
+        "numero": "350442165"
+      },
+      "nome": {
+        "primeiroNome": "emerson",
+        "sobrenome": "Alonso"
+      }
+    },
+    "renda": {
+      "valor": 2000
+    },
+    "telefone": {
+      "ddd": "11",
+      "numero": "971767331"
+    },
+    "valorDepositoAbertura": 50
+  }

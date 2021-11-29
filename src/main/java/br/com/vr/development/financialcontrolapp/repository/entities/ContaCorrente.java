@@ -1,10 +1,13 @@
 package br.com.vr.development.financialcontrolapp.repository.entities;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -22,10 +25,11 @@ import lombok.NoArgsConstructor;
 public class ContaCorrente {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     
-    @OneToOne
+    @JoinColumn(name ="id_agencia", referencedColumnName = "id")
+    @ManyToOne(cascade = CascadeType.ALL)
     private Agencia agencia;
 
     @Column(name = "numero")
@@ -34,7 +38,8 @@ public class ContaCorrente {
     @Column(name = "digito")
     private int digito;
 
-    @OneToOne(mappedBy = "contaCorrente")
+    @JoinColumn(name = "id_correntista")
+    @OneToOne(cascade = CascadeType.ALL)
     private Correntista correntista;
 
 }

@@ -16,11 +16,13 @@ public class ContaCorrente implements ContaBancaria {
     private AgenciaBancaria agencia;
     private Long numero;
     private int digito;
+    private Correntista correntista;
 
-    public ContaCorrente(AgenciaBancaria agencia) {
+    public ContaCorrente(AgenciaBancaria agencia, Correntista correntista) {
         this.agencia = agencia;
-        this.numero = new Random().nextLong();
+        this.numero = Long.valueOf(new Random().nextInt());
         this.digito = new Random().nextInt(10);
+        this.correntista = correntista;
     }
 
     @Override
@@ -47,5 +49,5 @@ public class ContaCorrente implements ContaBancaria {
     public List<Lancamento> getLancamentos() {
         return Collections.emptyList();
     }
-    
+
 }

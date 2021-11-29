@@ -12,6 +12,7 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -19,15 +20,17 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 import br.com.vr.development.financialcontrolapp.application.enums.TipoDocumento;
+import lombok.Builder;
 import lombok.Data;
 
 @Entity
 @Table(name = "correntista", schema = "financial_app")
 @Data
+@Builder
 public class Correntista {
     
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @NotNull
@@ -41,7 +44,6 @@ public class Correntista {
     private String numeroDocumento;
 
     @NotNull
-    @NotBlank
     @Column(name = "tipoDocumento", nullable = false)
     @Enumerated(EnumType.STRING)
     private TipoDocumento tipoDocumento;
@@ -51,12 +53,10 @@ public class Correntista {
     private List<EnderecoCorrentista> enderecos;
 
     @NotNull
-    @NotBlank
     @Column(name = "dataDeNascimento", nullable = false)
     private LocalDate dataDeNascimento;
 
     @NotNull
-    @NotBlank
     @Column(name = "rendaMensal", nullable = false)
     private BigDecimal rendaMensal;
 
@@ -70,7 +70,8 @@ public class Correntista {
     @Column(name = "celular", nullable = false)
     private String celular;
 
-    @OneToOne
+    @JoinColumn(name = "id_conta_corrente", referencedColumnName = "id")
+    @OneToOne(cascade = CascadeType.ALL)
     private ContaCorrente contaCorrente;
 
 }

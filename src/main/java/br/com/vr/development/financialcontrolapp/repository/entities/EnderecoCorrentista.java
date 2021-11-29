@@ -1,5 +1,6 @@
 package br.com.vr.development.financialcontrolapp.repository.entities;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -22,7 +23,7 @@ import lombok.Data;
 public class EnderecoCorrentista {
     
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @NotNull
@@ -60,7 +61,7 @@ public class EnderecoCorrentista {
 
     @NotNull
     @JoinColumn(columnDefinition = "enderecos", referencedColumnName = "id")
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.ALL)
     private Correntista correntista;
 
 }

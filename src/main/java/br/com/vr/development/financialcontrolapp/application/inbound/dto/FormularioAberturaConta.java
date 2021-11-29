@@ -12,6 +12,7 @@ import br.com.vr.development.financialcontrolapp.application.commons.EnderecoRes
 import br.com.vr.development.financialcontrolapp.application.domain.AgenciaBancaria;
 import br.com.vr.development.financialcontrolapp.application.domain.Banco;
 import br.com.vr.development.financialcontrolapp.application.domain.ContaCorrente;
+import br.com.vr.development.financialcontrolapp.application.domain.Correntista;
 import br.com.vr.development.financialcontrolapp.application.domain.Renda;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -57,8 +58,18 @@ public class FormularioAberturaConta {
                 new Banco(new Nome("INTER", ""), "077", new Cnpj("42500796000191")),
                  1, 
                  1);
-                 
-        return new ContaCorrente(agencia);
+        
+        Correntista correntista = Correntista.builder()
+            .nomeCompleto(this.prospect.getNome().toString())
+            .email(this.email)
+            .endereco(this.endereco)
+            .documento(this.prospect.getDocumento())
+            .dataDeNascimento(this.prospect.getDataDeNascimento().getData())
+            .celular(this.getTelefone())
+            .rendaMensal(this.getRenda())
+            .build();
+
+        return new ContaCorrente(agencia, correntista);
     }
 
 }

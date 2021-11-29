@@ -1,12 +1,17 @@
 package br.com.vr.development.financialcontrolapp.application.service;
 
+import java.util.Arrays;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import br.com.vr.development.financialcontrolapp.application.commons.Endereco;
 import br.com.vr.development.financialcontrolapp.application.domain.ContaCorrente;
 import br.com.vr.development.financialcontrolapp.repository.ContaRepository;
 import br.com.vr.development.financialcontrolapp.repository.entities.Agencia;
 import br.com.vr.development.financialcontrolapp.repository.entities.Banco;
+import br.com.vr.development.financialcontrolapp.repository.entities.Correntista;
+import br.com.vr.development.financialcontrolapp.repository.entities.EnderecoCorrentista;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -31,17 +36,45 @@ public class ContaServiceImpl implements ContaService {
             .digito(contaCorrente.getAgencia().getDigito())
             .build();
 
+        EnderecoCorrentista enderecoCorrentista = getEnderecoCorrentista(contaCorrente.getCorrentista().getEndereco());
+
+        Correntista correntista = Correntista.builder()
+            .nomeCompleto(contaCorrente.getCorrentista().getNomeCompleto())
+            .celular(contaCorrente.getCorrentista().getCelular().toString())
+            .email(contaCorrente.getCorrentista().getEmail().getEmail())
+            .dataDeNascimento(contaCorrente.getCorrentista().getDataDeNascimento())
+            .rendaMensal(contaCorrente.getCorrentista().getRendaMensal().getValor())
+            .tipoDocumento(contaCorrente.getCorrentista().getDocumento().getTipoDocumento())
+            .numeroDocumento(contaCorrente.getCorrentista().getDocumento().getNumero())
+            .enderecos(Arrays.asList(enderecoCorrentista))
+            .build();
+
 
         br.com.vr.development.financialcontrolapp.repository.entities.ContaCorrente entity = 
             br.com.vr.development.financialcontrolapp.repository.entities.ContaCorrente.builder()
                 .agencia(agencia)
                 .numero(contaCorrente.getNumero())
                 .digito(contaCorrente.getDigito())
+                .correntista(correntista)
                 .build();
 
-        contaRepository.save(entity);
+        agencia.setContasCorrentes(Arrays.asList(entity));
 
+        contaRepository.save(entity);
+ 
         return contaCorrente;
+    }
+
+    private EnderecoCorrentista getEnderecoCorrentista(Endereco endereco) {
+        EnderecoCorrentista enderecoCorrentista = new EnderecoCorrentista();
+        enderecoCorrentista.setBairro(endereco.getBairro());
+        enderecoCorrentista.setCep(endereco.getCep());
+        enderecoCorrentista.setComplemento(endereco.getComplemento());
+        enderecoCorrentista.setEstado(endereco.getEstado());
+        enderecoCorrentista.setLogradouro(endereco.getLogradouro());
+        enderecoCorrentista.setMunicipio(endereco.getMunicipio());
+        enderecoCorrentista.setNumero(endereco.getNumero());
+        return enderecoCorrentista;
     }
     
 }

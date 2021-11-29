@@ -7,6 +7,8 @@ create table financial_app.correntista(
     email longtext not null,
     celular varchar(50) not null,
     id_endereco int(11) not null,
+    id_conta_corrente int(11) not null,
     primary key (id),
-    foreign key (id_endereco) references financial_app.endereco_correntista(id)
+    foreign key (id_endereco) references financial_app.endereco_correntista(id),
+    foreign key (id_conta_corrente) references financial_app.conta_corrente(id)
 );
