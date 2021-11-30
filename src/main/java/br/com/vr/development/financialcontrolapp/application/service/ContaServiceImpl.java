@@ -47,8 +47,6 @@ public class ContaServiceImpl implements ContaService {
             .enderecoCorrentista(enderecoCorrentista)
             .build();
 
-        // enderecoCorrentista.setCorrentista(correntista);
-
         br.com.vr.development.financialcontrolapp.repository.entities.ContaCorrente entity = 
             br.com.vr.development.financialcontrolapp.repository.entities.ContaCorrente.builder()
                 .agencia(agencia)
