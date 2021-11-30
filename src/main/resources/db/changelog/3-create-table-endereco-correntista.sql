@@ -4,9 +4,8 @@ create table financial_app.endereco_correntista(
     logradouro longtext not null,
     numero varchar(50) not null,
     estado varchar(50) not null,
-    complemento longtext not null,
+    complemento longtext null,
     bairro longtext not null,
     municipio longtext not null,
-    id_correntista int(11) not null,
     primary key (id)
 );

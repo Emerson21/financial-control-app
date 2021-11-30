@@ -4,7 +4,5 @@ create table financial_app.conta_corrente(
     numero int(255) not null,
     digito int(2) not null,
     id_correntista int(11) not null,
-    primary key (id),
-    foreign key (id_agencia) references financial_app.agencia(id),
-    foreign key (id_correntista) references financial_app.correntista(id)
+    primary key (id)
 );

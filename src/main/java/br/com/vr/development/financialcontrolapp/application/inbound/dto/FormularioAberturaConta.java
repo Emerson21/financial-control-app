@@ -60,7 +60,7 @@ public class FormularioAberturaConta {
                  1);
         
         Correntista correntista = Correntista.builder()
-            .nomeCompleto(this.prospect.getNome().toString())
+            .nomeCompleto(this.prospect.getNome().getNomeCompleto())
             .email(this.email)
             .endereco(this.endereco)
             .documento(this.prospect.getDocumento())

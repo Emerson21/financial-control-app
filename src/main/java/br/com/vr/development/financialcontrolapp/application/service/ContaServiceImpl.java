@@ -1,7 +1,5 @@
 package br.com.vr.development.financialcontrolapp.application.service;
 
-import java.util.Arrays;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -46,9 +44,10 @@ public class ContaServiceImpl implements ContaService {
             .rendaMensal(contaCorrente.getCorrentista().getRendaMensal().getValor())
             .tipoDocumento(contaCorrente.getCorrentista().getDocumento().getTipoDocumento())
             .numeroDocumento(contaCorrente.getCorrentista().getDocumento().getNumero())
-            .enderecos(Arrays.asList(enderecoCorrentista))
+            .enderecoCorrentista(enderecoCorrentista)
             .build();
 
+        // enderecoCorrentista.setCorrentista(correntista);
 
         br.com.vr.development.financialcontrolapp.repository.entities.ContaCorrente entity = 
             br.com.vr.development.financialcontrolapp.repository.entities.ContaCorrente.builder()
@@ -57,8 +56,6 @@ public class ContaServiceImpl implements ContaService {
                 .digito(contaCorrente.getDigito())
                 .correntista(correntista)
                 .build();
-
-        agencia.setContasCorrentes(Arrays.asList(entity));
 
         contaRepository.save(entity);
  

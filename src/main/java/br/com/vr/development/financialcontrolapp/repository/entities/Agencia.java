@@ -1,7 +1,5 @@
 package br.com.vr.development.financialcontrolapp.repository.entities;
 
-import java.util.List;
-
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -10,7 +8,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import lombok.AllArgsConstructor;
@@ -39,8 +36,5 @@ public class Agencia {
     @JoinColumn(name = "id_banco", referencedColumnName = "id")
     @ManyToOne(cascade = CascadeType.ALL)
     private Banco banco;
-
-    @OneToMany(cascade = CascadeType.ALL)
-    private List<ContaCorrente> contasCorrentes;
 
 }

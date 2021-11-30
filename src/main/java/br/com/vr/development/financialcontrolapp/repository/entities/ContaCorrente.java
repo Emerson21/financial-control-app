@@ -38,7 +38,7 @@ public class ContaCorrente {
     @Column(name = "digito")
     private int digito;
 
-    @JoinColumn(name = "id_correntista")
+    @JoinColumn(name = "id_correntista", referencedColumnName = "id")
     @OneToOne(cascade = CascadeType.ALL)
     private Correntista correntista;
 
