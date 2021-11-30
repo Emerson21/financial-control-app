@@ -8,7 +8,7 @@ import javax.validation.constraints.NotNull;
 import br.com.vr.development.financialcontrolapp.application.commons.Celular;
 import br.com.vr.development.financialcontrolapp.application.commons.Cnpj;
 import br.com.vr.development.financialcontrolapp.application.commons.Email;
-import br.com.vr.development.financialcontrolapp.application.commons.EnderecoResidencial;
+import br.com.vr.development.financialcontrolapp.application.commons.Endereco;
 import br.com.vr.development.financialcontrolapp.application.domain.AgenciaBancaria;
 import br.com.vr.development.financialcontrolapp.application.domain.Banco;
 import br.com.vr.development.financialcontrolapp.application.domain.ContaCorrente;
@@ -31,7 +31,7 @@ public class FormularioAberturaConta {
     
     @NotNull
     @Valid
-    private EnderecoResidencial endereco;
+    private Endereco endereco;
     
     @NotNull
     @Valid

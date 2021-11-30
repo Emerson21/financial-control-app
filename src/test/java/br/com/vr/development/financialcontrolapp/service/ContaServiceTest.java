@@ -19,7 +19,6 @@ import br.com.vr.development.financialcontrolapp.application.commons.Celular;
 import br.com.vr.development.financialcontrolapp.application.commons.Cpf;
 import br.com.vr.development.financialcontrolapp.application.commons.Email;
 import br.com.vr.development.financialcontrolapp.application.commons.Endereco;
-import br.com.vr.development.financialcontrolapp.application.commons.EnderecoResidencial;
 import br.com.vr.development.financialcontrolapp.application.domain.Renda;
 import br.com.vr.development.financialcontrolapp.application.enums.UF;
 import br.com.vr.development.financialcontrolapp.application.inbound.dto.DataNascimento;
@@ -56,7 +55,7 @@ public class ContaServiceTest {
             new Cpf("29222004000"), 
             new DataNascimento(LocalDate.of(1988, 10, 21)));
 
-        EnderecoResidencial endereco = (EnderecoResidencial) getEndereco();
+        Endereco endereco = getEndereco();
 
         Celular telefone = new Celular("19", "2901-7197");
         Email email = new Email("thomascauajorgebarbosa-98@agnet.com.br");
@@ -97,7 +96,7 @@ public class ContaServiceTest {
 
 
     private Endereco getEndereco() {
-        Endereco endereco = new EnderecoResidencial();
+        Endereco endereco = new Endereco();
         endereco.setCep("13940-970");
         endereco.setBairro("Centro");
         endereco.setMunicipio("Águas de Lindóia");
