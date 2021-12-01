@@ -1,4 +1,4 @@
-package br.com.vr.development.financialcontrolapp.application.inbound.dto;
+package br.com.vr.development.financialcontrolapp.application.domain;
 
 import java.time.LocalDate;
 

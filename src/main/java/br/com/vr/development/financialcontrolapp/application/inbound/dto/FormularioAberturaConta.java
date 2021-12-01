@@ -13,6 +13,8 @@ import br.com.vr.development.financialcontrolapp.application.domain.AgenciaBanca
 import br.com.vr.development.financialcontrolapp.application.domain.Banco;
 import br.com.vr.development.financialcontrolapp.application.domain.ContaCorrente;
 import br.com.vr.development.financialcontrolapp.application.domain.Correntista;
+import br.com.vr.development.financialcontrolapp.application.domain.Nome;
+import br.com.vr.development.financialcontrolapp.application.domain.Pessoa;
 import br.com.vr.development.financialcontrolapp.application.domain.Renda;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
