@@ -1,5 +1,7 @@
 package br.com.vr.development.financialcontrolapp.application.commons;
 
+import javax.persistence.Embeddable;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -9,6 +11,7 @@ import lombok.ToString;
 @NoArgsConstructor
 @Getter
 @ToString
+@Embeddable
 public class Email {
 
     private String email;

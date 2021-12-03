@@ -17,7 +17,7 @@ public class ContaCorrente {
     public ContaCorrente(AgenciaBancaria agencia, Correntista correntista) {
         this.agencia = agencia;
         this.numero = Long.valueOf(new Random().nextInt());
-        this.digito = new Random().nextInt(10);
+        this.digito = new Random().nextInt(Integer.MAX_VALUE);
         this.correntista = correntista;
     }
 

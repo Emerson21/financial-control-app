@@ -1,5 +1,6 @@
 package br.com.vr.development.financialcontrolapp.application.domain;
 
+import javax.persistence.Embeddable;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
@@ -10,6 +11,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
+@Embeddable
 public class Nome {
 
     @NotBlank

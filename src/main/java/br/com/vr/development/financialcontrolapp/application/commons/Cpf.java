@@ -1,5 +1,6 @@
 package br.com.vr.development.financialcontrolapp.application.commons;
 
+import javax.persistence.Embeddable;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
@@ -11,6 +12,7 @@ import lombok.NoArgsConstructor;
 
 @AllArgsConstructor
 @NoArgsConstructor
+@Embeddable
 public class Cpf implements Documento {
 
     private static final int TAMANHO_CPF = 11;

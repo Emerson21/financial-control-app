@@ -1,5 +1,6 @@
 package br.com.vr.development.financialcontrolapp.application.commons;
 
+import br.com.vr.development.financialcontrolapp.application.enums.TipoEndereco;
 import br.com.vr.development.financialcontrolapp.application.enums.UF;
 import lombok.Getter;
 import lombok.Setter;
@@ -17,5 +18,5 @@ public class Endereco {
     private String complemento; 
     private String bairro;
     private String municipio;
-
+    private TipoEndereco tipoEndereco;
 }

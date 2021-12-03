@@ -21,8 +21,9 @@ cada instituição financeira criada para cadastro como também cada cartão de 
 Inicialmente, a aplicação permitirá criar apenas uma instituição financeira, com vários cartões, 
 sendo de débito ou crédito ou ambos(Débito/Crédito no mesmo cartão).
 
-- O cliente para possuir um cartão, seja de débito ou crédito, precisará antes possuir uma conta (Corrente | Poupança),
+- O cliente para possuir um cartão, seja de débito ou crédito, precisará antes possuir uma conta corrente,
 utilizando de uma conta corrente para um cartão de débito, como funcionará esse cartão de débito?
+
 Terá cheque especial? com isso ele poderá utilizar-se de valores negativos da conta corrente?
 Se utilizar o cheque especial, qual será a taxa cobrada em cima do tempo que ficou negativo na conta e utilizando-se
 do valor do cheque especial?

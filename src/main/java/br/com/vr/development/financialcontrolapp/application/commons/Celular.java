@@ -1,14 +1,15 @@
 package br.com.vr.development.financialcontrolapp.application.commons;
 
+import javax.persistence.Embeddable;
+
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
-@ToString
+@Embeddable
 public class Celular implements Telefone {
 
     private String ddd;
@@ -23,5 +24,9 @@ public class Celular implements Telefone {
     public String getNumero() {
         return this.numero;
     }
-    
+ 
+    public String toString() {
+        return String.format("%s%s", this.ddd, this.numero);
+    }
+
 }

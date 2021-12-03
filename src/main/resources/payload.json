@@ -8,7 +8,8 @@
       "estado": "SAO_PAULO",
       "logradouro": "Rua das Flores",
       "municipio": "Sao Roque",
-      "numero": "256"
+      "numero": "256",
+      "tipoEndereco": "RESIDENCIAL"
     },
     "prospect": {
       "dataDeNascimento": {

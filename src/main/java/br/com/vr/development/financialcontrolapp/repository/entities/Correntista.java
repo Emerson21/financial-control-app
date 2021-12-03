@@ -1,5 +1,7 @@
 package br.com.vr.development.financialcontrolapp.repository.entities;
 
+import java.util.List;
+
 import javax.persistence.AttributeOverride;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -11,9 +13,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 import br.com.vr.development.financialcontrolapp.application.commons.Celular;
@@ -41,13 +42,11 @@ public class Correntista {
     private Long id;
 
     @NotNull
-    @NotBlank
     @Embedded
     @AttributeOverride(name ="nome", column=@Column(name = "nome_completo", nullable = false))
     private Nome nome;
     
     @NotNull
-    @NotBlank
     @Embedded
     @AttributeOverride(name = "numero", column = @Column(name = "numero_documento", nullable = false))
     private Cpf cpf;
@@ -58,27 +57,28 @@ public class Correntista {
     private TipoDocumento tipoDocumento;
 
     @NotNull
-    @Column(name = "data_nascimento", nullable = false)
+    @Embedded
+    @AttributeOverride(name = "data", column = @Column(name = "data_nascimento", nullable = false))
     private DataNascimento dataNascimento;
 
     @NotNull
-    @Column(name = "renda_mensal", nullable = false)
+    @Embedded
+    @AttributeOverride(name = "", column = @Column(name = "renda_mensal", nullable = false))
     private RendaMensal rendaMensal;
 
     @NotNull
-    @NotBlank
-    @Column(name = "email", nullable = false)
+    @Embedded
+    @AttributeOverride(name = "", column = @Column(name = "email", nullable = false))
     private Email email;
 
     @NotNull
-    @NotBlank
-    @Column(name = "celular", nullable = false)
+    @Embedded
+    @AttributeOverride(name = "", column = @Column(name = "celular", nullable = false))
     private Celular celular;
 
-
     @NotNull
-    @JoinColumn(name = "id_endereco", referencedColumnName = "id")
-    @OneToOne(cascade = CascadeType.ALL)
-    private EnderecoCorrentista enderecoCorrentista;
+    @JoinColumn(name = "id_correntista")
+    @OneToMany(cascade = CascadeType.ALL)
+    private List<EnderecoCorrentista> enderecoCorrentista;
 
 }

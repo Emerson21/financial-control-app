@@ -11,6 +11,7 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
+import br.com.vr.development.financialcontrolapp.application.enums.TipoEndereco;
 import br.com.vr.development.financialcontrolapp.application.enums.UF;
 import lombok.Data;
 
@@ -53,5 +54,15 @@ public class EnderecoCorrentista {
     @NotBlank
     @Column(name = "municipio", nullable = false)
     private String municipio;
+
+    // @JoinColumn(referencedColumnName = "id")
+    // @ManyToOne(cascade = CascadeType.ALL)
+    // private Correntista correntista;
+
+    @NotNull
+    @Column(name = "tipo_endereco")
+    @Enumerated(EnumType.STRING)
+    private TipoEndereco tipoEndereco;
+
 
 }
