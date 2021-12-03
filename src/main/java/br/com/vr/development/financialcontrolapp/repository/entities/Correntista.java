@@ -18,13 +18,14 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 import br.com.vr.development.financialcontrolapp.application.enums.TipoDocumento;
-import lombok.Builder;
-import lombok.Data;
+import lombok.*;
 
 @Entity
 @Table(name = "correntista", schema = "financial_app")
 @Data
 @Builder
+@AllArgsConstructor
+@NoArgsConstructor
 public class Correntista {
     
     @Id

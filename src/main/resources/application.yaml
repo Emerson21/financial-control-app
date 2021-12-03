@@ -1,11 +1,15 @@
 spring:
   jpa:
+    generate-ddl: true
     show-sql: true
     hibernate:
+      dll-auto: update
       naming:     
         physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
+    database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
+
   datasource:
-    url: jdbc:mysql://localhost:3306/financial_app?useTimezone=true&serverTimezone=UTC
+    url: jdbc:mysql://localhost:3306/financial_app?useTimezone=true&serverTimezone=UTC&createDatabaseIfNotExist=true
     username: root
     password: root
     driverClassName: com.mysql.cj.jdbc.Driver

@@ -30,8 +30,4 @@ public class Banco {
     @Column(name = "nome")
     private String nome;
 
-    // @JoinColumn(columnDefinition = "id", referencedColumnName = "id_agencia")
-    // @OneToMany
-    // private List<Agencia> agencias;
-
 }
