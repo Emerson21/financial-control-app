@@ -1,18 +1,19 @@
 package br.com.vr.development.financialcontrolapp.application.inbound.dto;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
-import br.com.vr.development.financialcontrolapp.application.commons.Celular;
-import br.com.vr.development.financialcontrolapp.application.commons.Cnpj;
-import br.com.vr.development.financialcontrolapp.application.commons.Email;
-import br.com.vr.development.financialcontrolapp.application.commons.Endereco;
 import br.com.vr.development.financialcontrolapp.application.domain.AgenciaBancaria;
 import br.com.vr.development.financialcontrolapp.application.domain.Banco;
+import br.com.vr.development.financialcontrolapp.application.domain.Celular;
+import br.com.vr.development.financialcontrolapp.application.domain.Cnpj;
 import br.com.vr.development.financialcontrolapp.application.domain.ContaCorrente;
 import br.com.vr.development.financialcontrolapp.application.domain.Correntista;
+import br.com.vr.development.financialcontrolapp.application.domain.Email;
+import br.com.vr.development.financialcontrolapp.application.domain.Endereco;
 import br.com.vr.development.financialcontrolapp.application.domain.NomeFantasia;
 import br.com.vr.development.financialcontrolapp.application.domain.Pessoa;
 import br.com.vr.development.financialcontrolapp.application.domain.RendaMensal;
@@ -33,7 +34,7 @@ public class FormularioAberturaConta {
     
     @NotNull
     @Valid
-    private Endereco endereco;
+    private List<Endereco> enderecos;
     
     @NotNull
     @Valid
@@ -55,16 +56,22 @@ public class FormularioAberturaConta {
     }
 
     public ContaCorrente toContaCorrente() {
-        AgenciaBancaria agencia = 
-            new AgenciaBancaria(
-                new Banco(new NomeFantasia("INTER"), "077", new Cnpj("42500796000191")),
-                 1, 
-                 1);
+
+        Banco banco =  Banco.builder()
+            .cnpj(new Cnpj("42500796000191"))
+            .codigo("077")
+            .nomeFantasia(new NomeFantasia("INTER"))
+            .build();
+
+        AgenciaBancaria agencia = AgenciaBancaria.builder()
+            .banco(banco)
+            .numero(1)
+            .digito(1).build();
         
         Correntista correntista = Correntista.builder()
             .nome(this.prospect.getNome())
             .email(this.email)
-            .endereco(this.endereco)
+            .enderecos(this.enderecos)
             .cpf(this.prospect.getDocumento())
             .dataNascimento(this.prospect.getDataDeNascimento())
             .celular(this.getTelefone())

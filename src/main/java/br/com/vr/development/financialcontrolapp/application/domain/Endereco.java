@@ -1,4 +1,4 @@
-package br.com.vr.development.financialcontrolapp.repository.entities;
+package br.com.vr.development.financialcontrolapp.application.domain;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -13,13 +13,17 @@ import javax.validation.constraints.NotNull;
 
 import br.com.vr.development.financialcontrolapp.application.enums.TipoEndereco;
 import br.com.vr.development.financialcontrolapp.application.enums.UF;
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 
+@Getter
+@Setter
+@ToString
 @Entity
 @Table(name = "endereco_correntista", schema = "financial_app")
-@Data
-public class EnderecoCorrentista {
-    
+public class Endereco {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -28,7 +32,7 @@ public class EnderecoCorrentista {
     @NotBlank
     @Column(name = "cep", nullable = false)
     private String cep;
-
+    
     @NotNull
     @NotBlank
     @Column(name = "logradouro", nullable = false)
@@ -43,26 +47,20 @@ public class EnderecoCorrentista {
     private UF estado;
 
     @Column(name = "complemento")
-    private String complemento;
+    private String complemento; 
     
     @NotNull
     @NotBlank
     @Column(name = "bairro", nullable = false)
     private String bairro;
-
+    
     @NotNull
     @NotBlank
     @Column(name = "municipio", nullable = false)
     private String municipio;
 
-    // @JoinColumn(referencedColumnName = "id")
-    // @ManyToOne(cascade = CascadeType.ALL)
-    // private Correntista correntista;
-
     @NotNull
     @Column(name = "tipo_endereco")
     @Enumerated(EnumType.STRING)
     private TipoEndereco tipoEndereco;
-
-
 }

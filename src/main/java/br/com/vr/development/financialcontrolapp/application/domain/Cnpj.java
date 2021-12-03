@@ -1,13 +1,18 @@
-package br.com.vr.development.financialcontrolapp.application.commons;
+package br.com.vr.development.financialcontrolapp.application.domain;
+
+import javax.persistence.Embeddable;
 
 import org.apache.commons.lang3.StringUtils;
 
 import br.com.vr.development.financialcontrolapp.application.enums.TipoDocumento;
 import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 @AllArgsConstructor
+@NoArgsConstructor
 @ToString
+@Embeddable
 public class Cnpj implements Documento {
 
     private static final int TAMANHO_CNPJ = 14;

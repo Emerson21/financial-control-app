@@ -1,4 +1,4 @@
-package br.com.vr.development.financialcontrolapp.application.commons;
+package br.com.vr.development.financialcontrolapp.application.domain;
 
 import br.com.vr.development.financialcontrolapp.application.enums.TipoDocumento;
 
