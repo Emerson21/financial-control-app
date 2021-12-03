@@ -1,10 +1,9 @@
 package br.com.vr.development.financialcontrolapp.repository.entities;
 
-import java.math.BigDecimal;
-import java.time.LocalDate;
-
+import javax.persistence.AttributeOverride;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -17,8 +16,17 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
+import br.com.vr.development.financialcontrolapp.application.commons.Celular;
+import br.com.vr.development.financialcontrolapp.application.commons.Cpf;
+import br.com.vr.development.financialcontrolapp.application.commons.Email;
+import br.com.vr.development.financialcontrolapp.application.domain.DataNascimento;
+import br.com.vr.development.financialcontrolapp.application.domain.Nome;
+import br.com.vr.development.financialcontrolapp.application.domain.RendaMensal;
 import br.com.vr.development.financialcontrolapp.application.enums.TipoDocumento;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "correntista", schema = "financial_app")
@@ -34,13 +42,15 @@ public class Correntista {
 
     @NotNull
     @NotBlank
-    @Column(name = "nome_completo", nullable = false)
-    private String nomeCompleto;
+    @Embedded
+    @AttributeOverride(name ="nome", column=@Column(name = "nome_completo", nullable = false))
+    private Nome nome;
     
     @NotNull
     @NotBlank
-    @Column(name = "numero_documento", nullable = false)
-    private String numeroDocumento;
+    @Embedded
+    @AttributeOverride(name = "numero", column = @Column(name = "numero_documento", nullable = false))
+    private Cpf cpf;
 
     @NotNull
     @Column(name = "tipo_documento", nullable = false)
@@ -49,21 +59,21 @@ public class Correntista {
 
     @NotNull
     @Column(name = "data_nascimento", nullable = false)
-    private LocalDate dataDeNascimento;
+    private DataNascimento dataNascimento;
 
     @NotNull
     @Column(name = "renda_mensal", nullable = false)
-    private BigDecimal rendaMensal;
+    private RendaMensal rendaMensal;
 
     @NotNull
     @NotBlank
     @Column(name = "email", nullable = false)
-    private String email;
+    private Email email;
 
     @NotNull
     @NotBlank
     @Column(name = "celular", nullable = false)
-    private String celular;
+    private Celular celular;
 
 
     @NotNull

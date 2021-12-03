@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
-public class Renda {
+public class RendaMensal {
     
     private BigDecimal valor;
 

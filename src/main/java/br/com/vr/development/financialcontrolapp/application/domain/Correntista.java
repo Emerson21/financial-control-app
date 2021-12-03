@@ -1,11 +1,9 @@
 package br.com.vr.development.financialcontrolapp.application.domain;
 
-import java.time.LocalDate;
-
-import br.com.vr.development.financialcontrolapp.application.commons.Documento;
+import br.com.vr.development.financialcontrolapp.application.commons.Celular;
+import br.com.vr.development.financialcontrolapp.application.commons.Cpf;
 import br.com.vr.development.financialcontrolapp.application.commons.Email;
 import br.com.vr.development.financialcontrolapp.application.commons.Endereco;
-import br.com.vr.development.financialcontrolapp.application.commons.Telefone;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -17,12 +15,12 @@ import lombok.NoArgsConstructor;
 @Builder
 public class Correntista {
 
-    private String nomeCompleto;
-    private Documento documento;
+    private Nome nome;
+    private Cpf cpf;
     private Endereco endereco;
-    private LocalDate dataDeNascimento;
-    private Renda rendaMensal;
+    private DataNascimento dataNascimento;
+    private RendaMensal rendaMensal;
     private Email email;
-    private Telefone celular;
+    private Celular celular;
 
 }

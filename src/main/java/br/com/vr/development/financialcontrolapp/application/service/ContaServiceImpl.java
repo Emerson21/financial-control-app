@@ -25,7 +25,7 @@ public class ContaServiceImpl implements ContaService {
 
         Banco banco = Banco.builder()
             .codigo(contaCorrente.getAgencia().getBanco().getCodigo())
-            .nome(contaCorrente.getAgencia().getBanco().getNome().getNomeCompleto())
+            .nome(contaCorrente.getAgencia().getBanco().getNomeFantasia().getNome())
             .build();
 
         Agencia agencia = Agencia.builder()
@@ -37,13 +37,13 @@ public class ContaServiceImpl implements ContaService {
         EnderecoCorrentista enderecoCorrentista = getEnderecoCorrentista(contaCorrente.getCorrentista().getEndereco());
 
         Correntista correntista = Correntista.builder()
-            .nomeCompleto(contaCorrente.getCorrentista().getNomeCompleto())
-            .celular(contaCorrente.getCorrentista().getCelular().toString())
-            .email(contaCorrente.getCorrentista().getEmail().getEmail())
-            .dataDeNascimento(contaCorrente.getCorrentista().getDataDeNascimento())
-            .rendaMensal(contaCorrente.getCorrentista().getRendaMensal().getValor())
-            .tipoDocumento(contaCorrente.getCorrentista().getDocumento().getTipoDocumento())
-            .numeroDocumento(contaCorrente.getCorrentista().getDocumento().getNumero())
+            .nome(contaCorrente.getCorrentista().getNome())
+            .celular(contaCorrente.getCorrentista().getCelular())
+            .email(contaCorrente.getCorrentista().getEmail())
+            .dataNascimento(contaCorrente.getCorrentista().getDataNascimento())
+            .rendaMensal(contaCorrente.getCorrentista().getRendaMensal())
+            .tipoDocumento(contaCorrente.getCorrentista().getCpf().getTipoDocumento())
+            .cpf(contaCorrente.getCorrentista().getCpf())
             .enderecoCorrentista(enderecoCorrentista)
             .build();
 

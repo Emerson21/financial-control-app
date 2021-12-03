@@ -22,7 +22,7 @@ import br.com.vr.development.financialcontrolapp.application.commons.Endereco;
 import br.com.vr.development.financialcontrolapp.application.domain.DataNascimento;
 import br.com.vr.development.financialcontrolapp.application.domain.Nome;
 import br.com.vr.development.financialcontrolapp.application.domain.Pessoa;
-import br.com.vr.development.financialcontrolapp.application.domain.Renda;
+import br.com.vr.development.financialcontrolapp.application.domain.RendaMensal;
 import br.com.vr.development.financialcontrolapp.application.enums.UF;
 import br.com.vr.development.financialcontrolapp.application.inbound.dto.FormularioAberturaConta;
 import br.com.vr.development.financialcontrolapp.application.service.ContaServiceImpl;
@@ -59,7 +59,7 @@ public class ContaServiceTest {
 
         Celular telefone = new Celular("19", "2901-7197");
         Email email = new Email("thomascauajorgebarbosa-98@agnet.com.br");
-        Renda renda = new Renda(new BigDecimal("2000"));
+        RendaMensal renda = new RendaMensal(new BigDecimal("2000"));
 
         FormularioAberturaConta formulario = new FormularioAberturaConta(pessoa, endereco, telefone, email, renda, new BigDecimal("50"));
         ContaCorrente entity = getContaCorrenteEntity(formulario.toContaCorrente());
@@ -75,7 +75,7 @@ public class ContaServiceTest {
     private ContaCorrente getContaCorrenteEntity(br.com.vr.development.financialcontrolapp.application.domain.ContaCorrente contaCorrente) {
         Banco banco = Banco.builder()
             .codigo(contaCorrente.getAgencia().getBanco().getCodigo())
-            .nome(contaCorrente.getAgencia().getBanco().getNome().getNomeCompleto())
+            .nome(contaCorrente.getAgencia().getBanco().getNomeFantasia().getNome())
             .build();
 
         Agencia agencia = Agencia.builder()

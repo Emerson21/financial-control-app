@@ -10,7 +10,7 @@ import lombok.ToString;
 @ToString
 public class Banco {
  
-    private Nome nome;
+    private NomeFantasia nomeFantasia;
     private String codigo;
     private Cnpj cnpj;
 

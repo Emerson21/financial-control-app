@@ -13,9 +13,9 @@ import br.com.vr.development.financialcontrolapp.application.domain.AgenciaBanca
 import br.com.vr.development.financialcontrolapp.application.domain.Banco;
 import br.com.vr.development.financialcontrolapp.application.domain.ContaCorrente;
 import br.com.vr.development.financialcontrolapp.application.domain.Correntista;
-import br.com.vr.development.financialcontrolapp.application.domain.Nome;
+import br.com.vr.development.financialcontrolapp.application.domain.NomeFantasia;
 import br.com.vr.development.financialcontrolapp.application.domain.Pessoa;
-import br.com.vr.development.financialcontrolapp.application.domain.Renda;
+import br.com.vr.development.financialcontrolapp.application.domain.RendaMensal;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -45,7 +45,7 @@ public class FormularioAberturaConta {
 
     @NotNull
     @Valid
-    private Renda renda;
+    private RendaMensal renda;
 
     @NotNull
     private BigDecimal valorDepositoAbertura;
@@ -57,16 +57,16 @@ public class FormularioAberturaConta {
     public ContaCorrente toContaCorrente() {
         AgenciaBancaria agencia = 
             new AgenciaBancaria(
-                new Banco(new Nome("INTER", ""), "077", new Cnpj("42500796000191")),
+                new Banco(new NomeFantasia("INTER"), "077", new Cnpj("42500796000191")),
                  1, 
                  1);
         
         Correntista correntista = Correntista.builder()
-            .nomeCompleto(this.prospect.getNome().getNomeCompleto())
+            .nome(this.prospect.getNome())
             .email(this.email)
             .endereco(this.endereco)
-            .documento(this.prospect.getDocumento())
-            .dataDeNascimento(this.prospect.getDataDeNascimento().getData())
+            .cpf(this.prospect.getDocumento())
+            .dataNascimento(this.prospect.getDataDeNascimento())
             .celular(this.getTelefone())
             .rendaMensal(this.getRenda())
             .build();
