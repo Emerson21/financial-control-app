@@ -42,7 +42,6 @@ import br.com.vr.development.financialcontrolapp.repository.BancoRepository;
 import br.com.vr.development.financialcontrolapp.repository.ContaRepository;
 
 @SpringBootTest
-// @RunWith(SpringJUnit4ClassRunner.class)
 @TestInstance(Lifecycle.PER_CLASS)
 public class ContaServiceTest {
     
@@ -95,7 +94,7 @@ public class ContaServiceTest {
         ContaCorrente entity = getContaCorrente(formulario.toContaCorrente());
 
         when(bancoRepository.findByCodigo("077")).thenReturn(Optional.of(banco));
-        when(contaRepository.save(Mockito.any(ContaCorrente.class))).thenReturn(contaCorrente);
+        when(contaRepository.save(Mockito.any(ContaCorrente.class))).thenReturn(entity);
         ContaCorrente conta = contaService.abrir(formulario.toContaCorrente());
 
         Assert.assertNotNull(conta);

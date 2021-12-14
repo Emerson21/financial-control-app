@@ -1,41 +1,47 @@
 package br.com.vr.development.financialcontrolapp.inbound.resources;
 
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
-import org.mockito.InjectMocks;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-import br.com.vr.development.financialcontrolapp.application.domain.service.ContaService;
 import br.com.vr.development.financialcontrolapp.application.inbound.ContaResource;
+import br.com.vr.development.financialcontrolapp.exception.FinancialExceptionHandler;
 
-@WebMvcTest
+// @WebMvcTest(ContaResource.class)
+@SpringBootTest
 @TestInstance(Lifecycle.PER_CLASS)
 public class ContaResourceTest {
 
-    // @Value("${conta.abertura.valorMinimo}")
-    // private BigDecimal valorMinimoPermitidoParaAberturaDaConta;
-
-
-    @InjectMocks
+    @Autowired
     private ContaResource contaResource;
 
-    @MockBean
-    private ContaService contaService;
+    // @Autowired
+    // private ContaService contaService;
 
-    @Autowired
+    // @Autowired
+    // private ContaRepository contaRepository;
+
+    // @Autowired
+    // private BancoRepository bancoRepository;
+
     private MockMvc mockMvc;
 
-    // @BeforeAll
-    // public void init() {
-	// 	// ReflectionTestUtils.setField(contaResource, "valorMinimoPermitidoParaAberturaDaConta", valorMinimoPermitidoParaAberturaDaConta);
-    // }
+    @BeforeAll
+    public void init() {
+        mockMvc = MockMvcBuilders.standaloneSetup(this.contaResource)
+            .setControllerAdvice(new FinancialExceptionHandler())
+            .build();
+    }
+    
+
 
     @Test
     public void deveRetornarStatus_201_AoReceberDadosParaAberturaDaContaCorrente() throws Exception {

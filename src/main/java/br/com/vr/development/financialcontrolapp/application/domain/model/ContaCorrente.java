@@ -54,11 +54,12 @@ public class ContaCorrente {
     @OneToMany(mappedBy = "contaCorrente")
     private List<Lancamento> lancamentos;
 
-    public ContaCorrente(AgenciaBancaria agencia, Correntista correntista) {
+    public ContaCorrente(AgenciaBancaria agencia, Correntista correntista, List<Lancamento> lancamentos) {
         this.agencia = agencia;
         this.numero = Long.valueOf(new Random().nextInt());
         this.digito = new Random().nextInt(Integer.MAX_VALUE);
         this.correntista = correntista;
+        this.lancamentos = lancamentos;
     }
 
 }

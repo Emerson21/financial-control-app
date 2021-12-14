@@ -1,6 +1,8 @@
 package br.com.vr.development.financialcontrolapp.application.inbound.dto;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -14,9 +16,11 @@ import br.com.vr.development.financialcontrolapp.application.domain.model.ContaC
 import br.com.vr.development.financialcontrolapp.application.domain.model.Correntista;
 import br.com.vr.development.financialcontrolapp.application.domain.model.Email;
 import br.com.vr.development.financialcontrolapp.application.domain.model.Endereco;
+import br.com.vr.development.financialcontrolapp.application.domain.model.Lancamento;
 import br.com.vr.development.financialcontrolapp.application.domain.model.NomeFantasia;
 import br.com.vr.development.financialcontrolapp.application.domain.model.Pessoa;
 import br.com.vr.development.financialcontrolapp.application.domain.model.RendaMensal;
+import br.com.vr.development.financialcontrolapp.application.enums.TipoLancamento;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -78,7 +82,13 @@ public class FormularioAberturaConta {
             .rendaMensal(this.getRenda())
             .build();
 
-        return new ContaCorrente(agencia, correntista);
+        Lancamento lancamento = Lancamento.builder()
+            .dataHora(LocalDateTime.now())
+            .tipo(TipoLancamento.CREDITO)
+            .valor(this.valorDepositoAbertura)
+            .build();
+
+        return new ContaCorrente(agencia, correntista, Arrays.asList(lancamento));
     }
 
 }
