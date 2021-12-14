@@ -1,18 +1,13 @@
 package br.com.vr.development.financialcontrolapp.inbound.resources;
 
-import java.math.BigDecimal;
-
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
 import org.mockito.InjectMocks;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
-import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
@@ -24,8 +19,8 @@ import br.com.vr.development.financialcontrolapp.application.service.ContaServic
 @TestInstance(Lifecycle.PER_CLASS)
 public class ContaResourceTest {
 
-    @Value("${conta.abertura.valorMinimo}")
-    private BigDecimal valorMinimoPermitidoParaAberturaDaConta;
+    // @Value("${conta.abertura.valorMinimo}")
+    // private BigDecimal valorMinimoPermitidoParaAberturaDaConta;
 
 
     @InjectMocks
@@ -37,10 +32,10 @@ public class ContaResourceTest {
     @Autowired
     private MockMvc mockMvc;
 
-    @BeforeAll
-    public void init() {
-		ReflectionTestUtils.setField(contaResource, "valorMinimoPermitidoParaAberturaDaConta", valorMinimoPermitidoParaAberturaDaConta);
-    }
+    // @BeforeAll
+    // public void init() {
+	// 	// ReflectionTestUtils.setField(contaResource, "valorMinimoPermitidoParaAberturaDaConta", valorMinimoPermitidoParaAberturaDaConta);
+    // }
 
     @Test
     public void deveRetornarStatus_201_AoReceberDadosParaAberturaDaContaCorrente() throws Exception {

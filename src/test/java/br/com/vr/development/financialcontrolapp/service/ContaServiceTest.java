@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.junit.Assert;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
@@ -17,6 +18,9 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.util.ReflectionTestUtils;
 
 import br.com.vr.development.financialcontrolapp.application.domain.AgenciaBancaria;
 import br.com.vr.development.financialcontrolapp.application.domain.Banco;
@@ -33,21 +37,26 @@ import br.com.vr.development.financialcontrolapp.application.enums.TipoEndereco;
 import br.com.vr.development.financialcontrolapp.application.enums.UF;
 import br.com.vr.development.financialcontrolapp.application.inbound.dto.FormularioAberturaConta;
 import br.com.vr.development.financialcontrolapp.application.service.ContaServiceImpl;
+import br.com.vr.development.financialcontrolapp.exception.ValorMinimoInvalidoExcepton;
 import br.com.vr.development.financialcontrolapp.repository.BancoRepository;
 import br.com.vr.development.financialcontrolapp.repository.ContaRepository;
 
-
+@SpringBootTest
+// @RunWith(SpringJUnit4ClassRunner.class)
 @TestInstance(Lifecycle.PER_CLASS)
 public class ContaServiceTest {
-
     
-    @BeforeAll
-    public void init() {
-        MockitoAnnotations.openMocks(this);
-    }
+    @Value("${conta.abertura.valorMinimo}")
+    private BigDecimal valorMinimoPermitido;
 
     @InjectMocks
     private ContaServiceImpl contaService;
+
+    @BeforeAll
+    public void init() {
+        MockitoAnnotations.openMocks(this);
+        ReflectionTestUtils.setField(contaService, "valorMinimoPermitido", valorMinimoPermitido);
+    }
 
     @Mock
     private ContaRepository contaRepository;
@@ -70,7 +79,7 @@ public class ContaServiceTest {
         RendaMensal renda = new RendaMensal(new BigDecimal("2000"));
 
         FormularioAberturaConta formulario = new FormularioAberturaConta(pessoa, enderecos, telefone, email, renda, new BigDecimal("50"));
-        br.com.vr.development.financialcontrolapp.application.domain.ContaCorrente contaCorrente = formulario.toContaCorrente();
+        ContaCorrente contaCorrente = formulario.toContaCorrente();
         
         Banco banco = Banco.builder()
             .codigo(contaCorrente.getAgencia().getBanco().getCodigo())
@@ -83,16 +92,39 @@ public class ContaServiceTest {
             .digito(contaCorrente.getAgencia().getDigito())
             .build()));
 
-        ContaCorrente entity = getContaCorrenteEntity(formulario.toContaCorrente());
+        ContaCorrente entity = getContaCorrente(formulario.toContaCorrente());
 
         when(bancoRepository.findByCodigo("077")).thenReturn(Optional.of(banco));
-        when(contaRepository.save(Mockito.any(ContaCorrente.class))).thenReturn(entity);
-        br.com.vr.development.financialcontrolapp.application.domain.ContaCorrente conta = contaService.abrir(formulario.toContaCorrente());
+        when(contaRepository.save(Mockito.any(ContaCorrente.class))).thenReturn(contaCorrente);
+        ContaCorrente conta = contaService.abrir(formulario.toContaCorrente());
 
         Assert.assertNotNull(conta);
     }
 
-    private ContaCorrente getContaCorrenteEntity(ContaCorrente contaCorrente) {
+    @Test
+    public void naoDeveAbrirContaCorrenteComValorMenorQue50() {
+        Pessoa pessoa = new Pessoa(
+            new Nome("Emerson", "Haraguchi"), 
+            new Cpf("29222004000"), 
+            new DataNascimento(LocalDate.of(1988, 10, 21)));
+
+        List<Endereco> enderecos = getEnderecos();
+
+        Celular telefone = new Celular("19", "2901-7197");
+        Email email = new Email("thomascauajorgebarbosa-98@agnet.com.br");
+        RendaMensal renda = new RendaMensal(new BigDecimal("2000"));
+        FormularioAberturaConta formulario = new FormularioAberturaConta(pessoa, enderecos, telefone, email, renda, new BigDecimal("49.9"));
+
+        ValorMinimoInvalidoExcepton valorMinimoInvalido = Assertions.assertThrows(ValorMinimoInvalidoExcepton.class, () -> {
+            contaService.abrir(formulario.toContaCorrente());
+        }, "Valor minimo para abertura da conta corrente menor que 50.");
+
+        
+        Assert.assertEquals("Valor minimo para abertura da conta corrente menor que 50.", valorMinimoInvalido.getMessage());
+
+    }
+
+    private ContaCorrente getContaCorrente(ContaCorrente contaCorrente) {
         Banco banco = Banco.builder()
             .codigo(contaCorrente.getAgencia().getBanco().getCodigo())
             .nomeFantasia(contaCorrente.getAgencia().getBanco().getNomeFantasia())

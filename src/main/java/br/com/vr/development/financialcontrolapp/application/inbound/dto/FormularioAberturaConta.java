@@ -51,9 +51,9 @@ public class FormularioAberturaConta {
     @NotNull
     private BigDecimal valorDepositoAbertura;
 
-    public boolean isValorDepositoPermitido(BigDecimal valorMinimoPermitido) {
-        return this.valorDepositoAbertura.compareTo(valorMinimoPermitido) < 0;
-    }
+    // public boolean isValorDepositoPermitido(BigDecimal valorMinimoPermitido) {
+    //     return this.valorDepositoAbertura.compareTo(valorMinimoPermitido) < 0;
+    // }
 
     public ContaCorrente toContaCorrente() {
 

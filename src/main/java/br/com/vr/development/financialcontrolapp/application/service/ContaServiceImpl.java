@@ -1,8 +1,10 @@
 package br.com.vr.development.financialcontrolapp.application.service;
 
+import java.math.BigDecimal;
 import java.util.Arrays;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import br.com.vr.development.financialcontrolapp.application.domain.AgenciaBancaria;
@@ -16,6 +18,9 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Service
 public class ContaServiceImpl implements ContaService {
+
+    @Value("${conta.abertura.valorMinimo}")
+    private BigDecimal valorMinimoPermitido;
 
     @Autowired
     private ContaRepository contaRepository;
