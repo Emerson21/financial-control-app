@@ -1,4 +1,4 @@
-package br.com.vr.development.financialcontrolapp.application.domain;
+package br.com.vr.development.financialcontrolapp.application.domain.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

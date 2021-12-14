@@ -1,4 +1,4 @@
-package br.com.vr.development.financialcontrolapp.application.domain;
+package br.com.vr.development.financialcontrolapp.application.domain.model;
 
 import javax.persistence.Embeddable;
 import javax.validation.constraints.NotBlank;

@@ -1,22 +1,21 @@
-package br.com.vr.development.financialcontrolapp.application.domain;
+package br.com.vr.development.financialcontrolapp.application.domain.model;
+
+import java.time.LocalDate;
 
 import javax.persistence.Embeddable;
-import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-@Getter
 @AllArgsConstructor
 @NoArgsConstructor
+@Getter
 @Embeddable
-public class NomeFantasia {
+public class DataNascimento {
 
-    @NotBlank
     @NotNull
-    private String nome;
-
-
+    private LocalDate data;
+    
 }

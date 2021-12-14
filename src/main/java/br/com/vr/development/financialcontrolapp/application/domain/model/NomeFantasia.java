@@ -1,4 +1,4 @@
-package br.com.vr.development.financialcontrolapp.application.domain;
+package br.com.vr.development.financialcontrolapp.application.domain.model;
 
 import javax.persistence.Embeddable;
 import javax.validation.constraints.NotBlank;
@@ -12,18 +12,11 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Embeddable
-public class Nome {
+public class NomeFantasia {
 
     @NotBlank
     @NotNull
-    private String primeiroNome;
+    private String nome;
 
-    @NotBlank
-    @NotNull
-    private String sobrenome;
-
-    public String getNomeCompleto() {
-        return String.format("%s %s", primeiroNome, sobrenome);
-    }
 
 }

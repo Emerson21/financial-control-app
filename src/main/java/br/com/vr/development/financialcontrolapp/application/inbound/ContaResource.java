@@ -10,9 +10,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import br.com.vr.development.financialcontrolapp.application.domain.ContaCorrente;
+import br.com.vr.development.financialcontrolapp.application.domain.model.ContaCorrente;
+import br.com.vr.development.financialcontrolapp.application.domain.service.ContaService;
 import br.com.vr.development.financialcontrolapp.application.inbound.dto.FormularioAberturaConta;
-import br.com.vr.development.financialcontrolapp.application.service.ContaService;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j

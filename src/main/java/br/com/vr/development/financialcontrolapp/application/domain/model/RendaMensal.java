@@ -1,19 +1,19 @@
-package br.com.vr.development.financialcontrolapp.application.domain;
+package br.com.vr.development.financialcontrolapp.application.domain.model;
+
+import java.math.BigDecimal;
 
 import javax.persistence.Embeddable;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
 
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
-@ToString
 @Embeddable
-public class Email {
-
-    private String email;
+public class RendaMensal {
     
+    private BigDecimal valor;
+
 }

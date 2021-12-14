@@ -12,8 +12,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
+import br.com.vr.development.financialcontrolapp.application.domain.service.ContaService;
 import br.com.vr.development.financialcontrolapp.application.inbound.ContaResource;
-import br.com.vr.development.financialcontrolapp.application.service.ContaService;
 
 @WebMvcTest
 @TestInstance(Lifecycle.PER_CLASS)

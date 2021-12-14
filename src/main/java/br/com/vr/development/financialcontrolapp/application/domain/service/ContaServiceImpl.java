@@ -1,4 +1,4 @@
-package br.com.vr.development.financialcontrolapp.application.service;
+package br.com.vr.development.financialcontrolapp.application.domain.service;
 
 import java.math.BigDecimal;
 import java.util.Arrays;
@@ -7,10 +7,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import br.com.vr.development.financialcontrolapp.application.domain.AgenciaBancaria;
-import br.com.vr.development.financialcontrolapp.application.domain.Banco;
-import br.com.vr.development.financialcontrolapp.application.domain.ContaCorrente;
-import br.com.vr.development.financialcontrolapp.application.domain.Correntista;
+import br.com.vr.development.financialcontrolapp.application.domain.model.AgenciaBancaria;
+import br.com.vr.development.financialcontrolapp.application.domain.model.Banco;
+import br.com.vr.development.financialcontrolapp.application.domain.model.ContaCorrente;
+import br.com.vr.development.financialcontrolapp.application.domain.model.Correntista;
 import br.com.vr.development.financialcontrolapp.repository.BancoRepository;
 import br.com.vr.development.financialcontrolapp.repository.ContaRepository;
 import lombok.extern.slf4j.Slf4j;
