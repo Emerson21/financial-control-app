@@ -2,7 +2,7 @@
     "email": {
       "email": "emerson.haraguchi.ext@vr.com.br"
     },
-    "endereco": {
+    "enderecos": [{
       "bairro": "Mailasque",
       "cep": "18143627",
       "estado": "SAO_PAULO",
@@ -10,7 +10,7 @@
       "municipio": "Sao Roque",
       "numero": "256",
       "tipoEndereco": "RESIDENCIAL"
-    },
+    }],
     "prospect": {
       "dataDeNascimento": {
         "data": "2000-11-29"

@@ -55,11 +55,7 @@ public class FormularioAberturaConta {
     @NotNull
     private BigDecimal valorDepositoAbertura;
 
-    // public boolean isValorDepositoPermitido(BigDecimal valorMinimoPermitido) {
-    //     return this.valorDepositoAbertura.compareTo(valorMinimoPermitido) < 0;
-    // }
-
-    public ContaCorrente toContaCorrente() {
+    public ContaCorrente toContaCorrente(BigDecimal valorMinimoPermitido) {
 
         Banco banco =  Banco.builder()
             .cnpj(new Cnpj("42500796000191"))
@@ -88,7 +84,7 @@ public class FormularioAberturaConta {
             .valor(this.valorDepositoAbertura)
             .build();
 
-        return new ContaCorrente(agencia, correntista, Arrays.asList(lancamento));
+        return new ContaCorrente(agencia, correntista, Arrays.asList(lancamento), valorMinimoPermitido);
     }
 
 }
