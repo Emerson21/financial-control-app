@@ -1,5 +1,6 @@
 package br.com.vr.development.financialcontrolapp.application.domain.model;
 
+import java.util.List;
 import java.util.Random;
 
 import javax.persistence.CascadeType;
@@ -10,6 +11,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
@@ -48,6 +50,9 @@ public class ContaCorrente {
     @JoinColumn(name = "id_correntista", referencedColumnName = "id")
     @OneToOne(cascade = CascadeType.ALL)
     private Correntista correntista;
+
+    @OneToMany(mappedBy = "contaCorrente")
+    private List<Lancamento> lancamentos;
 
     public ContaCorrente(AgenciaBancaria agencia, Correntista correntista) {
         this.agencia = agencia;
