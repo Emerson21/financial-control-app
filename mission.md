@@ -3,7 +3,26 @@ Financial Control App
 - Abertura da conta corrente:
     - Deverá ter no mínimo R$ 50,00 reais para realizar a abertura da conta corrente;
     - Esse valor de depósito inicial deverá ser contabilizado como saldo após a abertura da conta corrente;
-        * Lançamento do tipo crédito sendo identificado Como Deposito Inicial
+        * Lançamento do tipo crédito sendo identificado como Deposito Inicial.
+
+
+- Recebimento de pagamento de salario
+    - O sistema deverá aceitar receber o pagamento do salário via transferencia bancaria do tipo DOC / TED ou Pix.
+    - O valor depositado deverá constar como um lançamento do tipo crédito na conta do correntista, e um tipo débito na conta da empresa
+    caso o banco seja o mesmo de ambos.
+    - Não deverá deixar realizar a transferencia caso o valor depositado seja menor que o saldo disponível na conta, lancando uma excecao de
+    saldo indisponivel.
+    - Transferencias do tipo DOC deverao ser processadas 1x ao dia.
+    - Transferencias do tipo TED deverão ser processadas a cada 5 min.
+    - Transferencias via PIX deverão ser processadas on-line.
+
+
+- Resource de consulta de saldo do correntista / conta corrente;
+
+//TODOs - debitos tecnicos
+- Corrigir salvamento duplicado de requisicoes iguais
+- Corrigir para salvar nome completo no banco e em duas colunas como nome e sobre nome;
+
 
 
 
