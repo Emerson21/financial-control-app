@@ -37,7 +37,7 @@ public class Correntista {
 
     @NotNull
     @Embedded
-    @AttributeOverride(name ="nome", column=@Column(name = "nome_completo", nullable = false))
+    @AttributeOverride(name ="primeiroNome", column=@Column(name = "nome_completo", nullable = false))
     private Nome nome;
 
     @NotNull
@@ -57,17 +57,17 @@ public class Correntista {
 
     @NotNull
     @Embedded
-    @AttributeOverride(name = "", column = @Column(name = "renda_mensal", nullable = false))
+    @AttributeOverride(name = "valor", column = @Column(name = "renda_mensal", nullable = false))
     private RendaMensal rendaMensal;
 
     @NotNull
     @Embedded
-    @AttributeOverride(name = "", column = @Column(name = "email", nullable = false))
+    @AttributeOverride(name = "email", column = @Column(name = "email", nullable = false))
     private Email email;
 
     @NotNull
     @Embedded
-    @AttributeOverride(name = "", column = @Column(name = "celular", nullable = false))
+    @AttributeOverride(name = "numero", column = @Column(name = "celular", nullable = false))
     private Celular celular;
 
     @NotNull

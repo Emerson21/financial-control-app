@@ -2,15 +2,9 @@ Financial Control App
 
 - Abertura da conta corrente:
     - Deverá ter no mínimo R$ 50,00 reais para realizar a abertura da conta corrente;
+    - Esse valor de depósito inicial deverá ser contabilizado como saldo após a abertura da conta corrente;
+        * Lançamento do tipo crédito sendo identificado Como Deposito Inicial
 
-
-
-Dúvidas padrões
-
-    - Qual a diferença entre utilizar as nomenclaturas de business vs service?
-
-    - Até vai o escopo dos DTOs? Quando eu for realizar a chamada do metodo da interface já se faz necessário converter para o objeto esperado?
-    - nomes de metodos devem ser verbos ou substantivos?
 
 
 

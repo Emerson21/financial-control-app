@@ -5,12 +5,13 @@ import javax.persistence.Embeddable;
 import org.apache.commons.lang3.StringUtils;
 
 import br.com.vr.development.financialcontrolapp.application.enums.TipoDocumento;
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 @AllArgsConstructor
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 @ToString
 @Embeddable
 public class Cnpj implements Documento {

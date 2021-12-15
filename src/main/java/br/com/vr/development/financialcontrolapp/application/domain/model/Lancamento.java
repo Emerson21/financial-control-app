@@ -7,6 +7,8 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -29,6 +31,7 @@ import lombok.ToString;
 public class Lancamento {
     
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(name = "tipo_lancamento")
@@ -44,5 +47,14 @@ public class Lancamento {
     @JoinColumn(name = "id_conta_corrente", referencedColumnName = "id")
     @ManyToOne
     private ContaCorrente contaCorrente;
+
+    @Column(name = "descricao")
+    private String descricao;
+    
+    public void addContaCorrente(ContaCorrente contaCorrente) {
+        if (this.contaCorrente == null) {
+            this.contaCorrente = contaCorrente;
+        }
+    }
 
 }

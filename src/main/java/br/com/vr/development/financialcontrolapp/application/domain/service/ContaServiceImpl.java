@@ -7,8 +7,8 @@ import org.springframework.stereotype.Service;
 
 import br.com.vr.development.financialcontrolapp.application.domain.model.AgenciaBancaria;
 import br.com.vr.development.financialcontrolapp.application.domain.model.Banco;
+import br.com.vr.development.financialcontrolapp.application.domain.model.Cnpj;
 import br.com.vr.development.financialcontrolapp.application.domain.model.ContaCorrente;
-import br.com.vr.development.financialcontrolapp.application.domain.model.Correntista;
 import br.com.vr.development.financialcontrolapp.repository.BancoRepository;
 import br.com.vr.development.financialcontrolapp.repository.ContaRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -30,25 +30,10 @@ public class ContaServiceImpl implements ContaService {
         Banco banco =  bancoRepository.findByCodigo(contaCorrente.getAgencia().getBanco().getCodigo()).orElse(criaNovoBanco(contaCorrente));
         AgenciaBancaria agencia = banco.getAgencias().stream().findFirst().orElse(criaNovaAgencia(contaCorrente, banco));
 
-        Correntista correntista = Correntista.builder()
-            .nome(contaCorrente.getCorrentista().getNome())
-            .celular(contaCorrente.getCorrentista().getCelular())
-            .email(contaCorrente.getCorrentista().getEmail())
-            .dataNascimento(contaCorrente.getCorrentista().getDataNascimento())
-            .rendaMensal(contaCorrente.getCorrentista().getRendaMensal())
-            .tipoDocumento(contaCorrente.getCorrentista().getCpf().getTipoDocumento())
-            .cpf(contaCorrente.getCorrentista().getCpf())
-            .enderecos(contaCorrente.getCorrentista().getEnderecos())
-            .build();
+        contaCorrente.setAgencia(agencia);
+        contaCorrente.getLancamentos().forEach(lancamento -> lancamento.addContaCorrente(contaCorrente));
 
-        ContaCorrente entity = ContaCorrente.builder()
-                .agencia(agencia)
-                .numero(contaCorrente.getNumero())
-                .digito(contaCorrente.getDigito())
-                .correntista(correntista)
-                .build();
-
-        return contaRepository.save(entity);
+        return contaRepository.save(contaCorrente);
 
     }
 
@@ -62,6 +47,8 @@ public class ContaServiceImpl implements ContaService {
 
     private Banco criaNovoBanco(ContaCorrente contaCorrente) {
         Banco banco = Banco.builder()
+            .cnpj(new Cnpj("42500796000191"))
+            .codigo("077")
             .codigo(contaCorrente.getAgencia().getBanco().getCodigo())
             .nomeFantasia(contaCorrente.getAgencia().getBanco().getNomeFantasia())
             .build();

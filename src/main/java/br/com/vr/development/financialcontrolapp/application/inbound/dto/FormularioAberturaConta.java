@@ -73,6 +73,7 @@ public class FormularioAberturaConta {
             .email(this.email)
             .enderecos(this.enderecos)
             .cpf(this.prospect.getDocumento())
+            .tipoDocumento(this.prospect.getDocumento().getTipoDocumento())
             .dataNascimento(this.prospect.getDataDeNascimento())
             .celular(this.getTelefone())
             .rendaMensal(this.getRenda())
@@ -82,6 +83,7 @@ public class FormularioAberturaConta {
             .dataHora(LocalDateTime.now())
             .tipo(TipoLancamento.CREDITO)
             .valor(this.valorDepositoAbertura)
+            .descricao("Deposito Inicial, abertura de conta.")
             .build();
 
         return new ContaCorrente(agencia, correntista, Arrays.asList(lancamento), valorMinimoPermitido);
