@@ -33,7 +33,7 @@ public class ContaResource {
     public ResponseEntity aberturaContaCorrente(@RequestBody @Valid FormularioAberturaConta formularioAberturaConta) {
         log.info("Formulario Abertura Conta {}", formularioAberturaConta);  
 
-        ContaCorrente contaCorrente = formularioAberturaConta.toContaCorrente(valorMinimoPermitido);
+        ContaCorrente contaCorrente = formularioAberturaConta.toContaCorrente();
 
         contaService.abrir(contaCorrente);
 
