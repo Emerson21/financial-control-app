@@ -34,7 +34,6 @@ public class ContaServiceImpl implements ContaService {
         contaCorrente.getLancamentos().forEach(lancamento -> lancamento.addContaCorrente(contaCorrente));
 
         return contaRepository.save(contaCorrente);
-
     }
 
     private AgenciaBancaria criaNovaAgencia(ContaCorrente contaCorrente, Banco banco) {

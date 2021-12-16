@@ -1,12 +1,11 @@
 package br.com.vr.development.financialcontrolapp.application.domain.model;
 
-import java.math.BigDecimal;
 import java.util.List;
-import java.util.Optional;
 import java.util.Random;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -18,7 +17,6 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
-import br.com.vr.development.financialcontrolapp.exception.ValorMinimoInvalidoExcepton;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -46,11 +44,11 @@ public class ContaCorrente {
     private AgenciaBancaria agencia;
     
     @NotNull
-    @Column(name = "numero")
+    @Column(name = "numero", nullable = false)
     private Long numero;
     
     @NotNull
-    @Column(name = "digito")
+    @Column(name = "digito", nullable = false)
     private int digito;
 
     @JoinColumn(name = "id_correntista", referencedColumnName = "id")
@@ -60,27 +58,16 @@ public class ContaCorrente {
     @OneToMany(mappedBy = "contaCorrente", cascade = CascadeType.ALL)
     private List<Lancamento> lancamentos;
 
-    public ContaCorrente(AgenciaBancaria agencia, Correntista correntista, List<Lancamento> lancamentos, BigDecimal valorMinimoPermitido) {
+    @Embedded
+    @NotNull
+    @Column(name = "deposito_inicial", nullable = false)
+    private DepositoInicial depositoInicial;
+
+    public ContaCorrente(AgenciaBancaria agencia, Correntista correntista, DepositoInicial depositoInicial) {
         this.agencia = agencia;
         this.numero = Long.valueOf(new Random().nextInt());
         this.digito = new Random().nextInt(Integer.MAX_VALUE);
         this.correntista = correntista;
-        this.lancamentos = lancamentos;
-        this.validaValorMinimo(valorMinimoPermitido);
-    }
-
-    private void validaValorMinimo(BigDecimal valorMinimoPermitido) {
-        if (!Optional.ofNullable(this.lancamentos).isPresent()) {
-            throw new ValorMinimoInvalidoExcepton();
-        }
-
-        Optional.ofNullable(this.lancamentos).ifPresent(values -> {
-            Lancamento lancamento = values.stream().findFirst().orElseThrow(ValorMinimoInvalidoExcepton::new);
-            if (lancamento.getValor().compareTo(valorMinimoPermitido) < 0) {
-                throw new ValorMinimoInvalidoExcepton();
-            }
-        });
-
     }
 
 }
