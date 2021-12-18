@@ -1,23 +1,17 @@
 package br.com.vr.development.financialcontrolapp.inbound.resources;
 
-import java.math.BigDecimal;
-
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.junit.jupiter.api.TestInstance.Lifecycle;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
-import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-import br.com.vr.development.financialcontrolapp.application.domain.service.ContaService;
 import br.com.vr.development.financialcontrolapp.application.inbound.ContaResource;
 import br.com.vr.development.financialcontrolapp.exception.FinancialExceptionHandler;
 
@@ -25,14 +19,8 @@ import br.com.vr.development.financialcontrolapp.exception.FinancialExceptionHan
 @TestInstance(Lifecycle.PER_CLASS)
 public class ContaResourceTest {
 
-    @Value("${conta.abertura.valorMinimo}")
-    private BigDecimal valorMinimoPermitido;
-
-    @InjectMocks
+    @Autowired
     private ContaResource contaResource;
-
-    @Mock
-    private ContaService contaService;
 
     private MockMvc mockMvc;
 
@@ -41,10 +29,7 @@ public class ContaResourceTest {
         mockMvc = MockMvcBuilders.standaloneSetup(this.contaResource)
             .setControllerAdvice(new FinancialExceptionHandler())
             .build();
-
-        ReflectionTestUtils.setField(contaResource, "valorMinimoPermitido", valorMinimoPermitido);
     }
-
 
     @Test
     public void deveRetornarStatus_201_AoReceberDadosParaAberturaDaContaCorrente() throws Exception {

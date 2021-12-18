@@ -12,12 +12,12 @@ import br.com.vr.development.financialcontrolapp.application.domain.model.Celula
 import br.com.vr.development.financialcontrolapp.application.domain.model.Cnpj;
 import br.com.vr.development.financialcontrolapp.application.domain.model.ContaCorrente;
 import br.com.vr.development.financialcontrolapp.application.domain.model.Correntista;
-import br.com.vr.development.financialcontrolapp.application.domain.model.DepositoInicial;
 import br.com.vr.development.financialcontrolapp.application.domain.model.Email;
 import br.com.vr.development.financialcontrolapp.application.domain.model.Endereco;
 import br.com.vr.development.financialcontrolapp.application.domain.model.NomeFantasia;
 import br.com.vr.development.financialcontrolapp.application.domain.model.Pessoa;
 import br.com.vr.development.financialcontrolapp.application.domain.model.RendaMensal;
+import br.com.vr.development.financialcontrolapp.application.domain.model.components.DepositoInicial;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -52,7 +52,7 @@ public class FormularioAberturaConta {
     @NotNull
     private BigDecimal valorDepositoAbertura;
 
-    public ContaCorrente toContaCorrente() {
+    public ContaCorrente toContaCorrente(DepositoInicial depositoInicial) {
 
         Banco banco =  Banco.builder()
             .cnpj(new Cnpj("42500796000191"))
@@ -76,7 +76,7 @@ public class FormularioAberturaConta {
             .rendaMensal(this.getRenda())
             .build();
 
-        return new ContaCorrente(agencia, correntista, new DepositoInicial(this.valorDepositoAbertura));
+        return new ContaCorrente(agencia, correntista, depositoInicial);
     }
 
 }

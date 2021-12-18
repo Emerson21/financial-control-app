@@ -5,10 +5,9 @@ import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
 
-import org.junit.Assert;
-import org.junit.Test;
 import org.junit.jupiter.api.Assertions;
-import org.springframework.beans.factory.annotation.Value;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import br.com.vr.development.financialcontrolapp.application.domain.model.AgenciaBancaria;
@@ -19,21 +18,22 @@ import br.com.vr.development.financialcontrolapp.application.domain.model.ContaC
 import br.com.vr.development.financialcontrolapp.application.domain.model.Correntista;
 import br.com.vr.development.financialcontrolapp.application.domain.model.Cpf;
 import br.com.vr.development.financialcontrolapp.application.domain.model.DataNascimento;
-import br.com.vr.development.financialcontrolapp.application.domain.model.DepositoInicial;
 import br.com.vr.development.financialcontrolapp.application.domain.model.Email;
 import br.com.vr.development.financialcontrolapp.application.domain.model.Endereco;
 import br.com.vr.development.financialcontrolapp.application.domain.model.Nome;
 import br.com.vr.development.financialcontrolapp.application.domain.model.NomeFantasia;
 import br.com.vr.development.financialcontrolapp.application.domain.model.RendaMensal;
+import br.com.vr.development.financialcontrolapp.application.domain.model.components.DepositoInicialFactory;
 import br.com.vr.development.financialcontrolapp.application.enums.TipoDocumento;
 import br.com.vr.development.financialcontrolapp.application.enums.TipoEndereco;
 import br.com.vr.development.financialcontrolapp.application.enums.UF;
+import br.com.vr.development.financialcontrolapp.exception.DepositoInicialException;
 
 @SpringBootTest
 public class ContaCorrenteTest {
     
-    @Value("${conta.abertura.valorMinimo}")
-    private BigDecimal valorMinimoPermitido;
+    @Autowired
+    private DepositoInicialFactory depositoInicialFactory;
 
     @Test
     public void deveConstruirContaCorrente() {
@@ -42,8 +42,8 @@ public class ContaCorrenteTest {
 
         banco.setAgencias(Arrays.asList(agenciaBancaria));
 
-        ContaCorrente contaCorrente = new ContaCorrente(agenciaBancaria, getCorrentista(), new DepositoInicial(new BigDecimal("49.9")));
-        Assert.assertNotNull(contaCorrente);
+        ContaCorrente contaCorrente = new ContaCorrente(agenciaBancaria, getCorrentista(), depositoInicialFactory.create(new BigDecimal("50")));
+        Assertions.assertNotNull(contaCorrente);
     }
 
 
@@ -54,14 +54,12 @@ public class ContaCorrenteTest {
 
         banco.setAgencias(Arrays.asList(agenciaBancaria));
 
-
-
         DepositoInicialException valorMinimoInvalido = Assertions.assertThrows(DepositoInicialException.class, () -> {
-            new ContaCorrente(agenciaBancaria, getCorrentista(), new DepositoInicial(new BigDecimal("49.9")));    ;
-        }, "Valor minimo para abertura da conta corrente menor que 50.");
+            new ContaCorrente(agenciaBancaria, getCorrentista(), depositoInicialFactory.create(new BigDecimal("49.9")));    ;
+        }, "Valor minimo para abertura da conta corrente menor que o permitido");
 
         
-        Assert.assertEquals("Valor minimo para abertura da conta corrente menor que " + valorMinimoPermitido, valorMinimoInvalido.getMessage());
+        Assertions.assertEquals("Valor minimo para abertura da conta corrente menor que o permitido", valorMinimoInvalido.getMessage());
     }
 
     private Correntista getCorrentista() {

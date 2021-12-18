@@ -17,12 +17,12 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
+import br.com.vr.development.financialcontrolapp.application.domain.model.components.DepositoInicial;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 import lombok.ToString;
 
 @AllArgsConstructor
@@ -38,7 +38,6 @@ public class ContaCorrente {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Setter
     @JoinColumn(name ="id_agencia", referencedColumnName = "id")
     @ManyToOne(cascade = CascadeType.ALL)
     private AgenciaBancaria agencia;
@@ -68,6 +67,7 @@ public class ContaCorrente {
         this.numero = Long.valueOf(new Random().nextInt());
         this.digito = new Random().nextInt(Integer.MAX_VALUE);
         this.correntista = correntista;
+        this.depositoInicial = depositoInicial;
     }
 
 }

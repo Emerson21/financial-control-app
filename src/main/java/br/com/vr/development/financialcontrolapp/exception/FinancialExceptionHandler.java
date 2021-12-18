@@ -11,10 +11,14 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 @ControllerAdvice
 public class FinancialExceptionHandler extends ResponseEntityExceptionHandler {
 
-    @ExceptionHandler(ValorMinimoInvalidoExcepton.class)
-    public ResponseEntity<Object> valorMinimoInvalido(ValorMinimoInvalidoExcepton valorMinimoInvalidoExcepton, WebRequest request) {
+    @ExceptionHandler(DepositoInicialException.class)
+    public ResponseEntity<Object> valorMinimoInvalido(DepositoInicialException valorMinimoInvalidoExcepton, WebRequest request) {
         
-        return super.handleExceptionInternal(valorMinimoInvalidoExcepton, valorMinimoInvalidoExcepton.getMessage(), HttpHeaders.EMPTY, HttpStatus.UNPROCESSABLE_ENTITY, request);
+        return super.handleExceptionInternal(valorMinimoInvalidoExcepton, 
+            valorMinimoInvalidoExcepton.getMessage(), 
+            HttpHeaders.EMPTY, 
+            HttpStatus.UNPROCESSABLE_ENTITY, 
+            request);
 
     }
 
