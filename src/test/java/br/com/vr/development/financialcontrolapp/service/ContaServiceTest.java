@@ -6,6 +6,7 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
@@ -28,6 +29,7 @@ import br.com.vr.development.financialcontrolapp.application.domain.model.DataNa
 import br.com.vr.development.financialcontrolapp.application.domain.model.Email;
 import br.com.vr.development.financialcontrolapp.application.domain.model.Endereco;
 import br.com.vr.development.financialcontrolapp.application.domain.model.Nome;
+import br.com.vr.development.financialcontrolapp.application.domain.model.NomeFantasia;
 import br.com.vr.development.financialcontrolapp.application.domain.model.Pessoa;
 import br.com.vr.development.financialcontrolapp.application.domain.model.RendaMensal;
 import br.com.vr.development.financialcontrolapp.application.domain.model.components.DepositoInicial;
@@ -36,7 +38,9 @@ import br.com.vr.development.financialcontrolapp.application.domain.service.Cont
 import br.com.vr.development.financialcontrolapp.application.enums.TipoEndereco;
 import br.com.vr.development.financialcontrolapp.application.enums.UF;
 import br.com.vr.development.financialcontrolapp.application.inbound.dto.FormularioAberturaConta;
+import br.com.vr.development.financialcontrolapp.exception.BancoInvalidoException;
 import br.com.vr.development.financialcontrolapp.exception.DepositoInicialException;
+import br.com.vr.development.financialcontrolapp.repository.BancoRepository;
 import br.com.vr.development.financialcontrolapp.repository.ContaRepository;
 
 @SpringBootTest
@@ -54,6 +58,9 @@ public class ContaServiceTest {
     @Mock
     private ContaRepository contaRepository;
 
+    @Mock
+    private BancoRepository bancoRepository;
+
     @Autowired
     private DepositoInicialFactory depositoInicialFactory;
 
@@ -61,24 +68,25 @@ public class ContaServiceTest {
     @Test
     public void deveAbrirContaCorrente() {
 
-        Pessoa pessoa = new Pessoa(
-            new Nome("Emerson", "Haraguchi"), 
-            new Cpf("29222004000"), 
-            new DataNascimento(LocalDate.of(1988, 10, 21)));
+        Pessoa pessoa = getPessoa();
 
         List<Endereco> enderecos = getEnderecos();
 
         Celular telefone = new Celular("19", "2901-7197");
         Email email = new Email("thomascauajorgebarbosa-98@agnet.com.br");
         RendaMensal renda = new RendaMensal(new BigDecimal("2000"));
+        Banco banco = Banco.builder()
+            .codigo("123")
+            .nomeFantasia(new NomeFantasia("Banco VR"))
+            .build();       
 
-        FormularioAberturaConta formulario = new FormularioAberturaConta(pessoa, enderecos, telefone, email, renda, new BigDecimal("50"));
+        FormularioAberturaConta formulario = new FormularioAberturaConta(pessoa, enderecos, telefone, email, renda, new BigDecimal("50"), getAgenciaBancaria(banco));
         
         DepositoInicial depositoInicial = depositoInicialFactory.create(formulario.getValorDepositoAbertura());
-
-        // ContaCorrente contaCorrente = formulario.toContaCorrente(depositoInicial);
         ContaCorrente entity = getContaCorrente(formulario.toContaCorrente(depositoInicial));
 
+        // when(bancoRepository.findByCodigo(banco.getCodigo())).thenReturn(Optional.empty());
+        when(bancoRepository.findByCodigo(banco.getCodigo())).thenReturn(Optional.of(banco));
         when(contaRepository.save(Mockito.any(ContaCorrente.class))).thenReturn(entity);
         ContaCorrente conta = contaService.abrir(formulario.toContaCorrente(depositoInicial));
 
@@ -87,17 +95,20 @@ public class ContaServiceTest {
 
     @Test
     public void naoDeveAbrirContaCorrenteComValorMenorQue50() {
-        Pessoa pessoa = new Pessoa(
-            new Nome("Emerson", "Haraguchi"), 
-            new Cpf("29222004000"), 
-            new DataNascimento(LocalDate.of(1988, 10, 21)));
-
+        Pessoa pessoa = getPessoa();
         List<Endereco> enderecos = getEnderecos();
 
         Celular telefone = new Celular("19", "2901-7197");
         Email email = new Email("thomascauajorgebarbosa-98@agnet.com.br");
         RendaMensal renda = new RendaMensal(new BigDecimal("2000"));
-        FormularioAberturaConta formulario = new FormularioAberturaConta(pessoa, enderecos, telefone, email, renda, new BigDecimal("49.9"));
+
+        Banco banco = Banco.builder()
+            .codigo("123")
+            .nomeFantasia(new NomeFantasia("Banco VR"))
+            .build();       
+
+        FormularioAberturaConta formulario = 
+            new FormularioAberturaConta(pessoa, enderecos, telefone, email, renda, new BigDecimal("49.9"), getAgenciaBancaria(banco));
 
         DepositoInicialException valorMinimoInvalido = Assertions.assertThrows(DepositoInicialException.class, () -> {
             contaService.abrir(formulario.toContaCorrente(depositoInicialFactory.create(formulario.getValorDepositoAbertura())));
@@ -108,17 +119,48 @@ public class ContaServiceTest {
 
     }
 
+
+    @Test
+    public void naoDeveAbrirContaCorrenteQuandoNaoEncontrarOBancoNoBancoDeDados() {
+
+        Pessoa pessoa = getPessoa();
+        List<Endereco> enderecos = getEnderecos();
+        Celular telefone = new Celular("19", "2901-7197");
+        Email email = new Email("thomascauajorgebarbosa-98@agnet.com.br");
+        RendaMensal renda = new RendaMensal(new BigDecimal("2000"));
+        Banco banco = Banco.builder()
+            .codigo("000")
+            .nomeFantasia(new NomeFantasia("Banco VR"))
+            .build();       
+
+        FormularioAberturaConta formulario = new FormularioAberturaConta(pessoa, enderecos, telefone, email, renda, new BigDecimal("50"), getAgenciaBancaria(banco));
+        
+        DepositoInicial depositoInicial = depositoInicialFactory.create(formulario.getValorDepositoAbertura());
+
+        when(bancoRepository.findByCodigo(banco.getCodigo())).thenReturn(Optional.empty());
+        
+        Assertions.assertThrows(BancoInvalidoException.class, () -> {
+            contaService.abrir(formulario.toContaCorrente(depositoInicial));
+        });
+    }
+
+
+
+    private Pessoa getPessoa() {
+        return new Pessoa(
+            new Nome("Emerson", "Haraguchi"), 
+            new Cpf("29222004000"), 
+            new DataNascimento(LocalDate.of(1988, 10, 21)));
+    }
+
+
     private ContaCorrente getContaCorrente(ContaCorrente contaCorrente) {
         Banco banco = Banco.builder()
             .codigo(contaCorrente.getAgencia().getBanco().getCodigo())
             .nomeFantasia(contaCorrente.getAgencia().getBanco().getNomeFantasia())
             .build();
        
-        AgenciaBancaria agencia = AgenciaBancaria.builder()
-            .banco(banco)
-            .numero(contaCorrente.getAgencia().getNumero())
-            .digito(contaCorrente.getAgencia().getDigito())
-            .build();
+        AgenciaBancaria agencia = getAgenciaBancaria(banco);
 
         banco.setAgencias(Arrays.asList(agencia));
 
@@ -129,6 +171,15 @@ public class ContaServiceTest {
                 .build();
         
         return entity;
+    }
+
+    private AgenciaBancaria getAgenciaBancaria(Banco banco) {
+        AgenciaBancaria agencia = AgenciaBancaria.builder()
+            .banco(banco)
+            .numero(123)
+            .digito(7)
+            .build();
+        return agencia;
     }
 
 

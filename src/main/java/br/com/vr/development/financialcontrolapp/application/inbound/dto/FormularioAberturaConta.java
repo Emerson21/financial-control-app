@@ -7,14 +7,11 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 
 import br.com.vr.development.financialcontrolapp.application.domain.model.AgenciaBancaria;
-import br.com.vr.development.financialcontrolapp.application.domain.model.Banco;
 import br.com.vr.development.financialcontrolapp.application.domain.model.Celular;
-import br.com.vr.development.financialcontrolapp.application.domain.model.Cnpj;
 import br.com.vr.development.financialcontrolapp.application.domain.model.ContaCorrente;
 import br.com.vr.development.financialcontrolapp.application.domain.model.Correntista;
 import br.com.vr.development.financialcontrolapp.application.domain.model.Email;
 import br.com.vr.development.financialcontrolapp.application.domain.model.Endereco;
-import br.com.vr.development.financialcontrolapp.application.domain.model.NomeFantasia;
 import br.com.vr.development.financialcontrolapp.application.domain.model.Pessoa;
 import br.com.vr.development.financialcontrolapp.application.domain.model.RendaMensal;
 import br.com.vr.development.financialcontrolapp.application.domain.model.components.DepositoInicial;
@@ -52,18 +49,10 @@ public class FormularioAberturaConta {
     @NotNull
     private BigDecimal valorDepositoAbertura;
 
+    @NotNull
+    private AgenciaBancaria agenciaBancaria;
+
     public ContaCorrente toContaCorrente(DepositoInicial depositoInicial) {
-
-        Banco banco =  Banco.builder()
-            .cnpj(new Cnpj("42500796000191"))
-            .codigo("077")
-            .nomeFantasia(new NomeFantasia("INTER"))
-            .build();
-
-        AgenciaBancaria agencia = AgenciaBancaria.builder()
-            .banco(banco)
-            .numero(1)
-            .digito(1).build();
         
         Correntista correntista = Correntista.builder()
             .nome(this.prospect.getNome())
@@ -76,7 +65,7 @@ public class FormularioAberturaConta {
             .rendaMensal(this.getRenda())
             .build();
 
-        return new ContaCorrente(agencia, correntista, depositoInicial);
+        return new ContaCorrente(agenciaBancaria, correntista, depositoInicial);
     }
 
 }

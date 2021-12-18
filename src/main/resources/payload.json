@@ -30,5 +30,18 @@
       "ddd": "11",
       "numero": "971767331"
     },
-    "valorDepositoAbertura": 50
+    "valorDepositoAbertura": 50,
+    "agenciaBancaria": {
+      "banco": {
+        "cnpj": {
+          "numero": "02535864000133"
+        },
+        "codigo": "123",
+        "nomeFantasia": {
+          "nome": "Banco VR"
+        }
+      },
+      "digito": 7,
+      "numero": 123
+    }
   }

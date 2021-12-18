@@ -35,7 +35,8 @@ public class ContaResourceTest {
     public void deveRetornarStatus_201_AoReceberDadosParaAberturaDaContaCorrente() throws Exception {
 
         String payload = "{\"prospect\":{\"nome\":{\"primeiroNome\":\"Emerson\",\"sobrenome\":\"Haraguchi\",\"nomeCompleto\":\"Emerson Haraguchi\"}," + 
-            "\"documento\":{\"numero\":\"29222004000\",\"valido\":true,\"tipoDocumento\":\"CPF\"},\"dataDeNascimento\":{\"data\":[1988,10,21]}},\"enderecos\":[{\"cep\":\"13940-970\",\"logradouro\":\"Avenida Brasil 160\",\"numero\":\"607\",\"estado\":\"SAO_PAULO\",\"complemento\":null,\"bairro\":\"Centro\",\"municipio\":\"Águas de Lindóia\", \"tipoEndereco\":\"RESIDENCIAL\"}],\"telefone\":{\"ddd\":\"19\",\"numero\":\"2901-7197\"},\"email\":{\"email\":\"thomascauajorgebarbosa-98@agnet.com.br\"},\"renda\":{\"valor\":2000},\"valorDepositoAbertura\":50}";
+            "\"documento\":{\"numero\":\"29222004000\",\"valido\":true,\"tipoDocumento\":\"CPF\"},\"dataDeNascimento\":{\"data\":[1988,10,21]}},\"enderecos\":[{\"cep\":\"13940-970\",\"logradouro\":\"Avenida Brasil 160\",\"numero\":\"607\",\"estado\":\"SAO_PAULO\",\"complemento\":null,\"bairro\":\"Centro\",\"municipio\":\"Águas de Lindóia\", \"tipoEndereco\":\"RESIDENCIAL\"}],\"telefone\":{\"ddd\":\"19\",\"numero\":\"2901-7197\"},\"email\":{\"email\":\"thomascauajorgebarbosa-98@agnet.com.br\"},\"renda\":{\"valor\":2000},\"valorDepositoAbertura\":50, " +
+            "\"agenciaBancaria\": { \"banco\": {\"cnpj\": {\"numero\": \"02535864000133\"},\"codigo\": \"123\",\"nomeFantasia\": {\"nome\": \"Banco VR\"}},\"digito\": 7,\"numero\": 123}}";
 
         this.mockMvc.perform(MockMvcRequestBuilders.post("/conta/v1")
             .content(payload)
@@ -48,7 +49,8 @@ public class ContaResourceTest {
 
         String payload = "{\"prospect\":{\"nome\":{\"primeiroNome\":\"Emerson\",\"sobrenome\":\"Haraguchi\",\"nomeCompleto\":\"Emerson Haraguchi\"}," + 
             "\"documento\":{\"numero\":\"29222004000\",\"valido\":true,\"tipoDocumento\":\"CPF\"},\"dataDeNascimento\":{\"data\":[1988,10,21]}}," + 
-            "\"enderecos\":[{\"cep\":\"13940-970\",\"logradouro\":\"Avenida Brasil 160\",\"numero\":\"607\",\"estado\":\"SAO_PAULO\",\"complemento\":null,\"bairro\":\"Centro\",\"municipio\":\"Águas de Lindóia\", \"tipoEndereco\":\"RESIDENCIAL\"}],\"telefone\":{\"ddd\":\"19\",\"numero\":\"2901-7197\"},\"email\":{\"email\":\"thomascauajorgebarbosa-98@agnet.com.br\"},\"renda\":{\"valor\":2000},\"valorDepositoAbertura\":49.99}";
+            "\"enderecos\":[{\"cep\":\"13940-970\",\"logradouro\":\"Avenida Brasil 160\",\"numero\":\"607\",\"estado\":\"SAO_PAULO\",\"complemento\":null,\"bairro\":\"Centro\",\"municipio\":\"Águas de Lindóia\", \"tipoEndereco\":\"RESIDENCIAL\"}],\"telefone\":{\"ddd\":\"19\",\"numero\":\"2901-7197\"},\"email\":{\"email\":\"thomascauajorgebarbosa-98@agnet.com.br\"},\"renda\":{\"valor\":2000},\"valorDepositoAbertura\":49.99," +
+            "\"agenciaBancaria\": { \"banco\": {\"cnpj\": {\"numero\": \"02535864000133\"},\"codigo\": \"123\",\"nomeFantasia\": {\"nome\": \"Banco VR\"}},\"digito\": 7,\"numero\": 123}}";
 
 
         this.mockMvc.perform(MockMvcRequestBuilders.post("/conta/v1")
@@ -61,8 +63,8 @@ public class ContaResourceTest {
     public void deveRetornarStatus_400_paraPessoaNuloNoFormularioAbertura() throws Exception {
 
         String payload = "{\"documento\":{\"numero\":\"29222004000\",\"valido\":true,\"tipoDocumento\":\"CPF\"},\"dataDeNascimento\":{\"data\":[1988,10,21]}}," + 
-            "\"enderecos\":[{\"cep\":\"13940-970\",\"logradouro\":\"Avenida Brasil 160\",\"numero\":\"607\",\"estado\":\"SAO_PAULO\",\"complemento\":null,\"bairro\":\"Centro\",\"municipio\":\"Águas de Lindóia\", \"tipoEndereco\":\"RESIDENCIAL\"}],\"telefone\":{\"ddd\":\"19\",\"numero\":\"2901-7197\"},\"email\":{\"email\":\"thomascauajorgebarbosa-98@agnet.com.br\"},\"renda\":{\"valor\":2000},\"valorDepositoAbertura\":50}";
-
+            "\"enderecos\":[{\"cep\":\"13940-970\",\"logradouro\":\"Avenida Brasil 160\",\"numero\":\"607\",\"estado\":\"SAO_PAULO\",\"complemento\":null,\"bairro\":\"Centro\",\"municipio\":\"Águas de Lindóia\", \"tipoEndereco\":\"RESIDENCIAL\"}],\"telefone\":{\"ddd\":\"19\",\"numero\":\"2901-7197\"},\"email\":{\"email\":\"thomascauajorgebarbosa-98@agnet.com.br\"},\"renda\":{\"valor\":2000},\"valorDepositoAbertura\":50," +
+            "\"agenciaBancaria\": { \"banco\": {\"cnpj\": {\"numero\": \"02535864000133\"},\"codigo\": \"123\",\"nomeFantasia\": {\"nome\": \"Banco VR\"}},\"digito\": 7,\"numero\": 123}}";
         this.mockMvc.perform(MockMvcRequestBuilders.post("/conta/v1")
             .content(payload)
             .contentType(MediaType.APPLICATION_JSON))
@@ -74,8 +76,8 @@ public class ContaResourceTest {
 
         String payload = "{\"prospect\":{\"nome\":{\"primeiroNome\":\"Emerson\",\"sobrenome\":\"Haraguchi\",\"nomeCompleto\":\"Emerson Haraguchi\"}," + 
         "\"dataDeNascimento\":{\"data\":[1988,10,21]}}," + 
-        "\"enderecos\":[{\"cep\":\"13940-970\",\"logradouro\":\"Avenida Brasil 160\",\"numero\":\"607\",\"estado\":\"SAO_PAULO\",\"complemento\":null,\"bairro\":\"Centro\",\"municipio\":\"Águas de Lindóia\", \"tipoEndereco\":\"RESIDENCIAL\"}],\"telefone\":{\"ddd\":\"19\",\"numero\":\"2901-7197\"},\"email\":{\"email\":\"thomascauajorgebarbosa-98@agnet.com.br\"},\"renda\":{\"valor\":2000},\"valorDepositoAbertura\":50}";
-
+        "\"enderecos\":[{\"cep\":\"13940-970\",\"logradouro\":\"Avenida Brasil 160\",\"numero\":\"607\",\"estado\":\"SAO_PAULO\",\"complemento\":null,\"bairro\":\"Centro\",\"municipio\":\"Águas de Lindóia\", \"tipoEndereco\":\"RESIDENCIAL\"}],\"telefone\":{\"ddd\":\"19\",\"numero\":\"2901-7197\"},\"email\":{\"email\":\"thomascauajorgebarbosa-98@agnet.com.br\"},\"renda\":{\"valor\":2000},\"valorDepositoAbertura\":50" +
+        "\"agenciaBancaria\": { \"banco\": {\"cnpj\": {\"numero\": \"02535864000133\"},\"codigo\": \"123\",\"nomeFantasia\": {\"nome\": \"Banco VR\"}},\"digito\": 7,\"numero\": 123}}";
 
         this.mockMvc.perform(MockMvcRequestBuilders.post("/conta/v1")
             .content(payload)
