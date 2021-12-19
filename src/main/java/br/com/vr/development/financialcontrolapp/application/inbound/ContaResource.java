@@ -41,8 +41,6 @@ public class ContaResource {
         ContaCorrente contaCorrente = formularioAberturaConta
             .toContaCorrente(agenciaBancaria, depositoInicialFactory.create(formularioAberturaConta.getValorDepositoAbertura()));
 
-        contaCorrente.setAgencia(agenciaBancaria);
-
         contaService.abrir(contaCorrente);
 
         return ResponseEntity.status(HttpStatus.CREATED).build();
