@@ -18,9 +18,11 @@ import br.com.vr.development.financialcontrolapp.application.domain.model.compon
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.ToString;
 
 @Getter
+@Setter
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
@@ -50,9 +52,9 @@ public class FormularioAberturaConta {
     private BigDecimal valorDepositoAbertura;
 
     @NotNull
-    private AgenciaBancaria agenciaBancaria;
+    private AgenciaBancariaDTO agenciaBancaria;
 
-    public ContaCorrente toContaCorrente(DepositoInicial depositoInicial) {
+    public ContaCorrente toContaCorrente(AgenciaBancaria agenciaBancaria,  DepositoInicial depositoInicial) {
         
         Correntista correntista = Correntista.builder()
             .nome(this.prospect.getNome())

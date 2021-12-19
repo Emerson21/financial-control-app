@@ -23,6 +23,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import lombok.ToString;
 
 @AllArgsConstructor
@@ -38,6 +39,7 @@ public class ContaCorrente {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Setter
     @JoinColumn(name ="id_agencia", referencedColumnName = "id")
     @ManyToOne(cascade = CascadeType.ALL)
     private AgenciaBancaria agencia;

@@ -37,6 +37,7 @@ import br.com.vr.development.financialcontrolapp.application.domain.model.compon
 import br.com.vr.development.financialcontrolapp.application.domain.service.ContaServiceImpl;
 import br.com.vr.development.financialcontrolapp.application.enums.TipoEndereco;
 import br.com.vr.development.financialcontrolapp.application.enums.UF;
+import br.com.vr.development.financialcontrolapp.application.inbound.dto.AgenciaBancariaDTO;
 import br.com.vr.development.financialcontrolapp.application.inbound.dto.FormularioAberturaConta;
 import br.com.vr.development.financialcontrolapp.exception.BancoInvalidoException;
 import br.com.vr.development.financialcontrolapp.exception.DepositoInicialException;
@@ -80,15 +81,14 @@ public class ContaServiceTest {
             .nomeFantasia(new NomeFantasia("Banco VR"))
             .build();       
 
-        FormularioAberturaConta formulario = new FormularioAberturaConta(pessoa, enderecos, telefone, email, renda, new BigDecimal("50"), getAgenciaBancaria(banco));
+        FormularioAberturaConta formulario = new FormularioAberturaConta(pessoa, enderecos, telefone, email, renda, new BigDecimal("50"), new AgenciaBancariaDTO(1L));
         
         DepositoInicial depositoInicial = depositoInicialFactory.create(formulario.getValorDepositoAbertura());
-        ContaCorrente entity = getContaCorrente(formulario.toContaCorrente(depositoInicial));
+        ContaCorrente entity = getContaCorrente(formulario.toContaCorrente(getAgenciaBancaria(banco), depositoInicial));
 
-        // when(bancoRepository.findByCodigo(banco.getCodigo())).thenReturn(Optional.empty());
         when(bancoRepository.findByCodigo(banco.getCodigo())).thenReturn(Optional.of(banco));
         when(contaRepository.save(Mockito.any(ContaCorrente.class))).thenReturn(entity);
-        ContaCorrente conta = contaService.abrir(formulario.toContaCorrente(depositoInicial));
+        ContaCorrente conta = contaService.abrir(formulario.toContaCorrente(getAgenciaBancaria(banco), depositoInicial));
 
         Assertions.assertNotNull(conta);
     }
@@ -108,10 +108,10 @@ public class ContaServiceTest {
             .build();       
 
         FormularioAberturaConta formulario = 
-            new FormularioAberturaConta(pessoa, enderecos, telefone, email, renda, new BigDecimal("49.9"), getAgenciaBancaria(banco));
+            new FormularioAberturaConta(pessoa, enderecos, telefone, email, renda, new BigDecimal("49.9"), new AgenciaBancariaDTO(1L));
 
         DepositoInicialException valorMinimoInvalido = Assertions.assertThrows(DepositoInicialException.class, () -> {
-            contaService.abrir(formulario.toContaCorrente(depositoInicialFactory.create(formulario.getValorDepositoAbertura())));
+            contaService.abrir(formulario.toContaCorrente(getAgenciaBancaria(banco), depositoInicialFactory.create(formulario.getValorDepositoAbertura())));
         }, "Valor minimo para abertura da conta corrente menor que o permitido");
 
         
@@ -128,19 +128,20 @@ public class ContaServiceTest {
         Celular telefone = new Celular("19", "2901-7197");
         Email email = new Email("thomascauajorgebarbosa-98@agnet.com.br");
         RendaMensal renda = new RendaMensal(new BigDecimal("2000"));
+
         Banco banco = Banco.builder()
             .codigo("000")
             .nomeFantasia(new NomeFantasia("Banco VR"))
             .build();       
 
-        FormularioAberturaConta formulario = new FormularioAberturaConta(pessoa, enderecos, telefone, email, renda, new BigDecimal("50"), getAgenciaBancaria(banco));
+        FormularioAberturaConta formulario = new FormularioAberturaConta(pessoa, enderecos, telefone, email, renda, new BigDecimal("50"), new AgenciaBancariaDTO(1L));
         
         DepositoInicial depositoInicial = depositoInicialFactory.create(formulario.getValorDepositoAbertura());
 
         when(bancoRepository.findByCodigo(banco.getCodigo())).thenReturn(Optional.empty());
         
         Assertions.assertThrows(BancoInvalidoException.class, () -> {
-            contaService.abrir(formulario.toContaCorrente(depositoInicial));
+            contaService.abrir(formulario.toContaCorrente(getAgenciaBancaria(banco), depositoInicial));
         });
     }
 

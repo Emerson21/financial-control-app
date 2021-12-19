@@ -32,7 +32,9 @@
     },
     "valorDepositoAbertura": 50,
     "agenciaBancaria": {
+      "id":1,
       "banco": {
+        "id": 1,
         "cnpj": {
           "numero": "02535864000133"
         },

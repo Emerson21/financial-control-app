@@ -22,4 +22,16 @@ public class FinancialExceptionHandler extends ResponseEntityExceptionHandler {
 
     }
 
+
+    @ExceptionHandler(AgenciaInvalidaException.class)
+    public ResponseEntity<Object> valorMinimoInvalido(AgenciaInvalidaException exception, WebRequest request) {
+        
+        return super.handleExceptionInternal(exception, 
+            exception.getMessage(), 
+            HttpHeaders.EMPTY, 
+            HttpStatus.UNPROCESSABLE_ENTITY, 
+            request);
+
+    }
+
 }
