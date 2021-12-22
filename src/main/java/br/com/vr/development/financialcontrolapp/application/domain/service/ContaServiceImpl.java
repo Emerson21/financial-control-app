@@ -25,6 +25,10 @@ public class ContaServiceImpl implements ContaService {
         bancoRepository.findByCodigo(contaCorrente.getAgencia().getBanco().getCodigo())
             .orElseThrow(BancoInvalidoException::new);
 
+
+        // contaCorrente.getCodigoBanco();
+
+
         return contaRepository.save(contaCorrente);
     }
     

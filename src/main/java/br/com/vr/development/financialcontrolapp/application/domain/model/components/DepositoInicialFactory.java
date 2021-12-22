@@ -14,6 +14,12 @@ public class DepositoInicialFactory {
     private BigDecimal valorMinimoPermitido;
 
     public DepositoInicial create(BigDecimal depositoInicial) {
+        // DepositoInicial deposito = new DepositoInicial(depositoInicial);
+
+        // if (deposito.deValorMenorQue(valorMinimoPermitido)) {
+        //     throw new DepositoInicialException();
+        // }
+
         if (depositoInicial == null || depositoInicial.compareTo(valorMinimoPermitido) < 0) {
             throw new DepositoInicialException();
         }
