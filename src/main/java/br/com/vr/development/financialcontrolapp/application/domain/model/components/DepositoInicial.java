@@ -12,4 +12,12 @@ public class DepositoInicial {
     
     private BigDecimal valor;
 
+    public boolean ehMenorQue(BigDecimal valorMinimo) {
+        if (valorMinimo == null) {
+            return true;
+        }
+
+        return valor.compareTo(valorMinimo) < 0;
+    }
+
 }

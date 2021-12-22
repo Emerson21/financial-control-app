@@ -13,18 +13,14 @@ public class DepositoInicialFactory {
     @Value("${conta.abertura.valorMinimo}")
     private BigDecimal valorMinimoPermitido;
 
-    public DepositoInicial create(BigDecimal depositoInicial) {
-        // DepositoInicial deposito = new DepositoInicial(depositoInicial);
+    public DepositoInicial create(BigDecimal valorInicial) {
+        DepositoInicial depositoInicial = new DepositoInicial(valorInicial);
 
-        // if (deposito.deValorMenorQue(valorMinimoPermitido)) {
-        //     throw new DepositoInicialException();
-        // }
-
-        if (depositoInicial == null || depositoInicial.compareTo(valorMinimoPermitido) < 0) {
+        if (depositoInicial.ehMenorQue(valorMinimoPermitido)) {
             throw new DepositoInicialException();
         }
 
-        return new DepositoInicial(depositoInicial);
+        return depositoInicial;
     }
 
 }
