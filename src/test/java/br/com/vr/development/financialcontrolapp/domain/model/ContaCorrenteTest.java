@@ -56,10 +56,10 @@ public class ContaCorrenteTest {
 
         DepositoInicialException valorMinimoInvalido = Assertions.assertThrows(DepositoInicialException.class, () -> {
             new ContaCorrente(agenciaBancaria, getCorrentista(), depositoInicialFactory.create(new BigDecimal("49.9")));    ;
-        }, "Valor minimo para abertura da conta corrente menor que o permitido");
+        }, "Valor inicial depositado menor que o permitido.");
 
         
-        Assertions.assertEquals("Valor minimo para abertura da conta corrente menor que o permitido", valorMinimoInvalido.getMessage());
+        Assertions.assertEquals("Valor inicial depositado menor que o permitido.", valorMinimoInvalido.getMessage());
     }
 
     private Correntista getCorrentista() {
