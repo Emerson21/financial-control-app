@@ -1,5 +1,6 @@
 package br.com.vr.development.financialcontrolapp.application.domain.model;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -69,5 +70,18 @@ public class ContaCorrente {
         this.correntista = correntista;
         this.depositoInicial = depositoInicial;
     }
+
+    public String getCodigoBanco() {
+        return this.agencia.getBanco().getCodigo();
+    }
+
+    public void adicionaDepositoInicialComoLancamento() {
+        if (lancamentos == null) {
+            lancamentos = new ArrayList<>();
+        }
+        
+        this.lancamentos.add(this.depositoInicial.toLancemento(this));
+    }
+
 
 }

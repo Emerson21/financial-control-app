@@ -22,8 +22,7 @@ public class ContaServiceImpl implements ContaService {
     @Override
     public void abrir(ContaCorrente contaCorrente) {
         log.info("Iniciando cadastro da conta corrente.");
-        // contaCorrente.getCodigoBanco();
-        bancoRepository.findByCodigo(contaCorrente.getAgencia().getBanco().getCodigo())
+        bancoRepository.findByCodigo(contaCorrente.getCodigoBanco())
             .orElseThrow(BancoInvalidoException::new);
 
         contaRepository.save(contaCorrente);

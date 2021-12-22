@@ -67,7 +67,10 @@ public class FormularioAberturaConta {
             .rendaMensal(this.getRenda())
             .build();
 
-        return new ContaCorrente(agenciaBancaria, correntista, depositoInicial);
+        ContaCorrente contaCorrente = new ContaCorrente(agenciaBancaria, correntista, depositoInicial);
+        contaCorrente.adicionaDepositoInicialComoLancamento();
+        
+        return contaCorrente;
     }
 
 }
