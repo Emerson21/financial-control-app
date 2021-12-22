@@ -29,6 +29,11 @@ public class DepositoInicialFactoryTest {
         }, "Valor inicial depositado menor que o permitido.");
     }
 
-
+    @Test
+    public void naoDeveCriarDepositoInicialComValorNulo() {
+        Assertions.assertThrows(DepositoInicialException.class, () -> {
+            depositoInicialFactory.create(null);
+        }, "Valor inicial depositado menor que o permitido.");
+    }
 
 }

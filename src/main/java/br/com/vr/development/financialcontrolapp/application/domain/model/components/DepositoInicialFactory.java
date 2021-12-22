@@ -10,7 +10,7 @@ import br.com.vr.development.financialcontrolapp.exception.DepositoInicialExcept
 @Component
 public class DepositoInicialFactory {
 
-    @Value("${conta.abertura.valorMinimo}")
+    @Value("${conta.abertura.valorMinimo:50}")
     private BigDecimal valorMinimoPermitido;
 
     public DepositoInicial create(BigDecimal valorInicial) {
