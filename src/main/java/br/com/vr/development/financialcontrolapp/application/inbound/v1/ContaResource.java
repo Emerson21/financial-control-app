@@ -1,4 +1,4 @@
-package br.com.vr.development.financialcontrolapp.application.inbound;
+package br.com.vr.development.financialcontrolapp.application.inbound.v1;
 
 import javax.validation.Valid;
 
@@ -15,7 +15,7 @@ import br.com.vr.development.financialcontrolapp.application.domain.model.ContaC
 import br.com.vr.development.financialcontrolapp.application.domain.model.components.DepositoInicialFactory;
 import br.com.vr.development.financialcontrolapp.application.domain.service.ContaService;
 import br.com.vr.development.financialcontrolapp.application.domain.service.agenciabancaria.AgenciaBancariaService;
-import br.com.vr.development.financialcontrolapp.application.inbound.dto.FormularioAberturaConta;
+import br.com.vr.development.financialcontrolapp.application.inbound.v1.dto.FormularioAberturaConta;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j

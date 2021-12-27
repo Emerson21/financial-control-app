@@ -1,4 +1,4 @@
-package br.com.vr.development.financialcontrolapp.application.inbound.dto;
+package br.com.vr.development.financialcontrolapp.application.inbound.v1.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
