@@ -3,37 +3,35 @@ package br.com.vr.development.financialcontrolapp.domain.model;
 import java.math.BigDecimal;
 
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 
 import br.com.vr.development.financialcontrolapp.application.domain.model.components.DepositoInicialFactory;
 import br.com.vr.development.financialcontrolapp.exception.DepositoInicialException;
 
-@SpringBootTest
-public class DepositoInicialFactoryTest {
-    
-    @Autowired
+class DepositoInicialFactoryTest {
+
     private DepositoInicialFactory depositoInicialFactory;
+    private BigDecimal valorMinimoPermitido = new BigDecimal("50.00");
+
+    @BeforeEach
+    void setUp() {
+        depositoInicialFactory = new DepositoInicialFactory(valorMinimoPermitido);
+    }
 
 
     @Test
-    public void deveCriarDepositoInicial() {
-        Assertions.assertNotNull(depositoInicialFactory.create(new BigDecimal("50")));
+    void deveCriarUmDepositoInicial() {
+        Assertions.assertNotNull(depositoInicialFactory.create(valorMinimoPermitido));
     }
 
     @Test
-    public void naoDeveCriarDepositoInicialComValorMenorDoQueOMinimo() {
+    void deveLancarDepositoInicialExceptionAoCriarUmDepositoInicialComValorMenorQueOPermitido() {
+        BigDecimal valorDoDeposito = valorMinimoPermitido.subtract(new BigDecimal("0.01"));
         Assertions.assertThrows(DepositoInicialException.class, () -> {
-            depositoInicialFactory.create(new BigDecimal("49.99"));
-        }, "Valor inicial depositado menor que o permitido.");
+            depositoInicialFactory.create(valorDoDeposito);
+        }, DepositoInicialException.MESSAGE);
     }
 
-    @Test
-    public void naoDeveCriarDepositoInicialComValorNulo() {
-        Assertions.assertThrows(DepositoInicialException.class, () -> {
-            depositoInicialFactory.create(null);
-        }, "Valor inicial depositado menor que o permitido.");
-    }
 
 }

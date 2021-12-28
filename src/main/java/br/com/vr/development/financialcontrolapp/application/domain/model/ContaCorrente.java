@@ -19,6 +19,7 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 import br.com.vr.development.financialcontrolapp.application.domain.model.components.DepositoInicial;
+import br.com.vr.development.financialcontrolapp.application.domain.model.lancamento.Lancamento;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -80,7 +81,7 @@ public class ContaCorrente {
             lancamentos = new ArrayList<>();
         }
         
-        this.lancamentos.add(this.depositoInicial.toLancemento(this));
+        this.lancamentos.add(this.depositoInicial.toLancamento(this));
     }
 
 

@@ -2,7 +2,6 @@ package br.com.vr.development.financialcontrolapp.application.inbound.v1;
 
 import javax.validation.Valid;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,20 +15,17 @@ import br.com.vr.development.financialcontrolapp.application.domain.model.compon
 import br.com.vr.development.financialcontrolapp.application.domain.service.ContaService;
 import br.com.vr.development.financialcontrolapp.application.domain.service.agenciabancaria.AgenciaBancariaService;
 import br.com.vr.development.financialcontrolapp.application.inbound.v1.dto.FormularioAberturaConta;
+import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @RestController
 @RequestMapping("/conta/v1")
+@AllArgsConstructor
 public class ContaResource {
 
-    @Autowired
     private DepositoInicialFactory depositoInicialFactory;
-
-    @Autowired
     private ContaService contaService;
-
-    @Autowired
     private AgenciaBancariaService agenciaBancariaService;
 
     @PostMapping

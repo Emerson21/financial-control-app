@@ -11,10 +11,8 @@ import org.junit.jupiter.api.TestInstance.Lifecycle;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
-import org.mockito.Spy;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
-import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
@@ -44,17 +42,18 @@ public class ContaResourceTest {
     @Mock
     private AgenciaBancariaService agenciaBancariaService;
 
-    @Spy DepositoInicialFactory depositoInicialFactory;
-
     private MockMvc mockMvc;
 
     @BeforeAll
     public void init() {
+        contaResource = new ContaResource(new DepositoInicialFactory(new BigDecimal("50")), contaService, agenciaBancariaService);
+
         mockMvc = MockMvcBuilders.standaloneSetup(this.contaResource)
             .setControllerAdvice(new FinancialExceptionHandler())
             .build();
 
-        ReflectionTestUtils.setField(depositoInicialFactory, "valorMinimoPermitido", new BigDecimal("50"));
+        // depositoInicialFactory = new DepositoInicialFactory(new BigDecimal("50"));
+        // ReflectionTestUtils.setField(depositoInicialFactory, "valorMinimoPermitido", new BigDecimal("50"));
     }
 
     @Test
