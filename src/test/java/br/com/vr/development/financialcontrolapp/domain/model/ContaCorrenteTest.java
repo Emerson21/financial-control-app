@@ -6,9 +6,8 @@ import java.util.Arrays;
 import java.util.List;
 
 import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 
 import br.com.vr.development.financialcontrolapp.application.domain.model.AgenciaBancaria;
 import br.com.vr.development.financialcontrolapp.application.domain.model.Banco;
@@ -23,22 +22,27 @@ import br.com.vr.development.financialcontrolapp.application.domain.model.Endere
 import br.com.vr.development.financialcontrolapp.application.domain.model.Nome;
 import br.com.vr.development.financialcontrolapp.application.domain.model.NomeFantasia;
 import br.com.vr.development.financialcontrolapp.application.domain.model.RendaMensal;
+import br.com.vr.development.financialcontrolapp.application.domain.model.Valor;
 import br.com.vr.development.financialcontrolapp.application.domain.model.components.DepositoInicialFactory;
 import br.com.vr.development.financialcontrolapp.application.enums.TipoDocumento;
 import br.com.vr.development.financialcontrolapp.application.enums.TipoEndereco;
 import br.com.vr.development.financialcontrolapp.application.enums.UF;
 import br.com.vr.development.financialcontrolapp.exception.DepositoInicialException;
+import br.com.vr.development.financialcontrolapp.exception.SaldoIndisponivelException;
 
-@SpringBootTest
 public class ContaCorrenteTest {
     
-    @Autowired
     private DepositoInicialFactory depositoInicialFactory;
+
+    @BeforeEach
+    protected void setUp() {
+        this.depositoInicialFactory = new DepositoInicialFactory(new BigDecimal(50));
+    }
 
     @Test
     public void deveConstruirContaCorrente() {
-        Banco banco = Banco.builder().cnpj(new Cnpj("73811174000108")).codigo("1").nomeFantasia(new NomeFantasia("Banco VR")).build();
-        AgenciaBancaria agenciaBancaria = AgenciaBancaria.builder().digito(1).numero(1).banco(banco).build();
+        Banco banco = getBanco();
+        AgenciaBancaria agenciaBancaria = getAgenciaBancaria(banco);
 
         banco.setAgencias(Arrays.asList(agenciaBancaria));
 
@@ -46,11 +50,10 @@ public class ContaCorrenteTest {
         Assertions.assertNotNull(contaCorrente);
     }
 
-
     @Test
     public void naoDeveConstruirContaCorrenteComDepositoInicialMenorQue50() {
-        Banco banco = Banco.builder().cnpj(new Cnpj("73811174000108")).codigo("1").nomeFantasia(new NomeFantasia("Banco VR")).build();
-        AgenciaBancaria agenciaBancaria = AgenciaBancaria.builder().digito(1).numero(1).banco(banco).build();
+        Banco banco = getBanco();
+        AgenciaBancaria agenciaBancaria = getAgenciaBancaria(banco);
 
         banco.setAgencias(Arrays.asList(agenciaBancaria));
 
@@ -61,6 +64,32 @@ public class ContaCorrenteTest {
         
         Assertions.assertEquals("Valor inicial depositado menor que o permitido.", valorMinimoInvalido.getMessage());
     }
+
+    @Test
+    protected void deveRealizarUmaMovimentacaoDeValoresEntreContasCorrentes() {
+
+        ContaCorrente contaCorrente = criaContaCorrente(new BigDecimal("50"));
+        ContaCorrente contaDestino = criaContaCorrente(new BigDecimal("50"));
+        Valor valor = new Valor(new BigDecimal("50"));
+
+        contaCorrente.transferir(valor, contaDestino);
+
+        Assertions.assertEquals(contaCorrente.getSaldo(), new BigDecimal("0"));
+        Assertions.assertEquals(contaDestino.getSaldo(), new BigDecimal("100"));
+    }
+
+    @Test
+    protected void naoDeveTransferirSeOSaldoForMenorQueOValorSolicitado() {
+        ContaCorrente contaCorrente = criaContaCorrente(new BigDecimal("50"));
+        ContaCorrente contaDestino = criaContaCorrente(new BigDecimal("50"));
+        Valor valor = new Valor(new BigDecimal("50.01"));
+
+        Assertions.assertThrows(SaldoIndisponivelException.class, () -> {
+            contaCorrente.transferir(valor, contaDestino);
+        }, "Saldo indisponivel para realizar a operacao.");
+    }
+
+
 
     private Correntista getCorrentista() {
         Celular telefone = new Celular("19", "2901-7197");
@@ -79,7 +108,6 @@ public class ContaCorrenteTest {
         .build();
     }
 
-
     private List<Endereco> getEnderecos() {
         Endereco endereco = new Endereco();
         endereco.setCep("13940-970");
@@ -91,5 +119,18 @@ public class ContaCorrenteTest {
         endereco.setTipoEndereco(TipoEndereco.RESIDENCIAL);
         return Arrays.asList(endereco);
     }
+
+    private AgenciaBancaria getAgenciaBancaria(Banco banco) {
+        return AgenciaBancaria.builder().digito(1).numero(1).banco(banco).build();
+    }
+
+    private Banco getBanco() {
+        return Banco.builder().cnpj(new Cnpj("73811174000108")).codigo("1").nomeFantasia(new NomeFantasia("Banco VR")).build();
+    }
+
+    private ContaCorrente criaContaCorrente(BigDecimal valorInicial) {
+        return new ContaCorrente(getAgenciaBancaria(getBanco()), getCorrentista(), depositoInicialFactory.create(valorInicial));
+    }
+
 
 }

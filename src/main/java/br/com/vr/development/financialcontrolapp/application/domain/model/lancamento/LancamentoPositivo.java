@@ -10,6 +10,9 @@ public class LancamentoPositivo extends Lancamento {
 
     public LancamentoPositivo(BigDecimal valor, Descricao descricao, ContaCorrente contaCorrente) {
         super(valor, descricao, contaCorrente, TipoLancamento.CREDITO);
+        if (super.getValor().compareTo(valor) <= 0) {
+            //throw new LancamentoPositivoInvalidoException();
+        }
     }
     
 }

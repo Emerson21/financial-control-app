@@ -1,5 +1,6 @@
 package br.com.vr.development.financialcontrolapp.application.domain.model;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -20,6 +21,9 @@ import javax.validation.constraints.NotNull;
 
 import br.com.vr.development.financialcontrolapp.application.domain.model.components.DepositoInicial;
 import br.com.vr.development.financialcontrolapp.application.domain.model.lancamento.Lancamento;
+import br.com.vr.development.financialcontrolapp.application.domain.model.lancamento.LancamentoNegativo;
+import br.com.vr.development.financialcontrolapp.application.domain.model.lancamento.LancamentoPositivo;
+import br.com.vr.development.financialcontrolapp.exception.SaldoIndisponivelException;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -70,6 +74,7 @@ public class ContaCorrente {
         this.digito = new Random().nextInt(Integer.MAX_VALUE);
         this.correntista = correntista;
         this.depositoInicial = depositoInicial;
+        this.adicionaDepositoInicialComoLancamento();
     }
 
     public String getCodigoBanco() {
@@ -84,5 +89,43 @@ public class ContaCorrente {
         this.lancamentos.add(this.depositoInicial.toLancamento(this));
     }
 
+    public void transferir(Valor valor, ContaCorrente contaDestino) {
+        if (!possuiSaldoDisponivel(valor)) {
+            throw new SaldoIndisponivelException();
+        }
+
+        this.debitaValor(valor);
+        contaDestino.creditaValor(valor);
+    }
+
+    private boolean possuiSaldoDisponivel(Valor valor) {
+        return this.getSaldo().compareTo(valor.getValor()) >= 0;
+    }
+
+    public BigDecimal getSaldo() {
+        if (possuiSaldoZerado()) {
+            return BigDecimal.ZERO;
+        }
+
+        return this.lancamentos.stream()
+            .map(Lancamento::getValor)
+            .reduce(BigDecimal.ZERO, BigDecimal::add);
+    }
+
+    public boolean possuiSaldoZerado() {
+        return this.lancamentos == null || this.lancamentos.isEmpty();
+    }
+
+    private void creditaValor(Valor valor) {
+        LancamentoPositivo lancamentoPositivo = new LancamentoPositivo(valor.getValor(), new Descricao("Transferencia entre contas correntes"), this);
+        this.lancamentos.add(lancamentoPositivo);
+    }
+
+    private void debitaValor(Valor valor) {
+        LancamentoNegativo lancamentoNegativo = new LancamentoNegativo(valor.getValor(), new Descricao("Transferencia entre contas correntes"), this);
+        this.lancamentos.add(lancamentoNegativo);
+    }
+
+    
 
 }

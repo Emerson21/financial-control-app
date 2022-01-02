@@ -9,7 +9,7 @@ import br.com.vr.development.financialcontrolapp.application.enums.TipoLancament
 public class LancamentoNegativo extends Lancamento {
     
     public LancamentoNegativo(BigDecimal valor, Descricao descricao, ContaCorrente contaCorrente) {
-        super(valor, descricao, contaCorrente, TipoLancamento.DEBITO);
+        super(valor.negate(), descricao, contaCorrente, TipoLancamento.DEBITO);
     }
 
 }

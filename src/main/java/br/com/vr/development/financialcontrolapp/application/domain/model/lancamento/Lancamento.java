@@ -70,7 +70,7 @@ public abstract class Lancamento {
 
     public static Lancamento criarLancamentoPositivo(BigDecimal valor, Descricao descricao, ContaCorrente contaCorrente) {
         if (valor.compareTo(BigDecimal.ZERO) <= 0) {
-            // throw new LancamentoPositivoInvalido();
+            //throw new LancamentoPositivoInvalidoException();
         }
         
         return new LancamentoPositivo(valor, descricao, contaCorrente);
