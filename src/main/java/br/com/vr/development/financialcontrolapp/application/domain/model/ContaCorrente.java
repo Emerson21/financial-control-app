@@ -103,13 +103,11 @@ public class ContaCorrente {
     }
 
     public BigDecimal getSaldo() {
-        if (possuiSaldoZerado()) {
-            return BigDecimal.ZERO;
-        }
-
-        return this.lancamentos.stream()
-            .map(Lancamento::getValor)
-            .reduce(BigDecimal.ZERO, BigDecimal::add);
+        return possuiSaldoZerado() 
+            ? BigDecimal.ZERO 
+            : this.lancamentos.stream()
+                .map(Lancamento::getValor)
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 
     public boolean possuiSaldoZerado() {
