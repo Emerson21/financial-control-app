@@ -1,5 +1,8 @@
 package br.com.vr.development.financialcontrolapp.application.domain.model;
 
+import static br.com.vr.development.financialcontrolapp.application.enums.TipoLancamento.CREDITO;
+import static br.com.vr.development.financialcontrolapp.application.enums.TipoLancamento.DEBITO;
+
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,8 +24,6 @@ import javax.validation.constraints.NotNull;
 
 import br.com.vr.development.financialcontrolapp.application.domain.model.components.DepositoInicial;
 import br.com.vr.development.financialcontrolapp.application.domain.model.lancamento.Lancamento;
-import br.com.vr.development.financialcontrolapp.application.domain.model.lancamento.LancamentoNegativo;
-import br.com.vr.development.financialcontrolapp.application.domain.model.lancamento.LancamentoPositivo;
 import br.com.vr.development.financialcontrolapp.exception.SaldoIndisponivelException;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -106,7 +107,7 @@ public class ContaCorrente {
         return possuiSaldoZerado() 
             ? BigDecimal.ZERO 
             : this.lancamentos.stream()
-                .map(Lancamento::getValor)
+                .map(lancamento -> lancamento.getValor().getValor())
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 
@@ -115,12 +116,14 @@ public class ContaCorrente {
     }
 
     private void creditaValor(Valor valor) {
-        LancamentoPositivo lancamentoPositivo = new LancamentoPositivo(valor.getValor(), new Descricao("Transferencia entre contas correntes"), this);
+        Lancamento lancamentoPositivo = 
+            Lancamento.criaLancamentoPositivo(CREDITO.calcularSinal(valor), new Descricao("Transferencia entre contas correntes"), this);
         this.lancamentos.add(lancamentoPositivo);
     }
 
     private void debitaValor(Valor valor) {
-        LancamentoNegativo lancamentoNegativo = new LancamentoNegativo(valor.getValor(), new Descricao("Transferencia entre contas correntes"), this);
+        Lancamento lancamentoNegativo = 
+            Lancamento.criaLancamentoNegativo(DEBITO.calcularSinal(valor), new Descricao("Transferencia entre contas correntes"), this);
         this.lancamentos.add(lancamentoNegativo);
     }
 

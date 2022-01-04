@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 
 import br.com.vr.development.financialcontrolapp.application.domain.model.ContaCorrente;
 import br.com.vr.development.financialcontrolapp.application.domain.model.Descricao;
+import br.com.vr.development.financialcontrolapp.application.domain.model.Valor;
 import br.com.vr.development.financialcontrolapp.application.domain.model.lancamento.Lancamento;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
@@ -13,6 +14,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
 public class DepositoInicial {
     
+    private static final String DESCRICAO_DEPOSITO_INICIAL = "Deposito Inicial";
+
     private BigDecimal valor;
 
     public boolean ehMenorQue(BigDecimal valorMinimo) {
@@ -20,7 +23,7 @@ public class DepositoInicial {
     }
 
     public Lancamento toLancamento(ContaCorrente contaCorrente) {
-        return Lancamento.criarLancamentoPositivo(valor, new Descricao("Deposito Inicial"), contaCorrente);
+        return Lancamento.criaLancamentoPositivo(new Valor(valor), new Descricao(DESCRICAO_DEPOSITO_INICIAL), contaCorrente);
     }
 
 }

@@ -74,8 +74,8 @@ public class ContaCorrenteTest {
 
         contaCorrente.transferir(valor, contaDestino);
 
-        Assertions.assertEquals(contaCorrente.getSaldo(), new BigDecimal("0"));
-        Assertions.assertEquals(contaDestino.getSaldo(), new BigDecimal("100"));
+        Assertions.assertEquals(new BigDecimal("0"), contaCorrente.getSaldo() );
+        Assertions.assertEquals(new BigDecimal("100"), contaDestino.getSaldo());
     }
 
     @Test

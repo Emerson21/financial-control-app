@@ -1,6 +1,8 @@
 package br.com.vr.development.financialcontrolapp.application.domain.model.lancamento;
 
-import java.math.BigDecimal;
+import static br.com.vr.development.financialcontrolapp.application.enums.TipoLancamento.CREDITO;
+import static br.com.vr.development.financialcontrolapp.application.enums.TipoLancamento.DEBITO;
+
 import java.time.LocalDateTime;
 
 import javax.persistence.Column;
@@ -17,7 +19,9 @@ import javax.persistence.Table;
 
 import br.com.vr.development.financialcontrolapp.application.domain.model.ContaCorrente;
 import br.com.vr.development.financialcontrolapp.application.domain.model.Descricao;
+import br.com.vr.development.financialcontrolapp.application.domain.model.Valor;
 import br.com.vr.development.financialcontrolapp.application.enums.TipoLancamento;
+import br.com.vr.development.financialcontrolapp.exception.LancamentoInvalidoException;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -29,7 +33,7 @@ import lombok.ToString;
 @ToString
 @Entity
 @Table(name = "lancamento", schema = "financial_app")
-public abstract class Lancamento {
+public class Lancamento {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -43,7 +47,8 @@ public abstract class Lancamento {
     private LocalDateTime dataHora;
 
     @Column(name = "valor")
-    private BigDecimal valor;
+    @Embedded
+    private Valor valor;
 
     @JoinColumn(name = "id_conta_corrente", referencedColumnName = "id")
     @ManyToOne
@@ -53,8 +58,7 @@ public abstract class Lancamento {
     @Embedded
     private Descricao descricao;
 
-    
-    protected Lancamento(BigDecimal valor, Descricao descricao, ContaCorrente contaCorrente, TipoLancamento tipoLancamento) {
+    private Lancamento(Valor valor, Descricao descricao, ContaCorrente contaCorrente, TipoLancamento tipoLancamento) {
         this.valor = valor;
         this.descricao = descricao;
         this.contaCorrente = contaCorrente;
@@ -68,12 +72,20 @@ public abstract class Lancamento {
         }
     }
 
-    public static Lancamento criarLancamentoPositivo(BigDecimal valor, Descricao descricao, ContaCorrente contaCorrente) {
-        if (valor.compareTo(BigDecimal.ZERO) <= 0) {
-            //throw new LancamentoPositivoInvalidoException();
+    public static Lancamento criaLancamentoPositivo(Valor valor, Descricao descricao, ContaCorrente contaCorrente) {
+        if (valor.ehNegativo()) {
+            throw new LancamentoInvalidoException();
         }
         
-        return new LancamentoPositivo(valor, descricao, contaCorrente);
+        return new Lancamento(CREDITO.calcularSinal(valor),descricao, contaCorrente, CREDITO);
+    }
+
+    public static Lancamento criaLancamentoNegativo(Valor valor, Descricao descricao, ContaCorrente contaCorrente) {
+        if (!valor.ehNegativo()) {
+            throw new LancamentoInvalidoException();
+        }
+
+        return new Lancamento(valor, descricao, contaCorrente, DEBITO); 
     }
 
 }
