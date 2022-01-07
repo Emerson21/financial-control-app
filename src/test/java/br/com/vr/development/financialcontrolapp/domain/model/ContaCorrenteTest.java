@@ -1,5 +1,7 @@
 package br.com.vr.development.financialcontrolapp.domain.model;
 
+import static br.com.vr.development.financialcontrolapp.application.enums.TipoTransferencia.TED;
+
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Arrays;
@@ -13,9 +15,12 @@ import br.com.vr.development.financialcontrolapp.application.domain.model.Agenci
 import br.com.vr.development.financialcontrolapp.application.domain.model.Banco;
 import br.com.vr.development.financialcontrolapp.application.domain.model.Celular;
 import br.com.vr.development.financialcontrolapp.application.domain.model.Cnpj;
+import br.com.vr.development.financialcontrolapp.application.domain.model.CodigoBanco;
 import br.com.vr.development.financialcontrolapp.application.domain.model.ContaCorrente;
+import br.com.vr.development.financialcontrolapp.application.domain.model.ContaDestino;
 import br.com.vr.development.financialcontrolapp.application.domain.model.Correntista;
 import br.com.vr.development.financialcontrolapp.application.domain.model.Cpf;
+import br.com.vr.development.financialcontrolapp.application.domain.model.DadosBancarios;
 import br.com.vr.development.financialcontrolapp.application.domain.model.DataNascimento;
 import br.com.vr.development.financialcontrolapp.application.domain.model.Email;
 import br.com.vr.development.financialcontrolapp.application.domain.model.Endereco;
@@ -24,14 +29,17 @@ import br.com.vr.development.financialcontrolapp.application.domain.model.NomeFa
 import br.com.vr.development.financialcontrolapp.application.domain.model.RendaMensal;
 import br.com.vr.development.financialcontrolapp.application.domain.model.Valor;
 import br.com.vr.development.financialcontrolapp.application.domain.model.components.DepositoInicialFactory;
+import br.com.vr.development.financialcontrolapp.application.domain.model.transferencia.Transferencia;
 import br.com.vr.development.financialcontrolapp.application.enums.TipoDocumento;
 import br.com.vr.development.financialcontrolapp.application.enums.TipoEndereco;
 import br.com.vr.development.financialcontrolapp.application.enums.UF;
 import br.com.vr.development.financialcontrolapp.exception.DepositoInicialException;
-import br.com.vr.development.financialcontrolapp.exception.SaldoIndisponivelException;
+import br.com.vr.development.financialcontrolapp.exception.SaldoInsuficienteException;
 
 public class ContaCorrenteTest {
-    
+
+    private static final BigDecimal CINQUENTA = new BigDecimal("50");
+
     private DepositoInicialFactory depositoInicialFactory;
 
     @BeforeEach
@@ -46,7 +54,7 @@ public class ContaCorrenteTest {
 
         banco.setAgencias(Arrays.asList(agenciaBancaria));
 
-        ContaCorrente contaCorrente = new ContaCorrente(agenciaBancaria, getCorrentista(), depositoInicialFactory.create(new BigDecimal("50")));
+        ContaCorrente contaCorrente = new ContaCorrente(agenciaBancaria, getCorrentista(), depositoInicialFactory.create(CINQUENTA));
         Assertions.assertNotNull(contaCorrente);
     }
 
@@ -68,9 +76,9 @@ public class ContaCorrenteTest {
     @Test
     protected void deveRealizarUmaMovimentacaoDeValoresEntreContasCorrentes() {
 
-        ContaCorrente contaCorrente = criaContaCorrente(new BigDecimal("50"));
-        ContaCorrente contaDestino = criaContaCorrente(new BigDecimal("50"));
-        Valor valor = new Valor(new BigDecimal("50"));
+        ContaCorrente contaCorrente = criaContaCorrente(CINQUENTA);
+        ContaCorrente contaDestino = criaContaCorrente(CINQUENTA);
+        Valor valor = new Valor(CINQUENTA);
 
         contaCorrente.transferir(valor, contaDestino);
 
@@ -80,16 +88,44 @@ public class ContaCorrenteTest {
 
     @Test
     protected void naoDeveTransferirSeOSaldoForMenorQueOValorSolicitado() {
-        ContaCorrente contaCorrente = criaContaCorrente(new BigDecimal("50"));
-        ContaCorrente contaDestino = criaContaCorrente(new BigDecimal("50"));
+        ContaCorrente contaCorrente = criaContaCorrente(CINQUENTA);
+        ContaCorrente contaDestino = criaContaCorrente(CINQUENTA);
         Valor valor = new Valor(new BigDecimal("50.01"));
 
-        Assertions.assertThrows(SaldoIndisponivelException.class, () -> {
+        Assertions.assertThrows(SaldoInsuficienteException.class, () -> {
             contaCorrente.transferir(valor, contaDestino);
         }, "Saldo indisponivel para realizar a operacao.");
     }
 
+    @Test
+    protected void deveFazerUmaTransferenciaExternaParaOutroBancoDestino() {
+        ContaCorrente contaCorrente = criaContaCorrente(CINQUENTA);
 
+        AgenciaBancaria agencia = new AgenciaBancaria(123, 1);
+        DadosBancarios dadosBancarios = 
+            new DadosBancarios(new CodigoBanco(341), agencia, new ContaDestino(123234345, 2), new Nome("nomeDestinatario"), new Cpf("cpfDestinatario"));
+
+        Valor valor = new Valor(CINQUENTA.subtract(TED.taxa()));
+        Transferencia transferencia = contaCorrente.tranfere(valor, dadosBancarios, TED);
+
+        org.assertj.core.api.Assertions.assertThat(transferencia).isNotNull();
+        org.assertj.core.api.Assertions.assertThat(contaCorrente.getSaldo()).isEqualTo(BigDecimal.ZERO);
+    }
+
+    @Test
+    protected void deveLancarSaldoInsuficienteExceptionQuandoOValorMaisATaxaForemMaiorQueOSaldoDisponivel() {
+        ContaCorrente contaCorrente = criaContaCorrente(CINQUENTA);
+        
+        AgenciaBancaria agencia = new AgenciaBancaria(123, 1);
+        DadosBancarios dadosBancarios = 
+            new DadosBancarios(new CodigoBanco(341), agencia, new ContaDestino(123234345, 2), new Nome("nomeDestinatario"), new Cpf("cpfDestinatario"));
+
+        Valor valor = new Valor(CINQUENTA);
+
+        org.assertj.core.api.Assertions.assertThatExceptionOfType(SaldoInsuficienteException.class)
+            .isThrownBy(() -> {contaCorrente.tranfere(valor, dadosBancarios, TED);})
+            .withMessage("Saldo indisponivel para realizar a operacao.");
+    }
 
     private Correntista getCorrentista() {
         Celular telefone = new Celular("19", "2901-7197");

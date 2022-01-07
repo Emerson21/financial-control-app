@@ -24,7 +24,9 @@ import javax.validation.constraints.NotNull;
 
 import br.com.vr.development.financialcontrolapp.application.domain.model.components.DepositoInicial;
 import br.com.vr.development.financialcontrolapp.application.domain.model.lancamento.Lancamento;
-import br.com.vr.development.financialcontrolapp.exception.SaldoIndisponivelException;
+import br.com.vr.development.financialcontrolapp.application.domain.model.transferencia.Transferencia;
+import br.com.vr.development.financialcontrolapp.application.enums.TipoTransferencia;
+import br.com.vr.development.financialcontrolapp.exception.SaldoInsuficienteException;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -91,16 +93,16 @@ public class ContaCorrente {
     }
 
     public void transferir(Valor valor, ContaCorrente contaDestino) {
-        if (!possuiSaldoDisponivel(valor)) {
-            throw new SaldoIndisponivelException();
+        if (!possuiSaldoDisponivel(valor, TipoTransferencia.TEF)) {
+            throw new SaldoInsuficienteException();
         }
 
         this.debitaValor(valor);
         contaDestino.creditaValor(valor);
     }
 
-    private boolean possuiSaldoDisponivel(Valor valor) {
-        return this.getSaldo().compareTo(valor.getValor()) >= 0;
+    private boolean possuiSaldoDisponivel(Valor valor, TipoTransferencia tipoTransferencia) {
+        return this.getSaldo().compareTo(valor.getValor().add(tipoTransferencia.taxa())) >= 0;
     }
 
     public BigDecimal getSaldo() {
@@ -125,6 +127,15 @@ public class ContaCorrente {
         Lancamento lancamentoNegativo = 
             Lancamento.criaLancamentoNegativo(DEBITO.calcularSinal(valor), new Descricao("Transferencia entre contas correntes"), this);
         this.lancamentos.add(lancamentoNegativo);
+    }
+
+    public Transferencia tranfere(Valor valor, DadosBancarios dadosBancarios, TipoTransferencia tipoTransferencia) {
+        if (!possuiSaldoDisponivel(valor, tipoTransferencia)) {
+            throw new SaldoInsuficienteException();
+        }
+        
+        this.debitaValor(new Valor(valor.getValor().add(tipoTransferencia.taxa())));
+        return new Transferencia(valor, tipoTransferencia, dadosBancarios);
     }
 
     

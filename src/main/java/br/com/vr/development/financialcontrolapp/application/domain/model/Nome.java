@@ -26,4 +26,9 @@ public class Nome {
         return String.format("%s %s", primeiroNome, sobrenome);
     }
 
+    public Nome(String nome) {
+        this.primeiroNome = nome;
+        this.sobrenome = "";
+    }
+
 }

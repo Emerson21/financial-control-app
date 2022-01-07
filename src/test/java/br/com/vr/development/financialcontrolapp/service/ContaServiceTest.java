@@ -89,8 +89,6 @@ public class ContaServiceTest {
         when(bancoRepository.findByCodigo(banco.getCodigo())).thenReturn(Optional.of(banco));
         when(contaRepository.save(Mockito.any(ContaCorrente.class))).thenReturn(entity);
         contaService.abrir(formulario.toContaCorrente(getAgenciaBancaria(banco), depositoInicial));
-
-        // Assertions.assertNotNull(conta);
     }
 
     @Test
@@ -141,6 +139,13 @@ public class ContaServiceTest {
         Assertions.assertThrows(BancoInvalidoException.class, () -> {
             contaService.abrir(formulario.toContaCorrente(getAgenciaBancaria(banco), depositoInicial));
         });
+    }
+
+    @Test
+    protected void deveRealizarUmaTransferenciaParaUmaContaExterna() {
+
+        // contaService.envia(transferencia);
+
     }
 
 

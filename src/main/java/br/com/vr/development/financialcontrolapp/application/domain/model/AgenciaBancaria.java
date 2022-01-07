@@ -11,6 +11,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -18,7 +19,7 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 @AllArgsConstructor
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 @Getter
 @ToString
 @Builder
@@ -41,5 +42,11 @@ public class AgenciaBancaria {
     @NotNull
     @Column(name = "digito")
     private Integer digito;
+
+
+    public AgenciaBancaria(Integer numero, Integer digito) {
+        this.numero = numero;
+        this.digito = digito;
+    }
 
 }
