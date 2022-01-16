@@ -21,7 +21,6 @@ import br.com.vr.development.financialcontrolapp.application.domain.model.ContaC
 import br.com.vr.development.financialcontrolapp.application.domain.model.Descricao;
 import br.com.vr.development.financialcontrolapp.application.domain.model.Valor;
 import br.com.vr.development.financialcontrolapp.application.enums.TipoLancamento;
-import br.com.vr.development.financialcontrolapp.exception.LancamentoInvalidoException;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -59,7 +58,7 @@ public class Lancamento {
     private Descricao descricao;
 
     private Lancamento(Valor valor, Descricao descricao, ContaCorrente contaCorrente, TipoLancamento tipoLancamento) {
-        this.valor = valor;
+        this.valor = tipoLancamento.calcularSinal(valor);
         this.descricao = descricao;
         this.contaCorrente = contaCorrente;
         this.dataHora = LocalDateTime.now();
@@ -73,18 +72,10 @@ public class Lancamento {
     }
 
     public static Lancamento criaLancamentoPositivo(Valor valor, Descricao descricao, ContaCorrente contaCorrente) {
-        if (valor.ehNegativo()) {
-            throw new LancamentoInvalidoException();
-        }
-        
-        return new Lancamento(CREDITO.calcularSinal(valor),descricao, contaCorrente, CREDITO);
+        return new Lancamento(valor,descricao, contaCorrente, CREDITO);
     }
 
     public static Lancamento criaLancamentoNegativo(Valor valor, Descricao descricao, ContaCorrente contaCorrente) {
-        if (!valor.ehNegativo()) {
-            throw new LancamentoInvalidoException();
-        }
-
         return new Lancamento(valor, descricao, contaCorrente, DEBITO); 
     }
 

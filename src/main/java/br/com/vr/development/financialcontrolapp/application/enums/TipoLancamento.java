@@ -7,14 +7,14 @@ public enum TipoLancamento {
     DEBITO {
         @Override
         public Valor calcularSinal(Valor valor) {
-            return new Valor(valor.getValor().negate().toString());
+            return new Valor(valor.asBigDecimal().negate().toString());
         }
     }, 
     
     CREDITO {
         @Override
         public Valor calcularSinal(Valor valor) {
-            return new Valor(valor.getValor().abs().toString());
+            return new Valor(valor.asBigDecimal().abs().toString());
         }
     };
 

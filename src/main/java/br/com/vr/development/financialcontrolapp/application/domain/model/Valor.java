@@ -5,13 +5,11 @@ import java.math.BigDecimal;
 import javax.persistence.Embeddable;
 
 import lombok.EqualsAndHashCode;
-import lombok.Getter;
 
 @Embeddable
 @EqualsAndHashCode
 public class Valor {
 
-    @Getter
     private BigDecimal valor;
 
     public Valor(BigDecimal valor) {
@@ -27,7 +25,7 @@ public class Valor {
     }
 
     public Valor adiciona(Valor valor) {
-        return new Valor(this.valor.add(valor.getValor()));
+        return new Valor(this.valor.add(valor.asBigDecimal()));
     }
 
     public Valor adiciona(BigDecimal valor) {

@@ -1,8 +1,5 @@
 package br.com.vr.development.financialcontrolapp.application.domain.model;
 
-import static br.com.vr.development.financialcontrolapp.application.enums.TipoLancamento.CREDITO;
-import static br.com.vr.development.financialcontrolapp.application.enums.TipoLancamento.DEBITO;
-
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
@@ -119,13 +116,13 @@ public class ContaCorrente {
 
     private void creditaValor(Valor valor) {
         Lancamento lancamentoPositivo = 
-            Lancamento.criaLancamentoPositivo(CREDITO.calcularSinal(valor), new Descricao("Transferencia entre contas correntes"), this);
+            Lancamento.criaLancamentoPositivo(valor, new Descricao("Transferencia entre contas correntes"), this);
         this.lancamentos.add(lancamentoPositivo);
     }
 
     private void debitaValor(Valor valor) {
         Lancamento lancamentoNegativo = 
-            Lancamento.criaLancamentoNegativo(DEBITO.calcularSinal(valor), new Descricao("Transferencia entre contas correntes"), this);
+            Lancamento.criaLancamentoNegativo(valor, new Descricao("Transferencia entre contas correntes"), this);
         this.lancamentos.add(lancamentoNegativo);
     }
 
@@ -134,7 +131,7 @@ public class ContaCorrente {
             throw new SaldoInsuficienteException();
         }
         
-        this.debitaValor(new Valor(valor.getValor().add(tipoTransferencia.taxa()).toString()));
+        this.debitaValor(valor.adiciona(tipoTransferencia.taxa()));
         return new Transferencia(valor, tipoTransferencia, dadosBancarios);
     }
 
