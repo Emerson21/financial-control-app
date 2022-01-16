@@ -1,7 +1,6 @@
 package br.com.vr.development.financialcontrolapp.domain.model;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.math.BigDecimal;
 
@@ -14,7 +13,6 @@ import br.com.vr.development.financialcontrolapp.application.domain.model.ContaC
 import br.com.vr.development.financialcontrolapp.application.domain.model.Descricao;
 import br.com.vr.development.financialcontrolapp.application.domain.model.Valor;
 import br.com.vr.development.financialcontrolapp.application.domain.model.lancamento.Lancamento;
-import br.com.vr.development.financialcontrolapp.exception.LancamentoInvalidoException;
 
 public class LancamentoTest {
     
@@ -34,38 +32,38 @@ public class LancamentoTest {
         assertThat(lancamento.getValor()).isEqualTo(new Valor(money));
     }
 
-    @Test
-    void deveLancarExcecaoLancamentoInvalidoExceptionAoCriarUmLancamentoPositivoPassandoUmValorNegativo() {
-        ContaCorrente contaCorrente = Fixture.from(ContaCorrente.class).gimme("valid");
-        BigDecimal money = new BigDecimal("50");
+    // @Test
+    // void deveLancarExcecaoLancamentoInvalidoExceptionAoCriarUmLancamentoPositivoPassandoUmValorNegativo() {
+    //     ContaCorrente contaCorrente = Fixture.from(ContaCorrente.class).gimme("valid");
+    //     BigDecimal money = new BigDecimal("50");
 
-        assertThrows(LancamentoInvalidoException.class, () -> {
-            Lancamento.criaLancamentoPositivo(new Valor(money.negate()), new Descricao("Descricao Test"), contaCorrente);
-        });
+    //     assertThrows(LancamentoInvalidoException.class, () -> {
+    //         Lancamento.criaLancamentoPositivo(new Valor(money.negate()), new Descricao("Descricao Test"), contaCorrente);
+    //     });
 
-    }
+    // }
 
     @Test
     void deveCriarUmLancamentoDeDebitoContendoUmValorNegativo() {
         ContaCorrente contaCorrente = Fixture.from(ContaCorrente.class).gimme("valid");
-        BigDecimal money = new BigDecimal("50").negate();
+        BigDecimal money = new BigDecimal("50");
 
         Lancamento lancamento = Lancamento.criaLancamentoNegativo(new Valor(money), new Descricao("Descricao Test"), contaCorrente);
 
         assertThat(lancamento).isNotNull();
-        assertThat(lancamento.getValor()).isEqualTo(new Valor(money));
+        assertThat(lancamento.getValor()).isEqualTo(new Valor(money.negate()));
 
     }
 
-    @Test
-    void deveLancarExcecaoLancamentoInvalidoExceptionAoCriarUmLancamentoNegativoPassandoUmValorPositivo() {
-        ContaCorrente contaCorrente = Fixture.from(ContaCorrente.class).gimme("valid");
-        BigDecimal money = new BigDecimal("50");
+    // @Test
+    // void deveLancarExcecaoLancamentoInvalidoExceptionAoCriarUmLancamentoNegativoPassandoUmValorPositivo() {
+    //     ContaCorrente contaCorrente = Fixture.from(ContaCorrente.class).gimme("valid");
+    //     BigDecimal money = new BigDecimal("50");
 
-        assertThrows(LancamentoInvalidoException.class, () -> {
-            Lancamento.criaLancamentoNegativo(new Valor(money), new Descricao("Descricao Test"), contaCorrente);
-        });
+    //     assertThrows(LancamentoInvalidoException.class, () -> {
+    //         Lancamento.criaLancamentoNegativo(new Valor(money), new Descricao("Descricao Test"), contaCorrente);
+    //     });
 
-    }
+    // }
 
 }

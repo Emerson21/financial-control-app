@@ -5,9 +5,11 @@ import java.math.BigDecimal;
 import javax.persistence.Embeddable;
 
 import lombok.EqualsAndHashCode;
+import lombok.ToString;
 
 @Embeddable
 @EqualsAndHashCode
+@ToString
 public class Valor {
 
     private BigDecimal valor;
@@ -30,6 +32,10 @@ public class Valor {
 
     public Valor adiciona(BigDecimal valor) {
         return new Valor(this.valor.add(valor));
+    }
+
+    public Valor mais(BigDecimal valor) {
+        return this.adiciona(valor);
     }
 
     public BigDecimal asBigDecimal() {
