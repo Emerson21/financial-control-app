@@ -23,7 +23,7 @@ public class DepositoInicial {
     }
 
     public Lancamento toLancamento(ContaCorrente contaCorrente) {
-        return Lancamento.criaLancamentoPositivo(new Valor(valor), new Descricao(DESCRICAO_DEPOSITO_INICIAL), contaCorrente);
+        return Lancamento.criaLancamentoPositivo(new Valor(valor.toString()), new Descricao(DESCRICAO_DEPOSITO_INICIAL), contaCorrente);
     }
 
 }

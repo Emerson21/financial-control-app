@@ -102,14 +102,14 @@ public class ContaCorrente {
     }
 
     private boolean possuiSaldoDisponivel(Valor valor, TipoTransferencia tipoTransferencia) {
-        return this.getSaldo().compareTo(valor.getValor().add(tipoTransferencia.taxa())) >= 0;
+        return this.getSaldo().compareTo(valor.adiciona(tipoTransferencia.taxa()).asBigDecimal()) >= 0;
     }
 
     public BigDecimal getSaldo() {
         return possuiSaldoZerado() 
             ? BigDecimal.ZERO 
             : this.lancamentos.stream()
-                .map(lancamento -> lancamento.getValor().getValor())
+                .map(lancamento -> lancamento.getValor().asBigDecimal())
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
     }
 
@@ -134,7 +134,7 @@ public class ContaCorrente {
             throw new SaldoInsuficienteException();
         }
         
-        this.debitaValor(new Valor(valor.getValor().add(tipoTransferencia.taxa())));
+        this.debitaValor(new Valor(valor.getValor().add(tipoTransferencia.taxa()).toString()));
         return new Transferencia(valor, tipoTransferencia, dadosBancarios);
     }
 
