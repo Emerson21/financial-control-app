@@ -4,7 +4,7 @@ import br.com.vr.development.financialcontrolapp.application.domain.model.ContaC
 import br.com.vr.development.financialcontrolapp.application.domain.model.Valor;
 import br.com.vr.development.financialcontrolapp.exception.SaldoInsuficienteException;
 
-public class TEF implements Transferencia {
+public class TEF {
 
     private Valor valor;
     private ContaCorrente origem;
@@ -17,7 +17,7 @@ public class TEF implements Transferencia {
         this.destino = destino;
     }
 
-    @Override
+    
     public void execute() {
 
         if (!origem.possuiSaldoDisponivel(valor)) {
