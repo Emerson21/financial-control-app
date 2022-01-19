@@ -22,7 +22,9 @@ import br.com.vr.development.financialcontrolapp.application.domain.model.NomeFa
 import br.com.vr.development.financialcontrolapp.application.domain.model.RendaMensal;
 import br.com.vr.development.financialcontrolapp.application.domain.model.Valor;
 import br.com.vr.development.financialcontrolapp.application.domain.model.components.DepositoInicialFactory;
-import br.com.vr.development.financialcontrolapp.application.domain.model.transferencia.TEF;
+import br.com.vr.development.financialcontrolapp.application.domain.model.transferencia.ContaDestino;
+import br.com.vr.development.financialcontrolapp.application.domain.model.transferencia.ContaOrigem;
+import br.com.vr.development.financialcontrolapp.application.domain.model.transferencia.Transferencia;
 import br.com.vr.development.financialcontrolapp.application.enums.TipoDocumento;
 import br.com.vr.development.financialcontrolapp.application.enums.TipoEndereco;
 import br.com.vr.development.financialcontrolapp.application.enums.UF;
@@ -30,19 +32,27 @@ import br.com.vr.development.financialcontrolapp.application.enums.UF;
 class TransferenciaTest {
 
     @Test
-    void deveTransferirValorDeUmContaCorrenteParaOutra() {
-        ContaCorrente contaOrigem = getContaCorrenteOrigem();
-        ContaCorrente contaDestino = getContaCorrenteDestino();
+    void deveRealizarUmTEFDeUmaContaCorrenteParaOutra() {
+        ContaOrigem contaOrigem = getContaOrigem();
+        ContaDestino contaDestino = getContaDestino();
 
+        new Transferencia(new Valor("10"), contaOrigem, contaDestino).execute();
+        Assertions.assertThat(contaOrigem.getSaldo()).isEqualTo(new BigDecimal("40"));
+    }
 
-        new TEF(new Valor("10"), contaOrigem, contaDestino).execute();
+    @Test
+    void deveRealizarUmaTEFDeContaCorrenteParaContaPoupanca() {
+        ContaOrigem contaOrigem = getContaOrigem();
+        ContaDestino contaDestino = getContaDestino();
 
+        new Transferencia(new Valor("10"), contaOrigem, contaDestino).execute();
         Assertions.assertThat(contaOrigem.getSaldo()).isEqualTo(new BigDecimal("40"));
 
     }
 
 
-    private ContaCorrente getContaCorrenteDestino() {
+
+    private ContaCorrente getContaDestino() {
         Banco banco = Banco.builder()
             .codigo("321")
             .nomeFantasia(new NomeFantasia("nome"))
@@ -57,7 +67,7 @@ class TransferenciaTest {
             
     }
 
-    private ContaCorrente getContaCorrenteOrigem() {
+    private ContaCorrente getContaOrigem() {
         Banco banco = Banco.builder()
             .codigo("123")
             .nomeFantasia(new NomeFantasia("nome"))
