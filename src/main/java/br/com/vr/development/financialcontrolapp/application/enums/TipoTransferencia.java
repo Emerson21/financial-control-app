@@ -1,25 +1,23 @@
 package br.com.vr.development.financialcontrolapp.application.enums;
 
-import java.math.BigDecimal;
+import br.com.vr.development.financialcontrolapp.application.domain.model.Valor;
 
 public enum TipoTransferencia {
+    
     TED {
         @Override
-        public BigDecimal taxa() {
-            return new BigDecimal("5");
+        public Valor taxa() {
+            return new Valor("5");
         }
-
- 
     },
     
     TEF {
+        
         @Override
-        public BigDecimal taxa() {
-            return BigDecimal.ZERO;
+        public Valor taxa() {
+            return Valor.ZERO;
         }
     };
 
-
-    public abstract BigDecimal taxa();
-
+    public abstract Valor taxa();
 }

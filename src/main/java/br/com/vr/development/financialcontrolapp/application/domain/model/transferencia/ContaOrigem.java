@@ -6,4 +6,6 @@ public interface ContaOrigem {
     
     void saque(Valor valor);
 
+    Valor getSaldo();
+
 }

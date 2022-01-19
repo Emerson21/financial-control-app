@@ -1,6 +1,5 @@
 package br.com.vr.development.financialcontrolapp.application.domain.model;
 
-import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -21,6 +20,9 @@ import javax.validation.constraints.NotNull;
 
 import br.com.vr.development.financialcontrolapp.application.domain.model.components.DepositoInicial;
 import br.com.vr.development.financialcontrolapp.application.domain.model.lancamento.Lancamento;
+import br.com.vr.development.financialcontrolapp.application.domain.model.transferencia.ContaDestino;
+import br.com.vr.development.financialcontrolapp.application.domain.model.transferencia.ContaOrigem;
+import br.com.vr.development.financialcontrolapp.exception.SaldoInsuficienteException;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -33,7 +35,7 @@ import lombok.ToString;
 @ToString
 @Entity
 @Table(name = "conta_corrente", schema = "financial_app")
-public class ContaCorrente {
+public class ContaCorrente implements ContaOrigem, ContaDestino {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -88,52 +90,40 @@ public class ContaCorrente {
         this.lancamentos.add(this.depositoInicial.toLancamento(this));
     }
 
-    // public void transferir(Valor valor, ContaCorrente contaDestino) {
-    //     if (!possuiSaldoDisponivel(valor)) {
-    //         throw new SaldoInsuficienteException();
-    //     }
-
-    //     this.saque(valor);
-    //     contaDestino.deposita(valor);
-    // }
-
     public boolean possuiSaldoDisponivel(Valor valor) {
-        return this.getSaldo().compareTo(valor.asBigDecimal()) >= 0;
+        return this.getSaldo().compareTo(valor) >= 0;
     }
 
-    public BigDecimal getSaldo() {
+    @Override
+    public Valor getSaldo() {
         return possuiSaldoZerado() 
-            ? BigDecimal.ZERO 
+            ? Valor.ZERO 
             : this.lancamentos.stream()
-                .map(lancamento -> lancamento.getValor().asBigDecimal())
-                .reduce(BigDecimal.ZERO, BigDecimal::add);
+                .map(Lancamento::getValor)
+                .reduce(Valor.ZERO, Valor::adicionar);
     }
 
     public boolean possuiSaldoZerado() {
         return this.lancamentos == null || this.lancamentos.isEmpty();
     }
 
+    @Override
     public void deposita(Valor valor) {
         Lancamento lancamentoPositivo = 
             Lancamento.criaLancamentoPositivo(valor, new Descricao("Transferencia entre contas correntes"), this);
         this.lancamentos.add(lancamentoPositivo);
     }
 
+    @Override
     public void saque(Valor valor) {
+        if (!possuiSaldoDisponivel(valor)) {
+            throw new SaldoInsuficienteException();
+        }
+
         Lancamento lancamentoNegativo = 
             Lancamento.criaLancamentoNegativo(valor, new Descricao("Transferencia entre contas correntes"), this);
         this.lancamentos.add(lancamentoNegativo);
     }
-
-    // public Transferencia tranfere(Valor valor, DadosBancarios dadosBancarios, TipoTransferencia tipoTransferencia) {
-    //     if (!possuiSaldoDisponivel(valor, tipoTransferencia)) {
-    //         throw new SaldoInsuficienteException();
-    //     }
-        
-    //     this.saque(valor.adiciona(tipoTransferencia.taxa()));
-    //     return new Transferencia(valor, tipoTransferencia, dadosBancarios);
-    // }
-
-    
+   
 
 }

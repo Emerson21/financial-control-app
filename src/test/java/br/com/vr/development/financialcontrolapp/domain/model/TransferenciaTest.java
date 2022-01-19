@@ -1,5 +1,7 @@
 package br.com.vr.development.financialcontrolapp.domain.model;
 
+import static br.com.vr.development.financialcontrolapp.application.enums.TipoTransferencia.TEF;
+
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.Arrays;
@@ -36,8 +38,8 @@ class TransferenciaTest {
         ContaOrigem contaOrigem = getContaOrigem();
         ContaDestino contaDestino = getContaDestino();
 
-        new Transferencia(new Valor("10"), contaOrigem, contaDestino).execute();
-        Assertions.assertThat(contaOrigem.getSaldo()).isEqualTo(new BigDecimal("40"));
+        new Transferencia(new Valor("10"), contaOrigem, contaDestino).execute(TEF);
+        Assertions.assertThat(contaOrigem.getSaldo()).isEqualTo(new Valor("40"));
     }
 
     @Test
@@ -45,10 +47,18 @@ class TransferenciaTest {
         ContaOrigem contaOrigem = getContaOrigem();
         ContaDestino contaDestino = getContaDestino();
 
-        new Transferencia(new Valor("10"), contaOrigem, contaDestino).execute();
-        Assertions.assertThat(contaOrigem.getSaldo()).isEqualTo(new BigDecimal("40"));
+        new Transferencia(new Valor("10"), contaOrigem, contaDestino).execute(TEF);
+        Assertions.assertThat(contaOrigem.getSaldo()).isEqualTo(new Valor("40"));
 
     }
+
+    @Test
+    void deveLancarExceptionSaldoInsuficienteExceptionQuandoNaoHouverValorDisponivelParaSaque() {
+
+    }
+
+    @Test
+    void deveRealizarUmaTEFDeContaPoupancaParaContaCorrente() { }
 
 
 
@@ -67,7 +77,7 @@ class TransferenciaTest {
             
     }
 
-    private ContaCorrente getContaOrigem() {
+    private ContaOrigem getContaOrigem() {
         Banco banco = Banco.builder()
             .codigo("123")
             .nomeFantasia(new NomeFantasia("nome"))

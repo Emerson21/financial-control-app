@@ -2,7 +2,6 @@ package br.com.vr.development.financialcontrolapp.application.domain.model.trans
 
 import br.com.vr.development.financialcontrolapp.application.domain.model.ContaCorrente;
 import br.com.vr.development.financialcontrolapp.application.domain.model.Valor;
-import br.com.vr.development.financialcontrolapp.exception.SaldoInsuficienteException;
 
 public class TEF {
 
@@ -19,10 +18,6 @@ public class TEF {
 
     
     public void execute() {
-
-        if (!origem.possuiSaldoDisponivel(valor)) {
-            throw new SaldoInsuficienteException();
-        }
 
         origem.saque(valor);
         destino.deposita(valor);

@@ -22,19 +22,13 @@ class ValorTest {
     @Test
     void deveAdicionarValor() {
         Valor um = new Valor("1");
-        Assertions.assertThat(new Valor("0").adiciona(new Valor("1"))).isEqualTo(um);
+        Assertions.assertThat(new Valor("0").adicionar(new Valor("1"))).isEqualTo(um);
     }
 
     @Test
     void deveAdicionarValorBigDecimal() {
         Valor um = new Valor("1");
-        Assertions.assertThat(new Valor("0").adiciona(new BigDecimal("1"))).isEqualTo(um);
+        Assertions.assertThat(new Valor("0").adicionar(new BigDecimal("1"))).isEqualTo(um);
     }
-
-    @Test
-    void deveRetornarValorComoBigDecimal() {
-        Assertions.assertThat(new Valor("0").asBigDecimal()).isInstanceOf(BigDecimal.class);
-    }
-
 
 }

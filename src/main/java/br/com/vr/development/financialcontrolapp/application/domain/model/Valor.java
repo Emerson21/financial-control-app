@@ -10,7 +10,9 @@ import lombok.ToString;
 @Embeddable
 @EqualsAndHashCode
 @ToString
-public class Valor {
+public class Valor implements Comparable {
+
+    public static final Valor ZERO = new Valor("0");
 
     private BigDecimal valor;
 
@@ -26,20 +28,35 @@ public class Valor {
         return this.valor.compareTo(BigDecimal.ZERO) < 0;
     }
 
-    public Valor adiciona(Valor valor) {
-        return new Valor(this.valor.add(valor.asBigDecimal()));
+    public Valor adicionar(Valor valor) {
+        return new Valor(this.valor.add(valor.getValor()));
     }
 
-    public Valor adiciona(BigDecimal valor) {
+    public Valor adicionar(BigDecimal valor) {
         return new Valor(this.valor.add(valor));
     }
 
-    public Valor mais(BigDecimal valor) {
-        return this.adiciona(valor);
+    private BigDecimal getValor() {
+        return this.valor;
     }
 
-    public BigDecimal asBigDecimal() {
-        return this.valor;
+    @Override
+    public int compareTo(Object valor) {
+        if ( valor == null )
+            throw new NullPointerException();
+        
+        if (!valor.getClass().isInstance(Valor.class)) 
+            throw new IllegalArgumentException();
+       
+        return this.valor.compareTo(((Valor) valor).getValor());
+    }
+
+    public Valor negate() {
+        return new Valor(this.valor.negate());
+    }
+
+    public Valor abs() {
+        return new Valor(this.valor.abs());
     }
 
 }
