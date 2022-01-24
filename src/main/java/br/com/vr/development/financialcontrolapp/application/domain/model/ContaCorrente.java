@@ -1,19 +1,15 @@
 package br.com.vr.development.financialcontrolapp.application.domain.model;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
-import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
@@ -35,7 +31,7 @@ import lombok.ToString;
 @ToString
 @Entity
 @Table(name = "conta_corrente", schema = "financial_app")
-public class ContaCorrente implements ContaOrigem, ContaDestino {
+public class ContaCorrente extends Conta implements ContaOrigem, ContaDestino {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -57,13 +53,13 @@ public class ContaCorrente implements ContaOrigem, ContaDestino {
     @OneToOne(cascade = CascadeType.ALL)
     private Correntista correntista;
 
-    @OneToMany(mappedBy = "contaCorrente", cascade = CascadeType.ALL)
-    private List<Lancamento> lancamentos;
+    // @OneToMany(mappedBy = "contaCorrente", cascade = CascadeType.ALL)
+    // private List<Lancamento> lancamentos;
 
-    @Embedded
-    @NotNull
-    @Column(name = "deposito_inicial", nullable = false)
-    private DepositoInicial depositoInicial;
+    // @Embedded
+    // @NotNull
+    // @Column(name = "deposito_inicial", nullable = false)
+    // private DepositoInicial depositoInicial;
 
     public ContaCorrente(AgenciaBancaria agencia, Correntista correntista, DepositoInicial depositoInicial) {
         this.agencia = agencia;
@@ -71,7 +67,7 @@ public class ContaCorrente implements ContaOrigem, ContaDestino {
         this.digito = new Random().nextInt(Integer.MAX_VALUE);
         this.correntista = correntista;
         this.depositoInicial = depositoInicial;
-        this.adicionaDepositoInicialComoLancamento();
+        super.adicionaDepositoInicialComoLancamento();
     }
 
     public String getCodigoBanco() {
@@ -82,14 +78,6 @@ public class ContaCorrente implements ContaOrigem, ContaDestino {
         return this.agencia.getBanco().getNomeFantasia();
     }
 
-    public void adicionaDepositoInicialComoLancamento() {
-        if (lancamentos == null) {
-            lancamentos = new ArrayList<>();
-        }
-        
-        this.lancamentos.add(this.depositoInicial.toLancamento(this));
-    }
-
     public boolean possuiSaldoDisponivel(Valor valor) {
         return this.getSaldo().compareTo(valor) >= 0;
     }
@@ -98,20 +86,16 @@ public class ContaCorrente implements ContaOrigem, ContaDestino {
     public Valor getSaldo() {
         return possuiSaldoZerado() 
             ? Valor.ZERO 
-            : this.lancamentos.stream()
+            : super.getLancamentos().stream()
                 .map(Lancamento::getValor)
                 .reduce(Valor.ZERO, Valor::adicionar);
     }
 
-    public boolean possuiSaldoZerado() {
-        return this.lancamentos == null || this.lancamentos.isEmpty();
-    }
-
     @Override
     public void deposita(Valor valor) {
-        Lancamento lancamentoPositivo = 
-            Lancamento.criaLancamentoPositivo(valor, new Descricao("Transferencia entre contas correntes"), this);
-        this.lancamentos.add(lancamentoPositivo);
+        adicionaLancamento(
+            Lancamento.criaLancamentoPositivo(valor, new Descricao("Transferencia entre contas correntes"), this)
+        );
     }
 
     @Override
@@ -120,10 +104,9 @@ public class ContaCorrente implements ContaOrigem, ContaDestino {
             throw new SaldoInsuficienteException();
         }
 
-        Lancamento lancamentoNegativo = 
-            Lancamento.criaLancamentoNegativo(valor, new Descricao("Transferencia entre contas correntes"), this);
-        this.lancamentos.add(lancamentoNegativo);
+        adicionaLancamento(
+            Lancamento.criaLancamentoNegativo(valor, new Descricao("Transferencia entre contas correntes"), this)
+        );
     }
-   
 
 }

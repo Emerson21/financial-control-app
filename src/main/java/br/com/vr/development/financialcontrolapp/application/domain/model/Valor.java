@@ -45,7 +45,7 @@ public class Valor implements Comparable {
         if ( valor == null )
             throw new NullPointerException();
         
-        if (!valor.getClass().isInstance(Valor.class)) 
+        if (!(valor instanceof Valor)) 
             throw new IllegalArgumentException();
        
         return this.valor.compareTo(((Valor) valor).getValor());

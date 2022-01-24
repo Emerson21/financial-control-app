@@ -17,6 +17,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import br.com.vr.development.financialcontrolapp.application.domain.model.Conta;
 import br.com.vr.development.financialcontrolapp.application.domain.model.ContaCorrente;
 import br.com.vr.development.financialcontrolapp.application.domain.model.Descricao;
 import br.com.vr.development.financialcontrolapp.application.domain.model.Valor;
@@ -51,32 +52,32 @@ public class Lancamento {
 
     @JoinColumn(name = "id_conta_corrente", referencedColumnName = "id")
     @ManyToOne
-    private ContaCorrente contaCorrente;
+    private Conta conta;
 
     @Column(name = "descricao")
     @Embedded
     private Descricao descricao;
 
-    private Lancamento(Valor valor, Descricao descricao, ContaCorrente contaCorrente, TipoLancamento tipoLancamento) {
+    private Lancamento(Valor valor, Descricao descricao, Conta conta, TipoLancamento tipoLancamento) {
         this.valor = tipoLancamento.calcularSinal(valor);
         this.descricao = descricao;
-        this.contaCorrente = contaCorrente;
+        this.conta = conta;
         this.dataHora = LocalDateTime.now();
         this.tipoLancamento = tipoLancamento;
     }
 
     public void addContaCorrente(ContaCorrente contaCorrente) {
-        if (this.contaCorrente == null) {
-            this.contaCorrente = contaCorrente;
+        if (this.conta == null) {
+            this.conta = contaCorrente;
         }
     }
 
-    public static Lancamento criaLancamentoPositivo(Valor valor, Descricao descricao, ContaCorrente contaCorrente) {
-        return new Lancamento(valor,descricao, contaCorrente, CREDITO);
+    public static Lancamento criaLancamentoPositivo(Valor valor, Descricao descricao, Conta conta) {
+        return new Lancamento(valor, descricao, conta, CREDITO);
     }
 
-    public static Lancamento criaLancamentoNegativo(Valor valor, Descricao descricao, ContaCorrente contaCorrente) {
-        return new Lancamento(valor, descricao, contaCorrente, DEBITO); 
+    public static Lancamento criaLancamentoNegativo(Valor valor, Descricao descricao, Conta conta) {
+        return new Lancamento(valor, descricao, conta, DEBITO); 
     }
 
 }

@@ -31,4 +31,12 @@ class ValorTest {
         Assertions.assertThat(new Valor("0").adicionar(new BigDecimal("1"))).isEqualTo(um);
     }
 
+    @Test
+    void deveAdicionarValorZERO() {
+        Valor zero = Valor.ZERO;
+        Assertions.assertThat(new Valor("0").adicionar(Valor.ZERO)).isEqualTo(zero);
+    }
+
+
+
 }

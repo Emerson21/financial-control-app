@@ -21,6 +21,7 @@ import br.com.vr.development.financialcontrolapp.application.domain.model.Email;
 import br.com.vr.development.financialcontrolapp.application.domain.model.Endereco;
 import br.com.vr.development.financialcontrolapp.application.domain.model.Nome;
 import br.com.vr.development.financialcontrolapp.application.domain.model.NomeFantasia;
+import br.com.vr.development.financialcontrolapp.application.domain.model.Poupanca;
 import br.com.vr.development.financialcontrolapp.application.domain.model.RendaMensal;
 import br.com.vr.development.financialcontrolapp.application.domain.model.Valor;
 import br.com.vr.development.financialcontrolapp.application.domain.model.components.DepositoInicialFactory;
@@ -54,11 +55,19 @@ class TransferenciaTest {
 
     @Test
     void deveLancarExceptionSaldoInsuficienteExceptionQuandoNaoHouverValorDisponivelParaSaque() {
+        ContaOrigem contaOrigem = getContaOrigem();
+        ContaDestino contaDestino = getContaDestino();
+
+        Assertions.assertThatThrownBy(() -> {
+            new Transferencia(new Valor("50,01"), contaOrigem, contaDestino).execute(TEF);
+        });
 
     }
 
     @Test
-    void deveRealizarUmaTEFDeContaPoupancaParaContaCorrente() { }
+    void deveRealizarUmaTEFDeContaPoupancaParaContaCorrente() { 
+        ContaDestino poupanca = getContaPoupanca();
+    }
 
 
 
@@ -88,6 +97,20 @@ class TransferenciaTest {
         banco.setAgencias(Arrays.asList(agencia));
 
         return new ContaCorrente(agencia, getCorrentista(), 
+            new DepositoInicialFactory(new BigDecimal("50")).create(new BigDecimal("50")));
+    }
+
+    private ContaDestino getContaPoupanca() {
+        Banco banco = Banco.builder()
+            .codigo("123")
+            .nomeFantasia(new NomeFantasia("nome"))
+            .build();
+       
+        AgenciaBancaria agencia = getAgenciaBancaria(banco);
+
+        banco.setAgencias(Arrays.asList(agencia));
+
+        return new Poupanca(agencia, getCorrentista(), 
             new DepositoInicialFactory(new BigDecimal("50")).create(new BigDecimal("50")));
     }
 
