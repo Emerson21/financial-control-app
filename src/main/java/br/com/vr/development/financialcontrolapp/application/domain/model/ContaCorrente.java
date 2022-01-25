@@ -35,7 +35,7 @@ import lombok.ToString;
 @ToString
 @Entity
 @Table(name = "conta_corrente", schema = "financial_app")
-public class ContaCorrente implements Conta,  ContaOrigem, ContaDestino {
+public class ContaCorrente implements ContaOrigem, ContaDestino {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

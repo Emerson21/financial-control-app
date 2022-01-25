@@ -8,7 +8,7 @@ import br.com.vr.development.financialcontrolapp.application.domain.model.compon
 import br.com.vr.development.financialcontrolapp.application.domain.model.lancamento.Lancamento;
 import br.com.vr.development.financialcontrolapp.application.domain.model.transferencia.ContaDestino;
 
-public class Poupanca implements Conta, ContaDestino {
+public class Poupanca implements ContaDestino {
     
     private AgenciaBancaria agencia;
     
