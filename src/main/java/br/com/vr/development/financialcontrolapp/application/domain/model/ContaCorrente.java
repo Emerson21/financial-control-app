@@ -1,15 +1,19 @@
 package br.com.vr.development.financialcontrolapp.application.domain.model;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
@@ -31,7 +35,7 @@ import lombok.ToString;
 @ToString
 @Entity
 @Table(name = "conta_corrente", schema = "financial_app")
-public class ContaCorrente extends Conta implements ContaOrigem, ContaDestino {
+public class ContaCorrente implements Conta,  ContaOrigem, ContaDestino {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -53,13 +57,13 @@ public class ContaCorrente extends Conta implements ContaOrigem, ContaDestino {
     @OneToOne(cascade = CascadeType.ALL)
     private Correntista correntista;
 
-    // @OneToMany(mappedBy = "contaCorrente", cascade = CascadeType.ALL)
-    // private List<Lancamento> lancamentos;
+    @OneToMany(mappedBy = "contaCorrente", cascade = CascadeType.ALL)
+    private List<Lancamento> lancamentos;
 
-    // @Embedded
-    // @NotNull
-    // @Column(name = "deposito_inicial", nullable = false)
-    // private DepositoInicial depositoInicial;
+    @Embedded
+    @NotNull
+    @Column(name = "deposito_inicial", nullable = false)
+    private DepositoInicial depositoInicial;
 
     public ContaCorrente(AgenciaBancaria agencia, Correntista correntista, DepositoInicial depositoInicial) {
         this.agencia = agencia;
@@ -67,7 +71,7 @@ public class ContaCorrente extends Conta implements ContaOrigem, ContaDestino {
         this.digito = new Random().nextInt(Integer.MAX_VALUE);
         this.correntista = correntista;
         this.depositoInicial = depositoInicial;
-        super.adicionaDepositoInicialComoLancamento();
+        this.adicionaDepositoInicialComoLancamento();
     }
 
     public String getCodigoBanco() {
@@ -82,18 +86,24 @@ public class ContaCorrente extends Conta implements ContaOrigem, ContaDestino {
         return this.getSaldo().compareTo(valor) >= 0;
     }
 
+    //codigo duplicado na classe poupanca
+    public boolean possuiSaldoZerado() {
+        return this.lancamentos == null || this.lancamentos.isEmpty();
+    }
+
+    //codigo duplicado na classe poupanca
     @Override
     public Valor getSaldo() {
         return possuiSaldoZerado() 
             ? Valor.ZERO 
-            : super.getLancamentos().stream()
+            : this.lancamentos.stream()
                 .map(Lancamento::getValor)
                 .reduce(Valor.ZERO, Valor::adicionar);
     }
 
     @Override
     public void deposita(Valor valor) {
-        adicionaLancamento(
+        this.adicionarLancamento(
             Lancamento.criaLancamentoPositivo(valor, new Descricao("Transferencia entre contas correntes"), this)
         );
     }
@@ -104,9 +114,23 @@ public class ContaCorrente extends Conta implements ContaOrigem, ContaDestino {
             throw new SaldoInsuficienteException();
         }
 
-        adicionaLancamento(
+        adicionarLancamento(
             Lancamento.criaLancamentoNegativo(valor, new Descricao("Transferencia entre contas correntes"), this)
         );
+    }
+
+    @Override
+    public void adicionaDepositoInicialComoLancamento() {
+        if (this.lancamentos == null) {
+            lancamentos = new ArrayList<>();
+        }
+        
+        this.lancamentos.add(this.depositoInicial.toLancamento(this));
+    }
+
+    @Override
+    public void adicionarLancamento(Lancamento lancamento) {
+        this.lancamentos.add(lancamento);
     }
 
 }

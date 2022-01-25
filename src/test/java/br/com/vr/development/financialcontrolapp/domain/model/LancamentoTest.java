@@ -32,17 +32,6 @@ public class LancamentoTest {
         assertThat(lancamento.getValor()).isEqualTo(new Valor(money));
     }
 
-    // @Test
-    // void deveLancarExcecaoLancamentoInvalidoExceptionAoCriarUmLancamentoPositivoPassandoUmValorNegativo() {
-    //     ContaCorrente contaCorrente = Fixture.from(ContaCorrente.class).gimme("valid");
-    //     BigDecimal money = new BigDecimal("50");
-
-    //     assertThrows(LancamentoInvalidoException.class, () -> {
-    //         Lancamento.criaLancamentoPositivo(new Valor(money.negate()), new Descricao("Descricao Test"), contaCorrente);
-    //     });
-
-    // }
-
     @Test
     void deveCriarUmLancamentoDeDebitoContendoUmValorNegativo() {
         ContaCorrente contaCorrente = Fixture.from(ContaCorrente.class).gimme("valid");
@@ -54,16 +43,5 @@ public class LancamentoTest {
         assertThat(lancamento.getValor()).isEqualTo(new Valor(money.negate()));
 
     }
-
-    // @Test
-    // void deveLancarExcecaoLancamentoInvalidoExceptionAoCriarUmLancamentoNegativoPassandoUmValorPositivo() {
-    //     ContaCorrente contaCorrente = Fixture.from(ContaCorrente.class).gimme("valid");
-    //     BigDecimal money = new BigDecimal("50");
-
-    //     assertThrows(LancamentoInvalidoException.class, () -> {
-    //         Lancamento.criaLancamentoNegativo(new Valor(money), new Descricao("Descricao Test"), contaCorrente);
-    //     });
-
-    // }
 
 }

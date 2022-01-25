@@ -1,44 +1,12 @@
 package br.com.vr.development.financialcontrolapp.application.domain.model;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Embedded;
-import javax.persistence.OneToMany;
-import javax.validation.constraints.NotNull;
-
-import br.com.vr.development.financialcontrolapp.application.domain.model.components.DepositoInicial;
 import br.com.vr.development.financialcontrolapp.application.domain.model.lancamento.Lancamento;
-import lombok.Getter;
 
-public abstract class Conta {
+public interface Conta {
 
-    @Getter
-    @OneToMany(mappedBy = "contaCorrente", cascade = CascadeType.ALL)
-    List<Lancamento> lancamentos;
-    
+    Valor getSaldo();
 
-    @Embedded
-    @NotNull
-    @Column(name = "deposito_inicial", nullable = false)
-    DepositoInicial depositoInicial;
+    void adicionaDepositoInicialComoLancamento();
 
-    public void adicionaDepositoInicialComoLancamento() {
-        if (this.lancamentos == null) {
-            lancamentos = new ArrayList<>();
-        }
-        
-        this.lancamentos.add(this.depositoInicial.toLancamento(this));
-    }
-    
-    public boolean possuiSaldoZerado() {
-        return this.lancamentos == null || this.lancamentos.isEmpty();
-    }
-
-    void adicionaLancamento(Lancamento lancamento) {
-        this.lancamentos.add(lancamento);
-    }
-
+    void adicionarLancamento(Lancamento lancamento);
 }

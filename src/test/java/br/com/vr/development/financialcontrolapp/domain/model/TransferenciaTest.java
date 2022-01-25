@@ -13,6 +13,7 @@ import org.junit.jupiter.api.Test;
 import br.com.vr.development.financialcontrolapp.application.domain.model.AgenciaBancaria;
 import br.com.vr.development.financialcontrolapp.application.domain.model.Banco;
 import br.com.vr.development.financialcontrolapp.application.domain.model.Celular;
+import br.com.vr.development.financialcontrolapp.application.domain.model.Conta;
 import br.com.vr.development.financialcontrolapp.application.domain.model.ContaCorrente;
 import br.com.vr.development.financialcontrolapp.application.domain.model.Correntista;
 import br.com.vr.development.financialcontrolapp.application.domain.model.Cpf;
@@ -36,40 +37,35 @@ class TransferenciaTest {
 
     @Test
     void deveRealizarUmTEFDeUmaContaCorrenteParaOutra() {
-        ContaOrigem contaOrigem = getContaOrigem();
-        ContaDestino contaDestino = getContaDestino();
+        Conta contaOrigem = getContaOrigem();
+        Conta contaDestino = getContaDestino();
 
-        new Transferencia(new Valor("10"), contaOrigem, contaDestino).execute(TEF);
+        new Transferencia(new Valor("10"), (ContaOrigem) contaOrigem, (ContaDestino) contaDestino).execute(TEF);
         Assertions.assertThat(contaOrigem.getSaldo()).isEqualTo(new Valor("40"));
-    }
-
-    @Test
-    void deveRealizarUmaTEFDeContaCorrenteParaContaPoupanca() {
-        ContaOrigem contaOrigem = getContaOrigem();
-        ContaDestino contaDestino = getContaDestino();
-
-        new Transferencia(new Valor("10"), contaOrigem, contaDestino).execute(TEF);
-        Assertions.assertThat(contaOrigem.getSaldo()).isEqualTo(new Valor("40"));
-
+        Assertions.assertThat(contaDestino.getSaldo()).isEqualTo(new Valor("60"));
     }
 
     @Test
     void deveLancarExceptionSaldoInsuficienteExceptionQuandoNaoHouverValorDisponivelParaSaque() {
-        ContaOrigem contaOrigem = getContaOrigem();
-        ContaDestino contaDestino = getContaDestino();
+        Conta contaOrigem = getContaOrigem();
+        Conta contaDestino = getContaDestino();
 
         Assertions.assertThatThrownBy(() -> {
-            new Transferencia(new Valor("50,01"), contaOrigem, contaDestino).execute(TEF);
+            new Transferencia(new Valor("50,01"), (ContaOrigem) contaOrigem, (ContaDestino) contaDestino).execute(TEF);
         });
 
     }
 
     @Test
     void deveRealizarUmaTEFDeContaPoupancaParaContaCorrente() { 
-        ContaDestino poupanca = getContaPoupanca();
+        Conta poupanca = getContaPoupanca();
+        Conta origem = getContaOrigem();
+
+        new Transferencia(new Valor("0.01"), (ContaOrigem) origem, (ContaDestino) poupanca).execute(TEF);
+        Assertions.assertThat(origem.getSaldo()).isEqualTo(new Valor("49.99"));
+        Assertions.assertThat(poupanca.getSaldo()).isEqualTo(new Valor("50.01"));
+
     }
-
-
 
     private ContaCorrente getContaDestino() {
         Banco banco = Banco.builder()
@@ -86,7 +82,7 @@ class TransferenciaTest {
             
     }
 
-    private ContaOrigem getContaOrigem() {
+    private Conta getContaOrigem() {
         Banco banco = Banco.builder()
             .codigo("123")
             .nomeFantasia(new NomeFantasia("nome"))
@@ -100,7 +96,7 @@ class TransferenciaTest {
             new DepositoInicialFactory(new BigDecimal("50")).create(new BigDecimal("50")));
     }
 
-    private ContaDestino getContaPoupanca() {
+    private Conta getContaPoupanca() {
         Banco banco = Banco.builder()
             .codigo("123")
             .nomeFantasia(new NomeFantasia("nome"))
@@ -152,3 +148,4 @@ class TransferenciaTest {
         return Arrays.asList(endereco);
     }
 }
+
