@@ -120,16 +120,15 @@ class TransferenciaTest {
         Email email = new Email("thomascauajorgebarbosa-98@agnet.com.br");
         RendaMensal renda = new RendaMensal(new BigDecimal("2000"));
 
-        return Correntista.builder()
-            .nome(new Nome("Emerson", "Haraguchi"))
-            .email(email)
-            .enderecos(this.getEnderecos())
-            .cpf(new Cpf("29222004000"))
-            .tipoDocumento(TipoDocumento.CPF)
-            .dataNascimento(new DataNascimento(LocalDate.of(1988, 10, 21)))
-            .celular(telefone)
-            .rendaMensal(renda)
-        .build();
+        return new Correntista(
+            new Nome("Emerson", "Haraguchi"),
+            new Cpf("29222004000"),
+            TipoDocumento.CPF,
+            new DataNascimento(LocalDate.of(1988, 10, 21)),
+            renda,
+            email,
+            telefone,
+            this.getEnderecos());
     }
 
     private List<Endereco> getEnderecos() {

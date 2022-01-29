@@ -19,14 +19,10 @@ import javax.validation.constraints.NotNull;
 
 import br.com.vr.development.financialcontrolapp.application.enums.TipoDocumento;
 import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @AllArgsConstructor
 @NoArgsConstructor
-@Data
-@Builder
 @Entity
 @Table(name = "correntista", schema = "financial_app")
 public class Correntista {
@@ -74,4 +70,16 @@ public class Correntista {
     @JoinColumn(name = "id_correntista")
     @OneToMany(cascade = CascadeType.ALL)
     private List<Endereco> enderecos;
+
+    public Correntista(Nome nome, Cpf cpf, TipoDocumento tipoDocumento, DataNascimento dataNascimento, RendaMensal rendaMensal, Email email, Celular celular, List<Endereco> enderecos) {
+        this.nome = nome;
+        this.cpf = cpf;
+        this.tipoDocumento = tipoDocumento;
+        this.dataNascimento = dataNascimento;
+        this.rendaMensal = rendaMensal;
+        this.email = email;
+        this.celular = celular;
+        this.enderecos = enderecos;
+    }
+
 }

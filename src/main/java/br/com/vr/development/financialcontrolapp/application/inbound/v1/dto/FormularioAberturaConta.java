@@ -55,17 +55,17 @@ public class FormularioAberturaConta {
     private AgenciaBancariaDTO agenciaBancaria;
 
     public ContaCorrente toContaCorrente(AgenciaBancaria agenciaBancaria,  DepositoInicial depositoInicial) {
-        
-        Correntista correntista = Correntista.builder()
-            .nome(this.prospect.getNome())
-            .email(this.email)
-            .enderecos(this.enderecos)
-            .cpf(this.prospect.getDocumento())
-            .tipoDocumento(this.prospect.getDocumento().getTipoDocumento())
-            .dataNascimento(this.prospect.getDataDeNascimento())
-            .celular(this.getTelefone())
-            .rendaMensal(this.getRenda())
-            .build();
+
+        Correntista correntista = new Correntista(
+            this.prospect.getNome(), 
+            this.prospect.getDocumento(), 
+            this.prospect.getDocumento().getTipoDocumento(),
+            this.prospect.getDataDeNascimento(),
+            this.getRenda(),
+            this.email,
+            this.getTelefone(),
+            getEnderecos()
+        );
 
         ContaCorrente contaCorrente = new ContaCorrente(agenciaBancaria, correntista, depositoInicial);
         contaCorrente.adicionaDepositoInicialComoLancamento();

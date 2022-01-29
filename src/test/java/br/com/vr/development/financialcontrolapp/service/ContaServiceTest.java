@@ -8,6 +8,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
+import br.com.vr.development.financialcontrolapp.fixtures.CorrentistaFixture;
+import br.com.vr.development.financialcontrolapp.fixtures.EnderecoFixture;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -24,7 +26,6 @@ import br.com.vr.development.financialcontrolapp.application.domain.model.Agenci
 import br.com.vr.development.financialcontrolapp.application.domain.model.Banco;
 import br.com.vr.development.financialcontrolapp.application.domain.model.Celular;
 import br.com.vr.development.financialcontrolapp.application.domain.model.ContaCorrente;
-import br.com.vr.development.financialcontrolapp.application.domain.model.Correntista;
 import br.com.vr.development.financialcontrolapp.application.domain.model.Cpf;
 import br.com.vr.development.financialcontrolapp.application.domain.model.DataNascimento;
 import br.com.vr.development.financialcontrolapp.application.domain.model.Email;
@@ -36,9 +37,6 @@ import br.com.vr.development.financialcontrolapp.application.domain.model.RendaM
 import br.com.vr.development.financialcontrolapp.application.domain.model.components.DepositoInicial;
 import br.com.vr.development.financialcontrolapp.application.domain.model.components.DepositoInicialFactory;
 import br.com.vr.development.financialcontrolapp.application.domain.service.ContaServiceImpl;
-import br.com.vr.development.financialcontrolapp.application.enums.TipoDocumento;
-import br.com.vr.development.financialcontrolapp.application.enums.TipoEndereco;
-import br.com.vr.development.financialcontrolapp.application.enums.UF;
 import br.com.vr.development.financialcontrolapp.application.inbound.v1.dto.AgenciaBancariaDTO;
 import br.com.vr.development.financialcontrolapp.application.inbound.v1.dto.FormularioAberturaConta;
 import br.com.vr.development.financialcontrolapp.exception.BancoInvalidoException;
@@ -73,7 +71,7 @@ public class ContaServiceTest {
 
         Pessoa pessoa = getPessoa();
 
-        List<Endereco> enderecos = getEnderecos();
+        List<Endereco> enderecos = Arrays.asList(EnderecoFixture.create());
 
         Celular telefone = new Celular("19", "2901-7197");
         Email email = new Email("thomascauajorgebarbosa-98@agnet.com.br");
@@ -96,7 +94,7 @@ public class ContaServiceTest {
     @Test
     public void naoDeveAbrirContaCorrenteComValorMenorQue50() {
         Pessoa pessoa = getPessoa();
-        List<Endereco> enderecos = getEnderecos();
+        List<Endereco> enderecos = Arrays.asList(EnderecoFixture.create());
 
         Celular telefone = new Celular("19", "2901-7197");
         Email email = new Email("thomascauajorgebarbosa-98@agnet.com.br");
@@ -122,7 +120,7 @@ public class ContaServiceTest {
     public void naoDeveAbrirContaCorrenteQuandoNaoEncontrarOBancoNoBancoDeDados() {
 
         Pessoa pessoa = getPessoa();
-        List<Endereco> enderecos = getEnderecos();
+        List<Endereco> enderecos = Arrays.asList(EnderecoFixture.create());
         Celular telefone = new Celular("19", "2901-7197");
         Email email = new Email("thomascauajorgebarbosa-98@agnet.com.br");
         RendaMensal renda = new RendaMensal(new BigDecimal("2000"));
@@ -162,8 +160,7 @@ public class ContaServiceTest {
 
         banco.setAgencias(Arrays.asList(agencia));
 
-
-        return new ContaCorrente(agencia, getCorrentista(), 
+        return new ContaCorrente(agencia, CorrentistaFixture.create(),
             new DepositoInicialFactory(new BigDecimal("50")).create(new BigDecimal("50")));
 
     }
@@ -177,33 +174,4 @@ public class ContaServiceTest {
         return agencia;
     }
 
-
-    private List<Endereco> getEnderecos() {
-        Endereco endereco = new Endereco();
-        endereco.setCep("13940-970");
-        endereco.setBairro("Centro");
-        endereco.setMunicipio("Águas de Lindóia");
-        endereco.setEstado(UF.SAO_PAULO);
-        endereco.setLogradouro("Avenida Brasil 160");
-        endereco.setNumero("607");
-        endereco.setTipoEndereco(TipoEndereco.RESIDENCIAL);
-        return Arrays.asList(endereco);
-    }
-
-    private Correntista getCorrentista() {
-        Celular telefone = new Celular("19", "2901-7197");
-        Email email = new Email("thomascauajorgebarbosa-98@agnet.com.br");
-        RendaMensal renda = new RendaMensal(new BigDecimal("2000"));
-
-        return Correntista.builder()
-            .nome(new Nome("Emerson", "Haraguchi"))
-            .email(email)
-            .enderecos(this.getEnderecos())
-            .cpf(new Cpf("29222004000"))
-            .tipoDocumento(TipoDocumento.CPF)
-            .dataNascimento(new DataNascimento(LocalDate.of(1988, 10, 21)))
-            .celular(telefone)
-            .rendaMensal(renda)
-        .build();
-    }
 }

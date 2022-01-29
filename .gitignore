@@ -34,3 +34,4 @@ target/
 .vscode/
 .bloop/
 .metals/
+.idea/
