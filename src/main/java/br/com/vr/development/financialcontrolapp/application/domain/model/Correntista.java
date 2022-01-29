@@ -18,11 +18,12 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 import br.com.vr.development.financialcontrolapp.application.enums.TipoDocumento;
+import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
-@AllArgsConstructor
-@NoArgsConstructor
+@AllArgsConstructor(access = AccessLevel.PRIVATE)
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 @Entity
 @Table(name = "correntista", schema = "financial_app")
 public class Correntista {
