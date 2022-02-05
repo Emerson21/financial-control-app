@@ -22,10 +22,6 @@ public class Nome {
     @NotNull
     private String sobrenome;
 
-    public String getNomeCompleto() {
-        return String.format("%s %s", primeiroNome, sobrenome);
-    }
-
     public Nome(String nome) {
         this.primeiroNome = nome;
         this.sobrenome = "";

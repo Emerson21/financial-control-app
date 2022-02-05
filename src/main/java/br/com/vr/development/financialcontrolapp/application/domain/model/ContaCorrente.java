@@ -29,9 +29,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
-@AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-@Getter
 @ToString
 @Entity
 @Table(name = "conta_corrente", schema = "financial_app")

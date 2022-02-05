@@ -22,8 +22,6 @@ import lombok.ToString;
 
 @AllArgsConstructor
 @NoArgsConstructor
-@Getter
-@Setter
 @ToString
 @Builder
 @Entity
@@ -34,10 +32,12 @@ public class Banco {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Getter
     @Embedded
     @AttributeOverride(name = "nome", column = @Column(name = "nome", nullable = false))
     private NomeFantasia nomeFantasia;
 
+    @Getter
     @Column(name = "codigo")
     private String codigo;
 
@@ -45,6 +45,7 @@ public class Banco {
     @AttributeOverride(name = "numero", column = @Column(name = "cnpj", nullable = false))
     private Cnpj cnpj;
 
+    @Setter
     @OneToMany(mappedBy = "banco", fetch = FetchType.EAGER)
     private List<AgenciaBancaria> agencias;
 }

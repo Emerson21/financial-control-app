@@ -24,14 +24,9 @@ import br.com.vr.development.financialcontrolapp.application.domain.model.Descri
 import br.com.vr.development.financialcontrolapp.application.domain.model.Poupanca;
 import br.com.vr.development.financialcontrolapp.application.domain.model.Valor;
 import br.com.vr.development.financialcontrolapp.application.enums.TipoLancamento;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 
-@AllArgsConstructor
-@NoArgsConstructor
-@Getter
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 @ToString
 @Entity
 @Table(name = "lancamento", schema = "financial_app")
@@ -48,6 +43,7 @@ public class Lancamento {
     @Column(name = "data_hora")
     private LocalDateTime dataHora;
 
+    @Getter
     @Column(name = "valor")
     @Embedded
     private Valor valor;
@@ -95,14 +91,6 @@ public class Lancamento {
         this(valor, descricao, tipoLancamento);
         this.poupanca = poupanca;
     }
-
-
-    public void addContaCorrente(ContaCorrente contaCorrente) {
-        if (this.contaCorrente == null) {
-            this.contaCorrente = contaCorrente;
-        }
-    }
-
 
     public static Lancamento criaLancamentoPositivo(Valor valor, Descricao descricao, Conta conta) {
         return new Lancamento(valor, descricao, conta, CREDITO);
