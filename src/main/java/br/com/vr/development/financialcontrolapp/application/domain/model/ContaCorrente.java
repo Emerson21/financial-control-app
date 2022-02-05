@@ -57,6 +57,7 @@ public class ContaCorrente extends Conta implements ContaOrigem {
     @OneToOne(cascade = CascadeType.ALL)
     private Correntista correntista;
 
+    @Getter(AccessLevel.PROTECTED)//override o metodo abstrato da conta
     @OneToMany(mappedBy = "contaCorrente", cascade = CascadeType.ALL)
     private List<Lancamento> lancamentos;
 
@@ -113,9 +114,9 @@ public class ContaCorrente extends Conta implements ContaOrigem {
         this.lancamentos.add(this.depositoInicial.toLancamento(this));
     }
 
-    @Override
-    public List<Lancamento> getLancamentos() {
-        return this.lancamentos;
-    }
+//    @Override
+//    public List<Lancamento> getLancamentos() {
+//        return this.lancamentos;
+//    }
 
 }

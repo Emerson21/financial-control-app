@@ -3,21 +3,17 @@ package br.com.vr.development.financialcontrolapp.domain.model;
 import static br.com.vr.development.financialcontrolapp.application.enums.TipoTransferencia.TEF;
 
 import java.math.BigDecimal;
-import java.time.LocalDate;
 import java.util.Arrays;
-import java.util.List;
 
 import br.com.vr.development.financialcontrolapp.application.domain.model.*;
+import br.com.vr.development.financialcontrolapp.fixtures.AgenciaBancariaFixture;
+import br.com.vr.development.financialcontrolapp.fixtures.CorrentistaFixture;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import br.com.vr.development.financialcontrolapp.application.domain.model.components.DepositoInicialFactory;
-import br.com.vr.development.financialcontrolapp.application.domain.model.transferencia.ContaDestino;
 import br.com.vr.development.financialcontrolapp.application.domain.model.transferencia.ContaOrigem;
 import br.com.vr.development.financialcontrolapp.application.domain.model.transferencia.Transferencia;
-import br.com.vr.development.financialcontrolapp.application.enums.TipoDocumento;
-import br.com.vr.development.financialcontrolapp.application.enums.TipoEndereco;
-import br.com.vr.development.financialcontrolapp.application.enums.UF;
 
 class TransferenciaTest {
 
@@ -60,7 +56,7 @@ class TransferenciaTest {
 
         banco.setAgencias(Arrays.asList(agencia));
 
-        return new ContaCorrente(agencia, getCorrentista(), 
+        return new ContaCorrente(agencia, CorrentistaFixture.create(),
             new DepositoInicialFactory(new BigDecimal("50")).create(new BigDecimal("50")));
             
     }
@@ -75,7 +71,7 @@ class TransferenciaTest {
 
         banco.setAgencias(Arrays.asList(agencia));
 
-        return new ContaCorrente(agencia, getCorrentista(), 
+        return new ContaCorrente(agencia, CorrentistaFixture.create(),
             new DepositoInicialFactory(new BigDecimal("50")).create(new BigDecimal("50")));
     }
 
@@ -89,7 +85,7 @@ class TransferenciaTest {
 
         banco.setAgencias(Arrays.asList(agencia));
 
-        return new Poupanca(agencia, getCorrentista(), 
+        return new Poupanca(agencia, CorrentistaFixture.create(),
             new DepositoInicialFactory(new BigDecimal("50")).create(new BigDecimal("50")));
     }
 
@@ -102,32 +98,5 @@ class TransferenciaTest {
         return agencia;
     }
 
-    private Correntista getCorrentista() {
-        Celular telefone = new Celular("19", "2901-7197");
-        Email email = new Email("thomascauajorgebarbosa-98@agnet.com.br");
-        RendaMensal renda = new RendaMensal(new BigDecimal("2000"));
-
-        return new Correntista(
-            new Nome("Emerson", "Haraguchi"),
-            new Cpf("29222004000"),
-            TipoDocumento.CPF,
-            new DataNascimento(LocalDate.of(1988, 10, 21)),
-            renda,
-            email,
-            telefone,
-            this.getEnderecos());
-    }
-
-    private List<Endereco> getEnderecos() {
-        Endereco endereco = new Endereco();
-        endereco.setCep("13940-970");
-        endereco.setBairro("Centro");
-        endereco.setMunicipio("Águas de Lindóia");
-        endereco.setEstado(UF.SAO_PAULO);
-        endereco.setLogradouro("Avenida Brasil 160");
-        endereco.setNumero("607");
-        endereco.setTipoEndereco(TipoEndereco.RESIDENCIAL);
-        return Arrays.asList(endereco);
-    }
 }
 

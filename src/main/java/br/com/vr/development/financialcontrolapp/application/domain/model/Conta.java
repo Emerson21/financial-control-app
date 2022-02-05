@@ -18,15 +18,16 @@ public abstract class Conta implements ContaDestino {
                 .reduce(Valor.ZERO, Valor::adicionar);
     }
 
-    public abstract void adicionaDepositoInicialComoLancamento();
+    protected abstract void adicionaDepositoInicialComoLancamento();
 
-    public void adicionar(Lancamento lancamento) {
+    protected void adicionar(Lancamento lancamento) {
         getLancamentos().add(lancamento);
     }
-    public boolean possuiSaldo() {
+
+    protected boolean possuiSaldo() {
         return getLancamentos() != null && !getLancamentos().isEmpty();
     }
 
-    public abstract List<Lancamento> getLancamentos();
+    protected abstract List<Lancamento> getLancamentos();
 
 }

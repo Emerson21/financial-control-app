@@ -6,6 +6,7 @@ import java.util.Random;
 
 import br.com.vr.development.financialcontrolapp.application.domain.model.components.DepositoInicial;
 import br.com.vr.development.financialcontrolapp.application.domain.model.lancamento.Lancamento;
+import lombok.AccessLevel;
 import lombok.Getter;
 
 public class Poupanca extends Conta {
@@ -20,7 +21,7 @@ public class Poupanca extends Conta {
 
     private DepositoInicial depositoInicial;
 
-    @Getter //Override super method getLancamentos com o Lombok
+    @Getter(AccessLevel.PROTECTED) //Override abstract method com o Lombok
     private List<Lancamento> lancamentos;
 
 
