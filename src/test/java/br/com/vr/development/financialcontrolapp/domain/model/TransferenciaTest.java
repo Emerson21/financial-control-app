@@ -7,23 +7,10 @@ import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
 
+import br.com.vr.development.financialcontrolapp.application.domain.model.*;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 
-import br.com.vr.development.financialcontrolapp.application.domain.model.AgenciaBancaria;
-import br.com.vr.development.financialcontrolapp.application.domain.model.Banco;
-import br.com.vr.development.financialcontrolapp.application.domain.model.Celular;
-import br.com.vr.development.financialcontrolapp.application.domain.model.ContaCorrente;
-import br.com.vr.development.financialcontrolapp.application.domain.model.Correntista;
-import br.com.vr.development.financialcontrolapp.application.domain.model.Cpf;
-import br.com.vr.development.financialcontrolapp.application.domain.model.DataNascimento;
-import br.com.vr.development.financialcontrolapp.application.domain.model.Email;
-import br.com.vr.development.financialcontrolapp.application.domain.model.Endereco;
-import br.com.vr.development.financialcontrolapp.application.domain.model.Nome;
-import br.com.vr.development.financialcontrolapp.application.domain.model.NomeFantasia;
-import br.com.vr.development.financialcontrolapp.application.domain.model.Poupanca;
-import br.com.vr.development.financialcontrolapp.application.domain.model.RendaMensal;
-import br.com.vr.development.financialcontrolapp.application.domain.model.Valor;
 import br.com.vr.development.financialcontrolapp.application.domain.model.components.DepositoInicialFactory;
 import br.com.vr.development.financialcontrolapp.application.domain.model.transferencia.ContaDestino;
 import br.com.vr.development.financialcontrolapp.application.domain.model.transferencia.ContaOrigem;
@@ -36,10 +23,10 @@ class TransferenciaTest {
 
     @Test
     void deveRealizarUmTEFDeUmaContaCorrenteParaOutra() {
-        ContaOrigem contaOrigem = getContaOrigem();
-        ContaDestino contaDestino = getContaDestino();
+        Conta contaOrigem = getContaOrigem();
+        Conta contaDestino = getContaDestino();
 
-        new Transferencia(new Valor("10"), contaOrigem, contaDestino).execute(TEF);
+        new Transferencia(new Valor("10"), (ContaOrigem) contaOrigem, contaDestino, TEF).execute();
         Assertions.assertThat(contaOrigem.getSaldo()).isEqualTo(new Valor("40"));
         Assertions.assertThat(contaDestino.getSaldo()).isEqualTo(new Valor("60"));
     }
@@ -47,17 +34,17 @@ class TransferenciaTest {
     @Test
     void deveLancarExceptionSaldoInsuficienteExceptionQuandoNaoHouverValorDisponivelParaSaque() {
         Assertions.assertThatThrownBy(() -> {
-            new Transferencia(new Valor("50,01"), getContaOrigem(), getContaDestino()).execute(TEF);
+            new Transferencia(new Valor("50,01"), (ContaOrigem) getContaOrigem(), getContaDestino(), TEF).execute();
         });
 
     }
 
     @Test
     void deveRealizarUmaTEFDeContaPoupancaParaContaCorrente() { 
-        ContaDestino poupanca = getContaPoupanca();
-        ContaOrigem origem = getContaOrigem();
+        Conta poupanca = getContaPoupanca();
+        Conta origem = getContaOrigem();
 
-        new Transferencia(new Valor("0.01"), origem, poupanca).execute(TEF);
+        new Transferencia(new Valor("0.01"), (ContaOrigem) origem, poupanca, TEF).execute();
         Assertions.assertThat(origem.getSaldo()).isEqualTo(new Valor("49.99"));
         Assertions.assertThat(poupanca.getSaldo()).isEqualTo(new Valor("50.01"));
 
@@ -78,7 +65,7 @@ class TransferenciaTest {
             
     }
 
-    private ContaOrigem getContaOrigem() {
+    private Conta getContaOrigem() {
         Banco banco = Banco.builder()
             .codigo("123")
             .nomeFantasia(new NomeFantasia("nome"))
@@ -92,7 +79,7 @@ class TransferenciaTest {
             new DepositoInicialFactory(new BigDecimal("50")).create(new BigDecimal("50")));
     }
 
-    private ContaDestino getContaPoupanca() {
+    private Conta getContaPoupanca() {
         Banco banco = Banco.builder()
             .codigo("123")
             .nomeFantasia(new NomeFantasia("nome"))

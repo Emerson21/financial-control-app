@@ -10,8 +10,9 @@ public class Transferencia {
     private Valor valor;
     private ContaOrigem contaOrigem;
     private ContaDestino contaDestino;
+    private TipoTransferencia tipoTransferencia;
 
-    public void execute(TipoTransferencia tipoTransferencia) {
+    public void execute() {
 
         this.contaOrigem.saque(valor.adicionar(tipoTransferencia.taxa()));
         this.contaDestino.deposita(valor);

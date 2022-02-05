@@ -1,12 +1,32 @@
 package br.com.vr.development.financialcontrolapp.application.domain.model;
 
 import br.com.vr.development.financialcontrolapp.application.domain.model.lancamento.Lancamento;
+import br.com.vr.development.financialcontrolapp.application.domain.model.transferencia.ContaDestino;
 
-public interface Conta {
+import java.util.List;
 
-    Valor getSaldo();
+public abstract class Conta implements ContaDestino {
 
-    void adicionaDepositoInicialComoLancamento();
+    public Valor getSaldo() {
 
-    void adicionarLancamento(Lancamento lancamento);
+        //utilizando Template Method e Hook Method em conjunto
+
+        return !possuiSaldo()
+                ? Valor.ZERO
+                : getLancamentos().stream()
+                .map(Lancamento::getValor)
+                .reduce(Valor.ZERO, Valor::adicionar);
+    }
+
+    public abstract void adicionaDepositoInicialComoLancamento();
+
+    public void adicionar(Lancamento lancamento) {
+        getLancamentos().add(lancamento);
+    }
+    public boolean possuiSaldo() {
+        return getLancamentos() != null && !getLancamentos().isEmpty();
+    }
+
+    public abstract List<Lancamento> getLancamentos();
+
 }

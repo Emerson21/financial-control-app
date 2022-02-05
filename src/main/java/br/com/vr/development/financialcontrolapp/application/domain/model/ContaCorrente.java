@@ -29,11 +29,13 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
+import static br.com.vr.development.financialcontrolapp.application.domain.model.lancamento.Lancamento.criaLancamentoNegativo;
+
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 @ToString
 @Entity
 @Table(name = "conta_corrente", schema = "financial_app")
-public class ContaCorrente implements ContaOrigem, ContaDestino {
+public class ContaCorrente extends Conta implements ContaOrigem {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -81,27 +83,12 @@ public class ContaCorrente implements ContaOrigem, ContaDestino {
     }
 
     public boolean possuiSaldoDisponivel(Valor valor) {
-        return this.getSaldo().compareTo(valor) >= 0;
-    }
-
-    //codigo duplicado na classe poupanca
-    public boolean possuiSaldoZerado() {
-        return this.lancamentos == null || this.lancamentos.isEmpty();
-    }
-
-    //codigo duplicado na classe poupanca
-    @Override
-    public Valor getSaldo() {
-        return possuiSaldoZerado() 
-            ? Valor.ZERO 
-            : this.lancamentos.stream()
-                .map(Lancamento::getValor)
-                .reduce(Valor.ZERO, Valor::adicionar);
+        return super.getSaldo().compareTo(valor) >= 0;
     }
 
     @Override
     public void deposita(Valor valor) {
-        this.adicionarLancamento(
+        super.adicionar(
             Lancamento.criaLancamentoPositivo(valor, new Descricao("Transferencia entre contas correntes"), this)
         );
     }
@@ -112,8 +99,8 @@ public class ContaCorrente implements ContaOrigem, ContaDestino {
             throw new SaldoInsuficienteException();
         }
 
-        adicionarLancamento(
-            Lancamento.criaLancamentoNegativo(valor, new Descricao("Transferencia entre contas correntes"), this)
+        adicionar(
+            criaLancamentoNegativo(valor, new Descricao("Transferencia entre contas correntes"), this)
         );
     }
 
@@ -127,8 +114,8 @@ public class ContaCorrente implements ContaOrigem, ContaDestino {
     }
 
     @Override
-    public void adicionarLancamento(Lancamento lancamento) {
-        this.lancamentos.add(lancamento);
+    public List<Lancamento> getLancamentos() {
+        return this.lancamentos;
     }
 
 }
