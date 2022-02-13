@@ -1,25 +1,13 @@
 package br.com.vr.development.financialcontrolapp.application.inbound.v1.dto;
 
-import java.math.BigDecimal;
-import java.util.List;
+import br.com.vr.development.financialcontrolapp.application.domain.model.*;
+import br.com.vr.development.financialcontrolapp.application.domain.model.components.DepositoInicial;
+import lombok.*;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
-
-import br.com.vr.development.financialcontrolapp.application.domain.model.AgenciaBancaria;
-import br.com.vr.development.financialcontrolapp.application.domain.model.Celular;
-import br.com.vr.development.financialcontrolapp.application.domain.model.ContaCorrente;
-import br.com.vr.development.financialcontrolapp.application.domain.model.Correntista;
-import br.com.vr.development.financialcontrolapp.application.domain.model.Email;
-import br.com.vr.development.financialcontrolapp.application.domain.model.Endereco;
-import br.com.vr.development.financialcontrolapp.application.domain.model.Pessoa;
-import br.com.vr.development.financialcontrolapp.application.domain.model.RendaMensal;
-import br.com.vr.development.financialcontrolapp.application.domain.model.components.DepositoInicial;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import java.math.BigDecimal;
+import java.util.List;
 
 @Getter
 @Setter
@@ -67,10 +55,7 @@ public class FormularioAberturaConta {
             getEnderecos()
         );
 
-        ContaCorrente contaCorrente = new ContaCorrente(agenciaBancaria, correntista, depositoInicial);
-        contaCorrente.adicionaDepositoInicialComoLancamento();
-        
-        return contaCorrente;
+        return new ContaCorrente(agenciaBancaria, correntista, depositoInicial);
     }
 
 }

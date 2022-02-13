@@ -14,7 +14,7 @@ public class Transferencia {
 
     public void execute() {
 
-        this.contaOrigem.saque(valor.adicionar(tipoTransferencia.taxa()));
+        this.contaOrigem.saque(tipoTransferencia.aplicaTaxaNo(valor));
         this.contaDestino.deposita(valor);
 
     }

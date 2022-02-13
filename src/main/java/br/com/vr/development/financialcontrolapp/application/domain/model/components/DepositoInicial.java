@@ -1,15 +1,14 @@
 package br.com.vr.development.financialcontrolapp.application.domain.model.components;
 
-import java.math.BigDecimal;
-
-import br.com.vr.development.financialcontrolapp.application.domain.model.ContaCorrente;
+import br.com.vr.development.financialcontrolapp.application.domain.model.Conta;
 import br.com.vr.development.financialcontrolapp.application.domain.model.Descricao;
-import br.com.vr.development.financialcontrolapp.application.domain.model.Poupanca;
 import br.com.vr.development.financialcontrolapp.application.domain.model.Valor;
 import br.com.vr.development.financialcontrolapp.application.domain.model.lancamento.Lancamento;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
+
+import java.math.BigDecimal;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
@@ -23,12 +22,8 @@ public class DepositoInicial {
         return valor == null || valor.compareTo(valorMinimo) < 0;
     }
 
-    public Lancamento toLancamento(ContaCorrente conta) {
+    public Lancamento toLancamento(Conta conta) {
         return Lancamento.criaLancamentoPositivo(new Valor(valor.toString()), new Descricao(DESCRICAO_DEPOSITO_INICIAL), conta);
-    }
-
-    public Lancamento toLancamento(Poupanca poupanca) {
-        return Lancamento.criaLancamentoPositivo(new Valor(valor.toString()), new Descricao(DESCRICAO_DEPOSITO_INICIAL), poupanca);
     }
 
 }

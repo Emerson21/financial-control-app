@@ -1,29 +1,23 @@
 package br.com.vr.development.financialcontrolapp.application.domain.model;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
-
 import br.com.vr.development.financialcontrolapp.application.domain.model.components.DepositoInicial;
 import br.com.vr.development.financialcontrolapp.application.domain.model.lancamento.Lancamento;
 import lombok.AccessLevel;
-import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
+import javax.persistence.Entity;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
+import javax.persistence.Table;
+import java.util.Random;
+
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
+@ToString
+@Entity
+@Inheritance(strategy = InheritanceType.JOINED)
+@Table(name = "poupanca", schema = "financial_app")
 public class Poupanca extends Conta {
-    
-    private AgenciaBancaria agencia;
-    
-    private Long numero;
-    
-    private int digito;
-
-    private Correntista correntista;
-
-    private DepositoInicial depositoInicial;
-
-    @Getter(AccessLevel.PROTECTED) //Override abstract method com o Lombok
-    private List<Lancamento> lancamentos;
-
 
     public Poupanca(AgenciaBancaria agencia, Correntista correntista, DepositoInicial depositoInicial) {
         this.agencia = agencia;
@@ -37,15 +31,6 @@ public class Poupanca extends Conta {
     @Override
     public void deposita(Valor valor) {
         adicionar(Lancamento.criaLancamentoPositivo(valor, new Descricao("Transferencia entre contas"), this));
-    }
-
-    @Override
-    public void adicionaDepositoInicialComoLancamento() {
-        if (this.lancamentos == null) {
-            lancamentos = new ArrayList<>();
-        }
-        
-        this.lancamentos.add(this.depositoInicial.toLancamento(this));
     }
 
 }

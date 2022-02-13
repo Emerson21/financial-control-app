@@ -7,6 +7,11 @@
       <option name="url" value="https://artefatos.jfrog.io/artifactory/virtual-maven-releases" />
     </remote-repository>
     <remote-repository>
+      <option name="id" value="lumisportal" />
+      <option name="name" value="lumisportal" />
+      <option name="url" value="http://repo.lumis.com.br/repository/lumisportal/" />
+    </remote-repository>
+    <remote-repository>
       <option name="id" value="central" />
       <option name="name" value="Central Repository" />
       <option name="url" value="https://repo.maven.apache.org/maven2" />
@@ -25,6 +30,11 @@
       <option name="id" value="snapshot-repository" />
       <option name="name" value="snapshot-repository" />
       <option name="url" value="https://artefatos.jfrog.io/artifactory/virtual-maven-snapshots" />
+    </remote-repository>
+    <remote-repository>
+      <option name="id" value="jcenter" />
+      <option name="name" value="jcenter" />
+      <option name="url" value="https://jcenter.bintray.com/" />
     </remote-repository>
   </component>
 </project>

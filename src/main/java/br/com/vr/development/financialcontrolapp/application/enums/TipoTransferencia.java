@@ -6,18 +6,32 @@ public enum TipoTransferencia {
     
     TED {
         @Override
-        public Valor taxa() {
+        Valor taxa() {
             return new Valor("5");
+        }
+
+        @Override
+        public Valor aplicaTaxaNo(Valor valorTransferencia) {
+            return this.taxa().adicionar(valorTransferencia);
         }
     },
     
     TEF {
-        
+
         @Override
-        public Valor taxa() {
+        Valor taxa() {
             return Valor.ZERO;
+        }
+
+        @Override
+        public Valor aplicaTaxaNo(Valor valorTransferencia) {
+            return this.taxa().adicionar(valorTransferencia);
         }
     };
 
-    public abstract Valor taxa();
+    abstract Valor taxa();
+
+    public abstract Valor aplicaTaxaNo(Valor valorTransferencia);
+
+
 }
