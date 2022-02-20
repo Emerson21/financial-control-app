@@ -12,7 +12,6 @@ import javax.persistence.*;
 @Entity
 @PrimaryKeyJoinColumn(name = "id")
 @Table(name = "poupanca")
-//@DiscriminatorValue("CP")
 public class Poupanca extends Conta {
 
     public Poupanca(AgenciaBancaria agencia, Correntista correntista, DepositoInicial depositoInicial) {

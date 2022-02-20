@@ -18,7 +18,6 @@ import static br.com.vr.development.financialcontrolapp.application.domain.model
 @Entity
 @PrimaryKeyJoinColumn(name = "id")
 @Table(name = "conta_corrente")
-//@DiscriminatorValue("CC")
 public class ContaCorrente extends Conta implements ContaOrigem {
 
     public ContaCorrente(AgenciaBancaria agencia, Correntista correntista, DepositoInicial depositoInicial) {
