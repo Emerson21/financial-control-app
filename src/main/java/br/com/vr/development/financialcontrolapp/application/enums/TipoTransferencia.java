@@ -3,35 +3,29 @@ package br.com.vr.development.financialcontrolapp.application.enums;
 import br.com.vr.development.financialcontrolapp.application.domain.model.Valor;
 
 public enum TipoTransferencia {
-    
-    TED {
-        @Override
-        Valor taxa() {
-            return new Valor("5");
-        }
+
+    TED(new Valor("5")) {
 
         @Override
         public Valor aplicaTaxaNo(Valor valorTransferencia) {
-            return this.taxa().adicionar(valorTransferencia);
+            return taxa.adicionar(valorTransferencia);
         }
     },
     
-    TEF {
-
-        @Override
-        Valor taxa() {
-            return Valor.ZERO;
-        }
+    TEF(Valor.ZERO) {
 
         @Override
         public Valor aplicaTaxaNo(Valor valorTransferencia) {
-            return this.taxa().adicionar(valorTransferencia);
+            return taxa.adicionar(valorTransferencia);
         }
     };
 
-    abstract Valor taxa();
+    Valor taxa;
+
+    TipoTransferencia(Valor taxa) {
+        this.taxa = taxa;
+    }
 
     public abstract Valor aplicaTaxaNo(Valor valorTransferencia);
-
 
 }
