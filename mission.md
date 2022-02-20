@@ -11,7 +11,7 @@ Financial Control App
     - O sistema deverá aceitar receber o pagamento do salário via transferencia bancaria do tipo DOC / TED ou Pix.
     - O valor depositado deverá constar como um lançamento do tipo crédito na conta do correntista que recebeu o valor.
     - O valor transferido deverá constar como um lançamento do tipo débito na conta do correntista que enviou o valor.
-    - Não deverá deixar realizar a transferencia caso o valor depositado seja menor que o saldo disponível na conta, lancando uma excecao de saldo indisponivel.
+    - Não deverá deixar realizar a transferencia caso o valor depositado seja menor que o saldo disponível na conta, lançando uma excecao de saldo indisponivel.
     - Transferencias do tipo DOC deverao ser processadas 1x ao dia.
     - Transferencias do tipo TED deverão ser processadas a cada 5 min.
     - Transferencias via PIX deverão ser processadas on-line.

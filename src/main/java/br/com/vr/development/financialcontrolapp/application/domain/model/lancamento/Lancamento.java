@@ -35,6 +35,7 @@ public class Lancamento {
     @Embedded
     private Valor valor;
 
+    @JoinColumn(name = "conta_id", referencedColumnName = "id")
     @ManyToOne
     private Conta conta;
 

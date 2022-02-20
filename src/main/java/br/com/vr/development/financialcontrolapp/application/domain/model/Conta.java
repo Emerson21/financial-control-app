@@ -15,10 +15,10 @@ import java.util.Set;
 
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public abstract class Conta implements ContaDestino {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
 
     @JoinColumn(name ="id_agencia", referencedColumnName = "id")
@@ -37,7 +37,7 @@ public abstract class Conta implements ContaDestino {
     @OneToOne(cascade = CascadeType.ALL)
     Correntista correntista;
 
-    @OneToMany(cascade = CascadeType.ALL)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "conta")
     Set<Lancamento> lancamentos;
 
     @Embedded
