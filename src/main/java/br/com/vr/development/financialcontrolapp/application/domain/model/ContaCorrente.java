@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import lombok.ToString;
 
 import javax.persistence.Entity;
+import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
 import static br.com.vr.development.financialcontrolapp.application.domain.model.lancamento.Lancamento.criaLancamentoNegativo;
@@ -15,7 +16,9 @@ import static br.com.vr.development.financialcontrolapp.application.domain.model
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 @ToString
 @Entity
-@Table(name = "conta_corrente", schema = "financial_app")
+@PrimaryKeyJoinColumn(name = "id")
+@Table(name = "conta_corrente")
+//@DiscriminatorValue("CC")
 public class ContaCorrente extends Conta implements ContaOrigem {
 
     public ContaCorrente(AgenciaBancaria agencia, Correntista correntista, DepositoInicial depositoInicial) {

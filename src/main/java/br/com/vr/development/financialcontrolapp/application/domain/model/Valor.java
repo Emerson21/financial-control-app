@@ -1,15 +1,17 @@
 package br.com.vr.development.financialcontrolapp.application.domain.model;
 
-import java.math.BigDecimal;
+import lombok.AccessLevel;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import javax.persistence.Embeddable;
-
-import lombok.EqualsAndHashCode;
-import lombok.ToString;
+import java.math.BigDecimal;
 
 @Embeddable
 @EqualsAndHashCode
 @ToString
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class Valor implements Comparable {
 
     public static final Valor ZERO = new Valor("0");

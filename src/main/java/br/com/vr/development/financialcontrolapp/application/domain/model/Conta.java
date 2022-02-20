@@ -15,10 +15,12 @@ import java.util.Set;
 
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
-public abstract class Conta implements ContaDestino {
+@Inheritance(strategy = InheritanceType.JOINED)
+@Table(name = "conta")
+public class Conta implements ContaDestino {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
 
     @JoinColumn(name ="id_agencia", referencedColumnName = "id")

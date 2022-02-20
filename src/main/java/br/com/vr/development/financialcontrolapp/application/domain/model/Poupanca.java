@@ -5,13 +5,14 @@ import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 @ToString
 @Entity
-@Table(name = "poupanca", schema = "financial_app")
+@PrimaryKeyJoinColumn(name = "id")
+@Table(name = "poupanca")
+//@DiscriminatorValue("CP")
 public class Poupanca extends Conta {
 
     public Poupanca(AgenciaBancaria agencia, Correntista correntista, DepositoInicial depositoInicial) {

@@ -3,7 +3,7 @@ spring:
     generate-ddl: true
     show-sql: true
     hibernate:
-      dll-auto: update
+      dll-auto: create-drop
       naming:     
         physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
     database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
