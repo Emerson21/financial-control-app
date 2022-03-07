@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="CompilerConfiguration">
+    <option name="USE_RELEASE_OPTION" value="false" />
     <annotationProcessing>
       <profile default="true" name="Default" enabled="true" />
       <profile name="Maven default annotation processors profile" enabled="true">
@@ -10,20 +11,11 @@
         <module name="financial-control-app" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel>
-      <module name="AGW-Comum" target="1.8" />
-      <module name="AI-Lumis" target="1.8" />
-      <module name="AI-Portal" target="1.8" />
-      <module name="autorizacao" target="1.5" />
-      <module name="controle-acesso" target="1.8" />
-      <module name="onboarding-ec" target="1.8" />
-    </bytecodeTargetLevel>
+    <bytecodeTargetLevel target="11" />
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
-      <module name="AGW-Comum" options="-parameters" />
       <module name="financial-control-app" options="-parameters" />
-      <module name="onboarding-ec" options="-parameters" />
     </option>
   </component>
 </project>

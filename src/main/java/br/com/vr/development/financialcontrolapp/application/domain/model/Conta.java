@@ -3,21 +3,27 @@ package br.com.vr.development.financialcontrolapp.application.domain.model;
 import br.com.vr.development.financialcontrolapp.application.domain.model.components.DepositoInicial;
 import br.com.vr.development.financialcontrolapp.application.domain.model.lancamento.Lancamento;
 import br.com.vr.development.financialcontrolapp.application.domain.model.transferencia.ContaDestino;
+import br.com.vr.development.financialcontrolapp.application.domain.model.transferencia.ContaOrigem;
+import br.com.vr.development.financialcontrolapp.exception.SaldoInsuficienteException;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.time.LocalDate;
+import java.time.temporal.TemporalUnit;
 import java.util.HashSet;
 import java.util.Optional;
 import java.util.Random;
 import java.util.Set;
 
+import static br.com.vr.development.financialcontrolapp.application.domain.model.lancamento.Lancamento.criaLancamentoNegativo;
+
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Inheritance(strategy = InheritanceType.JOINED)
 @Table(name = "conta")
-public class Conta implements ContaDestino {
+public class Conta implements ContaDestino, ContaOrigem {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -81,10 +87,11 @@ public class Conta implements ContaDestino {
         return getLancamentos() != null && !getLancamentos().isEmpty();
     }
 
-    protected Set<Lancamento> getLancamentos() {
-        return Optional.of(this.lancamentos).isEmpty()
-            ? new HashSet<>()
-            : this.lancamentos;
+    public Set<Lancamento> getLancamentos() {
+        if (this.lancamentos == null)
+            this.lancamentos = new HashSet<>();
+
+        return this.lancamentos;
     }
 
     @Override
@@ -92,4 +99,25 @@ public class Conta implements ContaDestino {
         adicionar(Lancamento.criaLancamentoPositivo(valor, new Descricao("Transferencia entre contas"), this));
     }
 
+    private boolean possuiSaldoDisponivel(Valor valor) {
+        return getSaldo().compareTo(valor) >= 0;
+    }
+
+    @Override
+    public void saque(Valor valor) {
+        if (!possuiSaldoDisponivel(valor)) {
+            throw new SaldoInsuficienteException();
+        }
+
+        adicionar(
+                criaLancamentoNegativo(valor, new Descricao("Transferencia entre contas correntes"), this)
+        );
+    }
+
+    Extrato getExtrato(Periodo periodo) {
+
+        return new Extrato(getLancamentos(), new Periodo(LocalDate.now().minusDays(7L), LocalDate.now()));
+    }
+
 }
+

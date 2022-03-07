@@ -18,7 +18,7 @@ import static br.com.vr.development.financialcontrolapp.application.domain.model
 @Entity
 @PrimaryKeyJoinColumn(name = "id")
 @Table(name = "conta_corrente")
-public class ContaCorrente extends Conta implements ContaOrigem {
+public class ContaCorrente extends Conta {
 
     public ContaCorrente(AgenciaBancaria agencia, Correntista correntista, DepositoInicial depositoInicial) {
         super(agencia, correntista, depositoInicial);
@@ -32,19 +32,8 @@ public class ContaCorrente extends Conta implements ContaOrigem {
         return this.agencia.getBanco().getNomeFantasia();
     }
 
-    public boolean possuiSaldoDisponivel(Valor valor) {
-        return super.getSaldo().compareTo(valor) >= 0;
-    }
 
-    @Override
-    public void saque(Valor valor) {
-        if (!possuiSaldoDisponivel(valor)) {
-            throw new SaldoInsuficienteException();
-        }
 
-        adicionar(
-            criaLancamentoNegativo(valor, new Descricao("Transferencia entre contas correntes"), this)
-        );
-    }
+
 
 }

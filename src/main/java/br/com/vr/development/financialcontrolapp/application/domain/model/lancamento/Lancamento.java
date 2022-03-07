@@ -27,6 +27,7 @@ public class Lancamento {
     @Enumerated(EnumType.STRING)
     private TipoLancamento tipoLancamento;
 
+    @Getter
     @Column(name = "data_hora")
     private LocalDateTime dataHora;
 
