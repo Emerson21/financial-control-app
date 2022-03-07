@@ -11,9 +11,7 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
-import java.time.temporal.TemporalUnit;
 import java.util.HashSet;
-import java.util.Optional;
 import java.util.Random;
 import java.util.Set;
 
@@ -46,7 +44,7 @@ public class Conta implements ContaDestino, ContaOrigem {
     Correntista correntista;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "conta")
-    Set<Lancamento> lancamentos;
+    Set<Lancamento> lancamentos = new HashSet<>();
 
     @Embedded
     @NotNull
@@ -62,7 +60,6 @@ public class Conta implements ContaDestino, ContaOrigem {
         this.adicionaDepositoInicialComoLancamento();
     }
 
-
     public Valor getSaldo() {
         return !possuiSaldo()
                 ? Valor.ZERO
@@ -72,12 +69,8 @@ public class Conta implements ContaDestino, ContaOrigem {
     }
 
     void adicionaDepositoInicialComoLancamento() {
-        if (this.lancamentos == null) {
-            lancamentos = new HashSet<>();
-        }
-
         this.lancamentos.add(this.depositoInicial.toLancamento(this));
-    };
+    }
 
     protected void adicionar(Lancamento lancamento) {
         getLancamentos().add(lancamento);
@@ -88,9 +81,6 @@ public class Conta implements ContaDestino, ContaOrigem {
     }
 
     public Set<Lancamento> getLancamentos() {
-        if (this.lancamentos == null)
-            this.lancamentos = new HashSet<>();
-
         return this.lancamentos;
     }
 
@@ -109,15 +99,7 @@ public class Conta implements ContaDestino, ContaOrigem {
             throw new SaldoInsuficienteException();
         }
 
-        adicionar(
-                criaLancamentoNegativo(valor, new Descricao("Transferencia entre contas correntes"), this)
-        );
-    }
-
-    Extrato getExtrato(Periodo periodo) {
-
-        return new Extrato(getLancamentos(), new Periodo(LocalDate.now().minusDays(7L), LocalDate.now()));
+        adicionar(criaLancamentoNegativo(valor, new Descricao("Transferencia entre contas correntes"), this));
     }
 
 }
-
