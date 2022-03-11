@@ -21,8 +21,7 @@ public class ExtratoTest {
     public void deveFiltrarAListaDeMovimentacoesDeAcordoComOPeriodo() {
         ContaCorrente contaCorrente = Fixture.from(ContaCorrente.class).gimme("valid");
         LocalDate hoje = LocalDate.now();
-        LocalDate ontem = hoje.minusDays(1);
-
+        
         Periodo periodo = new Periodo(hoje.minusDays(1), hoje.plusDays(1));
         contaCorrente.getLancamentos().add(Lancamento.criaLancamentoNegativo(new Valor("100"), new Descricao("Lancamento Negativo Test"), contaCorrente));
         contaCorrente.getLancamentos().add(Lancamento.criaLancamentoPositivo(new Valor("100"), new Descricao("Lancamento Positivo Test"), contaCorrente));
