@@ -17,7 +17,7 @@ import static br.com.vr.development.financialcontrolapp.application.enums.TipoLa
 @ToString
 @Entity
 @Table(name = "lancamento", schema = "financial_app")
-public class Lancamento {
+public class Lancamento implements Movimentacao {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -59,5 +59,9 @@ public class Lancamento {
 
     public static Lancamento criaLancamentoNegativo(Valor valor, Descricao descricao, Conta conta) {
             return new Lancamento(valor, descricao, conta, DEBITO);
+    }
+
+    public boolean isCredito() {
+        return this.tipoLancamento == CREDITO;
     }
 }

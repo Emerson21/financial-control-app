@@ -20,15 +20,19 @@ public class ExtratoTest {
     @Test
     public void deveFiltrarAListaDeMovimentacoesDeAcordoComOPeriodo() {
         ContaCorrente contaCorrente = Fixture.from(ContaCorrente.class).gimme("valid");
+        LocalDate hoje = LocalDate.now();
+        LocalDate ontem = hoje.minusDays(1);
 
-        Periodo periodo = new Periodo(LocalDate.now().minusDays(1), LocalDate.now().plusDays(1));
+        Periodo periodo = new Periodo(hoje.minusDays(1), hoje.plusDays(1));
+        contaCorrente.getLancamentos().add(Lancamento.criaLancamentoNegativo(new Valor("100"), new Descricao("Lancamento Negativo Test"), contaCorrente));
+        contaCorrente.getLancamentos().add(Lancamento.criaLancamentoPositivo(new Valor("100"), new Descricao("Lancamento Positivo Test"), contaCorrente));
         contaCorrente.getLancamentos().add(Lancamento.criaLancamentoNegativo(new Valor("100"), new Descricao("Lancamento Negativo Test"), contaCorrente));
         contaCorrente.getLancamentos().add(Lancamento.criaLancamentoPositivo(new Valor("100"), new Descricao("Lancamento Positivo Test"), contaCorrente));
 
         Extrato extrato = new Extrato(contaCorrente.getLancamentos(), periodo);
         Assertions.assertThat(extrato.getMovimentacoes()).isNotNull();
-        Assertions.assertThat(extrato.getMovimentacoes()).isNotEmpty();
-        Assertions.assertThat(extrato.getMovimentacoes()).hasSize(2);
+        Assertions.assertThat(extrato.getMovimentacoes().getMovimentacoesPorDia()).isNotEmpty();
+        Assertions.assertThat(extrato.getMovimentacoes().getMovimentacoesPorDia().get(hoje)).hasSize(contaCorrente.getLancamentos().size());
 
     }
 

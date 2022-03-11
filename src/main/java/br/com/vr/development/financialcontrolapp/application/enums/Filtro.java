@@ -19,7 +19,8 @@ public enum Filtro {
     }
 
     public Periodo calcular() {
-        return new Periodo(LocalDate.now().minusDays(this.dias), LocalDate.now());
+        LocalDate data = LocalDate.now();
+        return new Periodo(data.minusDays(this.dias), data);
     }
 
 }
