@@ -2,11 +2,11 @@ package br.com.vr.development.financialcontrolapp.application.domain.model;
 
 import br.com.vr.development.financialcontrolapp.application.domain.model.lancamento.Lancamento;
 import lombok.Getter;
+import lombok.ToString;
 
-import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
 
+@ToString
 public class Extrato {
 
     @Getter

@@ -14,7 +14,7 @@ import static br.com.vr.development.financialcontrolapp.application.enums.TipoLa
 import static br.com.vr.development.financialcontrolapp.application.enums.TipoLancamento.DEBITO;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-@ToString
+@ToString(onlyExplicitlyIncluded = true)
 @Entity
 @Table(name = "lancamento", schema = "financial_app")
 public class Lancamento implements Movimentacao {
@@ -23,14 +23,17 @@ public class Lancamento implements Movimentacao {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @ToString.Include
     @Column(name = "tipo_lancamento")
     @Enumerated(EnumType.STRING)
     private TipoLancamento tipoLancamento;
 
+    @ToString.Include
     @Getter
     @Column(name = "data_hora")
     private LocalDateTime dataHora;
 
+    @ToString.Include
     @Getter
     @Column(name = "valor")
     @Embedded
@@ -40,6 +43,8 @@ public class Lancamento implements Movimentacao {
     @ManyToOne
     private Conta conta;
 
+    @Getter
+    @ToString.Include
     @Column(name = "descricao")
     @Embedded
     private Descricao descricao;
@@ -61,7 +66,7 @@ public class Lancamento implements Movimentacao {
             return new Lancamento(valor, descricao, conta, DEBITO);
     }
 
-    public boolean isCredito() {
-        return this.tipoLancamento == CREDITO;
+    public String toString() {
+        return String.format("%s | %s ", valor, descricao);
     }
 }

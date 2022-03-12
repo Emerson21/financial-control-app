@@ -2,6 +2,7 @@ package br.com.vr.development.financialcontrolapp.application.domain.model;
 
 import br.com.vr.development.financialcontrolapp.application.domain.model.lancamento.Lancamento;
 import lombok.Getter;
+import lombok.ToString;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -9,6 +10,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+@ToString
 public class MovimentacaoPorDia implements Movimentacao {
 
     @Getter

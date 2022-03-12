@@ -3,16 +3,16 @@ package br.com.vr.development.financialcontrolapp.application.domain.model;
 import lombok.AccessLevel;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
 
 import javax.persistence.Embeddable;
 import java.math.BigDecimal;
+import java.text.NumberFormat;
 
 @Embeddable
 @EqualsAndHashCode
-@ToString
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class Valor implements Comparable {
+
 
     public static final Valor ZERO = new Valor("0");
 
@@ -59,6 +59,17 @@ public class Valor implements Comparable {
 
     public Valor abs() {
         return new Valor(this.valor.abs());
+    }
+
+    public String toString() {
+//        Locale locale = new Locale("pr-BR");
+//        return String.format("Valor: R$ %s", NumberFormat.getCurrencyInstance(new Locale("pr-BR")).format(this.valor));
+        if (this.ehNegativo()) {
+            return String.format("Valor: R$ %s", NumberFormat.getCurrencyInstance().format(this.valor));
+        } else {
+            return String.format("Valor: R$ %s", NumberFormat.getCurrencyInstance().format(this.valor));
+        }
+
     }
 
 }
