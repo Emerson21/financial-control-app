@@ -4,6 +4,7 @@ import br.com.vr.development.financialcontrolapp.application.domain.model.Conta;
 import br.com.vr.development.financialcontrolapp.application.domain.model.Descricao;
 import br.com.vr.development.financialcontrolapp.application.domain.model.Valor;
 import br.com.vr.development.financialcontrolapp.application.domain.model.lancamento.Lancamento;
+import br.com.vr.development.financialcontrolapp.application.enums.TipoTransferencia;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
@@ -23,7 +24,11 @@ public class DepositoInicial {
     }
 
     public Lancamento toLancamento(Conta conta) {
-        return Lancamento.criaLancamentoPositivo(new Valor(valor.toString()), new Descricao(DESCRICAO_DEPOSITO_INICIAL), conta);
+        return Lancamento.criaLancamentoPositivo(
+                new Valor(valor.toString()),
+                new Descricao(DESCRICAO_DEPOSITO_INICIAL),
+                conta,
+                TipoTransferencia.DEPOSITO);
     }
 
 }

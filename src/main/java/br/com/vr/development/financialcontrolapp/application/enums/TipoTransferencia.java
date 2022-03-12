@@ -5,7 +5,9 @@ import br.com.vr.development.financialcontrolapp.application.domain.model.Valor;
 public enum TipoTransferencia {
 
     TED(new Valor("5")),
-    TEF(Valor.ZERO);
+    TEF(Valor.ZERO),
+    PIX(Valor.ZERO),
+    DEPOSITO(Valor.ZERO);
 
 
     private Valor taxa;

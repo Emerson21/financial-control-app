@@ -14,10 +14,13 @@ public class ImpressaoExtrato {
 
         extrato.getMovimentacoes().getMovimentacoesPorDia().forEach((data, movimentacoes) -> {
             System.out.println(ANSI_YELLOW + "Data: " + data.toString() + " | Movimentações");
+
             movimentacoes.forEach(movimentacao -> {
                 String linha = movimentacao.getValor().ehNegativo()
-                        ? ANSI_RED + movimentacao
-                        : ANSI_GREEN + movimentacao;
+                        ? String.format(ANSI_GREEN + "%s | " + ANSI_RED + " %s " + ANSI_GREEN + " | %s ",
+                            movimentacao.getTipoTransferencia(), movimentacao.getValor(), movimentacao.getDescricao())
+                        : String.format(ANSI_GREEN + "%s |  %s  | %s ",
+                            movimentacao.getTipoTransferencia(), movimentacao.getValor(), movimentacao.getDescricao());
 
                 System.out.println("\t"+ linha);
             });

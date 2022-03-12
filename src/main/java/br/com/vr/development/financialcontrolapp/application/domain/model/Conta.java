@@ -4,6 +4,7 @@ import br.com.vr.development.financialcontrolapp.application.domain.model.compon
 import br.com.vr.development.financialcontrolapp.application.domain.model.lancamento.Lancamento;
 import br.com.vr.development.financialcontrolapp.application.domain.model.transferencia.ContaDestino;
 import br.com.vr.development.financialcontrolapp.application.domain.model.transferencia.ContaOrigem;
+import br.com.vr.development.financialcontrolapp.application.enums.TipoTransferencia;
 import br.com.vr.development.financialcontrolapp.exception.SaldoInsuficienteException;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
@@ -84,8 +85,8 @@ public class Conta implements ContaDestino, ContaOrigem {
     }
 
     @Override
-    public void deposita(Valor valor) {
-        adicionar(Lancamento.criaLancamentoPositivo(valor, new Descricao("Transferencia entre contas"), this));
+    public void deposita(Valor valor, TipoTransferencia tipoTransferencia) {
+        adicionar(Lancamento.criaLancamentoPositivo(valor, new Descricao("Transferencia entre contas"), this, tipoTransferencia));
     }
 
     private boolean possuiSaldoDisponivel(Valor valor) {
@@ -93,12 +94,12 @@ public class Conta implements ContaDestino, ContaOrigem {
     }
 
     @Override
-    public void saque(Valor valor) {
+    public void saque(Valor valor, TipoTransferencia tipoTransferencia) {
         if (!possuiSaldoDisponivel(valor)) {
             throw new SaldoInsuficienteException();
         }
 
-        adicionar(criaLancamentoNegativo(valor, new Descricao("Transferencia entre contas correntes"), this));
+        adicionar(criaLancamentoNegativo(valor, new Descricao("Transferencia entre contas correntes"), this, tipoTransferencia));
     }
 
 }

@@ -1,11 +1,14 @@
 package br.com.vr.development.financialcontrolapp.application.domain.model.lancamento;
 
-import br.com.vr.development.financialcontrolapp.application.domain.model.*;
+import br.com.vr.development.financialcontrolapp.application.domain.model.Conta;
+import br.com.vr.development.financialcontrolapp.application.domain.model.Descricao;
+import br.com.vr.development.financialcontrolapp.application.domain.model.Movimentacao;
+import br.com.vr.development.financialcontrolapp.application.domain.model.Valor;
 import br.com.vr.development.financialcontrolapp.application.enums.TipoLancamento;
+import br.com.vr.development.financialcontrolapp.application.enums.TipoTransferencia;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -14,7 +17,6 @@ import static br.com.vr.development.financialcontrolapp.application.enums.TipoLa
 import static br.com.vr.development.financialcontrolapp.application.enums.TipoLancamento.DEBITO;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-@ToString(onlyExplicitlyIncluded = true)
 @Entity
 @Table(name = "lancamento", schema = "financial_app")
 public class Lancamento implements Movimentacao {
@@ -23,17 +25,14 @@ public class Lancamento implements Movimentacao {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @ToString.Include
     @Column(name = "tipo_lancamento")
     @Enumerated(EnumType.STRING)
     private TipoLancamento tipoLancamento;
 
-    @ToString.Include
     @Getter
     @Column(name = "data_hora")
     private LocalDateTime dataHora;
 
-    @ToString.Include
     @Getter
     @Column(name = "valor")
     @Embedded
@@ -44,29 +43,34 @@ public class Lancamento implements Movimentacao {
     private Conta conta;
 
     @Getter
-    @ToString.Include
     @Column(name = "descricao")
     @Embedded
     private Descricao descricao;
 
+    @Getter
+    @Column(name = "tipo_transferencia")
+    @Enumerated(EnumType.STRING)
+    private TipoTransferencia tipoTransferencia;
 
-    private Lancamento(Valor valor, Descricao descricao, Conta conta, TipoLancamento tipoLancamento) {
+
+    private Lancamento(Valor valor, Descricao descricao, Conta conta, TipoLancamento tipoLancamento, TipoTransferencia tipoTransferencia) {
         this.valor = tipoLancamento.calcularSinal(valor);
         this.descricao = descricao;
         this.dataHora = LocalDateTime.now();
         this.tipoLancamento = tipoLancamento;
         this.conta = conta;
+        this.tipoTransferencia = tipoTransferencia;
     }
 
-    public static Lancamento criaLancamentoPositivo(Valor valor, Descricao descricao, Conta conta) {
-        return new Lancamento(valor, descricao, conta, CREDITO);
+    public static Lancamento criaLancamentoPositivo(Valor valor, Descricao descricao, Conta conta, TipoTransferencia tipoTransferencia) {
+        return new Lancamento(valor, descricao, conta, CREDITO, tipoTransferencia);
     }
 
-    public static Lancamento criaLancamentoNegativo(Valor valor, Descricao descricao, Conta conta) {
-            return new Lancamento(valor, descricao, conta, DEBITO);
+    public static Lancamento criaLancamentoNegativo(Valor valor, Descricao descricao, Conta conta, TipoTransferencia tipoTransferencia) {
+            return new Lancamento(valor, descricao, conta, DEBITO, tipoTransferencia);
     }
 
     public String toString() {
-        return String.format("%s | %s ", valor, descricao);
+        return String.format("%s | %s | %s ", tipoTransferencia, valor, descricao);
     }
 }
