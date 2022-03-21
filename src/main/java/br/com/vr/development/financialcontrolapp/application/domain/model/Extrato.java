@@ -4,23 +4,27 @@ import br.com.vr.development.financialcontrolapp.application.domain.model.lancam
 import lombok.Getter;
 import lombok.ToString;
 
-import java.time.LocalDate;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @ToString
-public class Extrato implements Iterable<Map.Entry<LocalDate, List<Lancamento>>> {
+public class Extrato implements Iterable<Map.Entry<Object, Collection>> {
 
-    private MovimentacaoPorDia movimentacoes;
+    private Collection<Movimentacao> movimentacoes;
+
+    @Getter
+    private Agrupador agrupador;
 
     public Extrato(Set<Lancamento> movimentacoes, Periodo periodo) {
-        this.movimentacoes = new MovimentacaoPorDia(movimentacoes, periodo);
+        this.movimentacoes = movimentacoes.stream()
+                .filter(lancamento -> periodo.contains(lancamento.getDataHora().toLocalDate()))
+                .collect(Collectors.toSet());
+        this.agrupador = new MovimentacaoPorDia(this.movimentacoes);
     }
 
     @Override
-    public Iterator<Map.Entry<LocalDate, List<Lancamento>>> iterator() {
-        return movimentacoes.iterator();
+    public Iterator<Map.Entry<Object, Collection>> iterator() {
+        return this.agrupador.iterator();
     }
+
 }

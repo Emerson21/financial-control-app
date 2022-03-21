@@ -12,6 +12,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 import static br.com.vr.development.financialcontrolapp.application.enums.TipoLancamento.CREDITO;
 import static br.com.vr.development.financialcontrolapp.application.enums.TipoLancamento.DEBITO;
@@ -71,6 +72,7 @@ public class Lancamento implements Movimentacao {
     }
 
     public String toString() {
-        return String.format("%s | %s | %s ", tipoTransferencia, valor, descricao);
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy hh:mm:ss");
+        return String.format("%s | %s | %s | %s | %s", tipoLancamento, tipoTransferencia, valor, descricao, dataHora.format(formatter));
     }
 }

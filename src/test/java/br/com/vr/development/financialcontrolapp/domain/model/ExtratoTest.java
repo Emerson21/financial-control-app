@@ -9,9 +9,6 @@ import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
 
 import static br.com.vr.development.financialcontrolapp.application.enums.TipoTransferencia.PIX;
 
@@ -41,13 +38,8 @@ public class ExtratoTest {
                 new Valor("100"), new Descricao("Lancamento Positivo Test"), contaCorrente, PIX));
 
         Extrato extrato = new Extrato(contaCorrente.getLancamentos(), periodo);
-        Assertions.assertThat(extrato.iterator()).isNotNull();
-        Iterator<Map.Entry<LocalDate, List<Lancamento>>> entryIterator = extrato.iterator();
-        entryIterator.forEachRemaining(it -> {
-            Assertions.assertThat(it.getValue()).isNotEmpty();
-            Assertions.assertThat(it.getValue()).hasSize(contaCorrente.getLancamentos().size());
-        });
-
+        Assertions.assertThat(extrato).isNotNull();
+        Assertions.assertThat(extrato).isNotEmpty();
     }
 
 }
