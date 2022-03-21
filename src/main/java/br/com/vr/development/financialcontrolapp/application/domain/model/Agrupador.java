@@ -1,10 +1,27 @@
 package br.com.vr.development.financialcontrolapp.application.domain.model;
 
-import java.util.Collection;
-import java.util.Map;
+import br.com.vr.development.financialcontrolapp.application.domain.model.movimentacoes.Movimentacao;
 
-public interface Agrupador extends Iterable<Map.Entry<Object, Collection>> {
+import java.util.*;
+import java.util.stream.Collector;
 
-    String getKeyNameField();
+public abstract class Agrupador implements Iterable<Map.Entry<Object, Collection>> {
+
+    private Map<Object, Collection> movimentacoes;
+
+    protected Agrupador(Collection<? extends Movimentacao> movimentacoes, Periodo periodo,
+                     Collector<Movimentacao, ?, Map<Object, List<Movimentacao>>> collector) {
+
+        this.movimentacoes = new HashMap<>(movimentacoes.stream()
+                .filter(lancamento -> periodo.contains(lancamento.getData())).collect(collector)
+        );
+    }
+
+    protected abstract String getKeyNameField();
+
+    @Override
+    public Iterator<Map.Entry<Object, Collection>> iterator() {
+        return movimentacoes.entrySet().iterator();
+    }
 
 }

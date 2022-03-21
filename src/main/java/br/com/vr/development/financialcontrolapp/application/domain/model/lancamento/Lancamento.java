@@ -2,7 +2,7 @@ package br.com.vr.development.financialcontrolapp.application.domain.model.lanca
 
 import br.com.vr.development.financialcontrolapp.application.domain.model.Conta;
 import br.com.vr.development.financialcontrolapp.application.domain.model.Descricao;
-import br.com.vr.development.financialcontrolapp.application.domain.model.Movimentacao;
+import br.com.vr.development.financialcontrolapp.application.domain.model.movimentacoes.Movimentacao;
 import br.com.vr.development.financialcontrolapp.application.domain.model.Valor;
 import br.com.vr.development.financialcontrolapp.application.enums.TipoLancamento;
 import br.com.vr.development.financialcontrolapp.application.enums.TipoTransferencia;
@@ -11,6 +11,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
@@ -26,11 +27,11 @@ public class Lancamento implements Movimentacao {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Getter
     @Column(name = "tipo_lancamento")
     @Enumerated(EnumType.STRING)
     private TipoLancamento tipoLancamento;
 
-    @Getter
     @Column(name = "data_hora")
     private LocalDateTime dataHora;
 
@@ -74,5 +75,9 @@ public class Lancamento implements Movimentacao {
     public String toString() {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy hh:mm:ss");
         return String.format("%s | %s | %s | %s | %s", tipoLancamento, tipoTransferencia, valor, descricao, dataHora.format(formatter));
+    }
+
+    public LocalDate getData() {
+        return this.dataHora.toLocalDate();
     }
 }
