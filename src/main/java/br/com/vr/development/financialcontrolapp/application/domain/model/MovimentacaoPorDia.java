@@ -1,19 +1,18 @@
 package br.com.vr.development.financialcontrolapp.application.domain.model;
 
 import br.com.vr.development.financialcontrolapp.application.domain.model.lancamento.Lancamento;
-import lombok.Getter;
 import lombok.ToString;
 
 import java.time.LocalDate;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 @ToString
-public class MovimentacaoPorDia implements Movimentacao {
+public class MovimentacaoPorDia implements Movimentacao, Iterable<Map.Entry<LocalDate, List<Lancamento>>> {
 
-    @Getter
     private Map<LocalDate, List<Lancamento>> movimentacoesPorDia;
 
     public MovimentacaoPorDia(Set<Lancamento> lancamentos, Periodo periodo) {
@@ -22,4 +21,8 @@ public class MovimentacaoPorDia implements Movimentacao {
                 .collect(Collectors.groupingBy(lancamento -> lancamento.getDataHora().toLocalDate()));
     }
 
+    @Override
+    public Iterator<Map.Entry<LocalDate, List<Lancamento>>> iterator() {
+        return movimentacoesPorDia.entrySet().iterator();
+    }
 }
