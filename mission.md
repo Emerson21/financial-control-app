@@ -28,9 +28,6 @@ Financial Control App
   
 - Resource de consulta de saldo do correntista / conta corrente;
 
-//TODOs - debitos tecnicos
--  Corrigir para salvar nome completo no banco e em duas colunas como nome e sobre nome;
-
 
 
 **************************************************************************************************************************************

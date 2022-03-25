@@ -5,23 +5,32 @@ import br.com.vr.development.financialcontrolapp.application.domain.model.movime
 import java.util.*;
 import java.util.stream.Collector;
 
-public abstract class Agrupador implements Iterable<Map.Entry<Object, Collection>> {
+public abstract class Agrupador {
 
-    private Map<Object, Collection> movimentacoes;
+    protected Agrupador() { }
 
-    protected Agrupador(Collection<? extends Movimentacao> movimentacoes, Periodo periodo,
+    private List<Grupo> grupos = new ArrayList<>();
+
+    protected Agrupador(Collection<? extends Movimentacao> movimentacoes,
                      Collector<Movimentacao, ?, Map<Object, List<Movimentacao>>> collector) {
 
-        this.movimentacoes = new HashMap<>(movimentacoes.stream()
-                .filter(lancamento -> periodo.contains(lancamento.getData())).collect(collector)
-        );
+        Map<Object, List<Movimentacao>> map = movimentacoes.stream().collect(collector);
+        for(Map.Entry<Object, List<Movimentacao>> entry : map.entrySet()) {
+            this.grupos.add(new Grupo(entry.getKey(), entry.getValue()));
+        }
+
     }
 
     protected abstract String getKeyNameField();
 
-    @Override
-    public Iterator<Map.Entry<Object, Collection>> iterator() {
-        return movimentacoes.entrySet().iterator();
+    public List<Grupo> agruparMovimentacoes(Extrato extrato) {
+        return extrato.agrupar(this);
+    }
+
+    protected abstract List<Grupo> agrupar(Collection<Movimentacao> movimentacoes);
+
+    protected List<Grupo> getGrupos() {
+        return Collections.unmodifiableList(grupos);
     }
 
 }

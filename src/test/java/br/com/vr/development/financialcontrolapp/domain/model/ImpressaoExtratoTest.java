@@ -4,6 +4,7 @@ import br.com.six2six.fixturefactory.Fixture;
 import br.com.six2six.fixturefactory.loader.FixtureFactoryLoader;
 import br.com.vr.development.financialcontrolapp.application.domain.model.*;
 import br.com.vr.development.financialcontrolapp.application.domain.model.lancamento.Lancamento;
+import br.com.vr.development.financialcontrolapp.application.domain.model.movimentacoes.MovimentacaoPorDia;
 import br.com.vr.development.financialcontrolapp.application.domain.model.movimentacoes.MovimentacaoPorTipoLancamento;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
@@ -25,9 +26,10 @@ public class ImpressaoExtratoTest {
         LocalDate hoje = LocalDate.now();
         Periodo periodo = new Periodo(hoje.minusDays(1), hoje.plusDays(1));
 
+        Agrupador agrupador = new MovimentacaoPorDia();
         Extrato extrato = new Extrato(getLancamentos(), periodo);
 
-        new ImpressaoExtrato(extrato).imprimir();
+        new ImpressaoExtrato(extrato).imprimir(agrupador);
 
     }
 
@@ -36,9 +38,10 @@ public class ImpressaoExtratoTest {
         LocalDate hoje = LocalDate.now();
         Periodo periodo = new Periodo(hoje.minusDays(1), hoje.plusDays(1));
 
-        Extrato extrato = new Extrato(new MovimentacaoPorTipoLancamento(getLancamentos(), periodo));
+        Agrupador agrupador = new MovimentacaoPorTipoLancamento();
+        Extrato extrato = new Extrato(getLancamentos(), periodo);
 
-        new ImpressaoExtrato(extrato).imprimir();
+        new ImpressaoExtrato(extrato).imprimir(agrupador);
 
     }
 
@@ -61,7 +64,5 @@ public class ImpressaoExtratoTest {
 
         return contaCorrente.getLancamentos();
     }
-
-
 
 }

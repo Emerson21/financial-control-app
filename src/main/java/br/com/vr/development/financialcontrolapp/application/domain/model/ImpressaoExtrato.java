@@ -1,9 +1,8 @@
 package br.com.vr.development.financialcontrolapp.application.domain.model;
 
+import br.com.vr.development.financialcontrolapp.application.domain.model.movimentacoes.MovimentacaoPorDia;
 import lombok.AllArgsConstructor;
 
-import java.util.Collection;
-import java.util.Map;
 
 @AllArgsConstructor
 public class ImpressaoExtrato {
@@ -12,15 +11,15 @@ public class ImpressaoExtrato {
 
     private Extrato extrato;
 
-    public void imprimir() {
+    public void imprimir(Agrupador agrupador) {
 
-        for (Map.Entry<Object, Collection> entry : extrato) {
-            System.out.println(ANSI_GREEN + extrato.getAgrupador().getKeyNameField() + " : " + entry.getKey().toString() + " | Movimentações");
+        for (Grupo grupo : new MovimentacaoPorDia().getGrupos()) {
+            System.out.println(grupo);
+        }
 
-            entry.getValue().forEach(movimentacao -> {
-                System.out.println("\t"+ movimentacao);
-            });
-
+        for (Grupo grupo : agrupador.agruparMovimentacoes(extrato)) {
+            System.out.println(ANSI_GREEN + agrupador.getKeyNameField() + " : " + grupo.getAgrupador().toString() + " | Movimentações");
+            grupo.getMovimentacoes().forEach(movimentacao -> System.out.println("\t"+ movimentacao.imprimir()));
         }
 
     }

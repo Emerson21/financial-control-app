@@ -72,11 +72,13 @@ public class Lancamento implements Movimentacao {
             return new Lancamento(valor, descricao, conta, DEBITO, tipoTransferencia);
     }
 
-    public String toString() {
+    @Override
+    public String imprimir() {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy hh:mm:ss");
         return String.format("%s | %s | %s | %s | %s", tipoLancamento, tipoTransferencia, valor, descricao, dataHora.format(formatter));
     }
 
+    @Override
     public LocalDate getData() {
         return this.dataHora.toLocalDate();
     }
