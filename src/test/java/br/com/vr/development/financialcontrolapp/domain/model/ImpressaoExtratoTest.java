@@ -3,6 +3,8 @@ package br.com.vr.development.financialcontrolapp.domain.model;
 import br.com.six2six.fixturefactory.Fixture;
 import br.com.six2six.fixturefactory.loader.FixtureFactoryLoader;
 import br.com.vr.development.financialcontrolapp.application.domain.model.*;
+import br.com.vr.development.financialcontrolapp.application.domain.model.extrato.Extrato;
+import br.com.vr.development.financialcontrolapp.application.domain.model.extrato.ImpressaoExtrato;
 import br.com.vr.development.financialcontrolapp.application.domain.model.lancamento.Lancamento;
 import br.com.vr.development.financialcontrolapp.application.domain.model.movimentacoes.MovimentacaoPorDia;
 import br.com.vr.development.financialcontrolapp.application.domain.model.movimentacoes.MovimentacaoPorTipoLancamento;
