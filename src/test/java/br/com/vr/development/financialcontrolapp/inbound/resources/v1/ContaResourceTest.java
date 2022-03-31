@@ -26,7 +26,7 @@ import br.com.vr.development.financialcontrolapp.application.domain.model.NomeFa
 import br.com.vr.development.financialcontrolapp.application.domain.model.components.DepositoInicialFactory;
 import br.com.vr.development.financialcontrolapp.application.domain.service.ContaService;
 import br.com.vr.development.financialcontrolapp.application.domain.service.agenciabancaria.AgenciaBancariaService;
-import br.com.vr.development.financialcontrolapp.application.inbound.v1.ContaResource;
+import br.com.vr.development.financialcontrolapp.inbound.v1.ContaResource;
 import br.com.vr.development.financialcontrolapp.exception.FinancialExceptionHandler;
 
 @SpringBootTest

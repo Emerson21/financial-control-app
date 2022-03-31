@@ -37,8 +37,8 @@ import br.com.vr.development.financialcontrolapp.application.domain.model.RendaM
 import br.com.vr.development.financialcontrolapp.application.domain.model.components.DepositoInicial;
 import br.com.vr.development.financialcontrolapp.application.domain.model.components.DepositoInicialFactory;
 import br.com.vr.development.financialcontrolapp.application.domain.service.ContaServiceImpl;
-import br.com.vr.development.financialcontrolapp.application.inbound.v1.dto.AgenciaBancariaDTO;
-import br.com.vr.development.financialcontrolapp.application.inbound.v1.dto.FormularioAberturaConta;
+import br.com.vr.development.financialcontrolapp.inbound.v1.dto.AgenciaBancariaDTO;
+import br.com.vr.development.financialcontrolapp.inbound.v1.dto.FormularioAberturaConta;
 import br.com.vr.development.financialcontrolapp.exception.BancoInvalidoException;
 import br.com.vr.development.financialcontrolapp.exception.DepositoInicialException;
 import br.com.vr.development.financialcontrolapp.repository.BancoRepository;

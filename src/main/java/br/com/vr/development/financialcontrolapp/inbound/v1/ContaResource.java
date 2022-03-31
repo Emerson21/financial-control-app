@@ -1,7 +1,8 @@
-package br.com.vr.development.financialcontrolapp.application.inbound.v1;
+package br.com.vr.development.financialcontrolapp.inbound.v1;
 
 import javax.validation.Valid;
 
+import br.com.vr.development.financialcontrolapp.inbound.v1.dto.FormularioAberturaConta;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -14,7 +15,6 @@ import br.com.vr.development.financialcontrolapp.application.domain.model.ContaC
 import br.com.vr.development.financialcontrolapp.application.domain.model.components.DepositoInicialFactory;
 import br.com.vr.development.financialcontrolapp.application.domain.service.ContaService;
 import br.com.vr.development.financialcontrolapp.application.domain.service.agenciabancaria.AgenciaBancariaService;
-import br.com.vr.development.financialcontrolapp.application.inbound.v1.dto.FormularioAberturaConta;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 

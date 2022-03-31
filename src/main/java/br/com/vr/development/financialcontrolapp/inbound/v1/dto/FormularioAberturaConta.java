@@ -1,4 +1,4 @@
-package br.com.vr.development.financialcontrolapp.application.inbound.v1.dto;
+package br.com.vr.development.financialcontrolapp.inbound.v1.dto;
 
 import br.com.vr.development.financialcontrolapp.application.domain.model.*;
 import br.com.vr.development.financialcontrolapp.application.domain.model.components.DepositoInicial;
