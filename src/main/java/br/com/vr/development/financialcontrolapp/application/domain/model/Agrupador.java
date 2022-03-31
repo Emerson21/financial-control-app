@@ -1,6 +1,7 @@
 package br.com.vr.development.financialcontrolapp.application.domain.model;
 
 import br.com.vr.development.financialcontrolapp.application.domain.model.movimentacoes.Movimentacao;
+import br.com.vr.development.financialcontrolapp.application.domain.model.movimentacoes.MovimentacaoAgrupada;
 
 import java.util.*;
 import java.util.stream.Collector;
@@ -9,28 +10,23 @@ public abstract class Agrupador {
 
     protected Agrupador() { }
 
-    private List<Grupo> grupos = new ArrayList<>();
+    private Collector<Movimentacao, ?, Map<Object, List<Movimentacao>>> algoritmoDeAgrupamento;
 
-    protected Agrupador(Collection<? extends Movimentacao> movimentacoes,
-                     Collector<Movimentacao, ?, Map<Object, List<Movimentacao>>> collector) {
-
-        Map<Object, List<Movimentacao>> map = movimentacoes.stream().collect(collector);
-        for(Map.Entry<Object, List<Movimentacao>> entry : map.entrySet()) {
-            this.grupos.add(new Grupo(entry.getKey(), entry.getValue()));
-        }
-
+    protected Agrupador(Collector<Movimentacao, ?, Map<Object, List<Movimentacao>>> collector) {
+        this.algoritmoDeAgrupamento = collector;
     }
 
     protected abstract String getKeyNameField();
 
-    public List<Grupo> agruparMovimentacoes(Extrato extrato) {
-        return extrato.agrupar(this);
-    }
+    public MovimentacaoAgrupada agrupar(Collection<Movimentacao> movimentacoes) {
+        List<Grupo> grupos = new ArrayList<>();
 
-    protected abstract List<Grupo> agrupar(Collection<Movimentacao> movimentacoes);
+        Map<Object, List<Movimentacao>> map = movimentacoes.stream().collect(this.algoritmoDeAgrupamento);
+        for(Map.Entry<Object, List<Movimentacao>> entry : map.entrySet()) {
+            grupos.add(new Grupo(entry.getKey(), entry.getValue()));
+        }
 
-    protected List<Grupo> getGrupos() {
-        return Collections.unmodifiableList(grupos);
+        return new MovimentacaoAgrupada(grupos, getKeyNameField());
     }
 
 }

@@ -7,13 +7,19 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.util.Collection;
+import java.util.Iterator;
 
-@Getter
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 @AllArgsConstructor
-public class Grupo {
+public class Grupo implements Iterable<Movimentacao> {
 
+    @Getter
     private Object agrupador;
-    private Collection<? extends Movimentacao> movimentacoes;
+    private Collection<Movimentacao> movimentacoes;
 
+
+    @Override
+    public Iterator<Movimentacao> iterator() {
+        return movimentacoes.iterator();
+    }
 }

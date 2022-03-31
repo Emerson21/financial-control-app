@@ -2,6 +2,7 @@ package br.com.vr.development.financialcontrolapp.application.domain.model;
 
 import br.com.vr.development.financialcontrolapp.application.domain.model.lancamento.Lancamento;
 import br.com.vr.development.financialcontrolapp.application.domain.model.movimentacoes.Movimentacao;
+import br.com.vr.development.financialcontrolapp.application.domain.model.movimentacoes.MovimentacaoAgrupada;
 import lombok.ToString;
 
 import java.util.*;
@@ -18,7 +19,7 @@ public class Extrato  {
                 .collect(Collectors.toSet());
     }
 
-    public List<Grupo> agrupar(Agrupador agrupador) {
+    public MovimentacaoAgrupada agrupar(Agrupador agrupador) {
         return agrupador.agrupar(movimentacoes);
     }
 }
