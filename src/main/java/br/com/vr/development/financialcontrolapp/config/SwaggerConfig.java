@@ -1,4 +1,4 @@
-package br.com.vr.development.financialcontrolapp.application.config;
+package br.com.vr.development.financialcontrolapp.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
