@@ -82,4 +82,13 @@ public class Lancamento implements Movimentacao {
     public LocalDate getData() {
         return this.dataHora.toLocalDate();
     }
+
+    public boolean isCredito() {
+        return CREDITO == tipoLancamento;
+    }
+
+    public boolean isDebito() {
+        return DEBITO == tipoLancamento;
+    }
+
 }

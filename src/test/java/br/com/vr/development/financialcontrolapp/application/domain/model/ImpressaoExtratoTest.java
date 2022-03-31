@@ -1,14 +1,14 @@
-package br.com.vr.development.financialcontrolapp.application.model;
+package br.com.vr.development.financialcontrolapp.application.domain.model;
 
 import br.com.six2six.fixturefactory.Fixture;
 import br.com.six2six.fixturefactory.loader.FixtureFactoryLoader;
+import br.com.vr.development.financialcontrolapp.LoadFixturesSetup;
 import br.com.vr.development.financialcontrolapp.application.domain.model.*;
 import br.com.vr.development.financialcontrolapp.application.domain.model.extrato.Extrato;
 import br.com.vr.development.financialcontrolapp.application.domain.model.extrato.ImpressaoExtrato;
 import br.com.vr.development.financialcontrolapp.application.domain.model.lancamento.Lancamento;
 import br.com.vr.development.financialcontrolapp.application.domain.model.movimentacoes.MovimentacaoPorDia;
 import br.com.vr.development.financialcontrolapp.application.domain.model.movimentacoes.MovimentacaoPorTipoLancamento;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import java.time.LocalDate;
@@ -16,12 +16,7 @@ import java.util.Set;
 
 import static br.com.vr.development.financialcontrolapp.application.enums.TipoTransferencia.PIX;
 
-public class ImpressaoExtratoTest {
-
-    @BeforeAll
-    public static void setUp() {
-        FixtureFactoryLoader.loadTemplates("br.com.vr.development.financialcontrolapp.fixtures");
-    }
+public class ImpressaoExtratoTest extends LoadFixturesSetup {
 
     @Test
     public void deveImprimirExtrato() {
