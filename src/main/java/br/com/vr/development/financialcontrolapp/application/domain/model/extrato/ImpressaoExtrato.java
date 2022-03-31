@@ -10,8 +10,6 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class ImpressaoExtrato {
 
-    public static final String ANSI_GREEN = "\u001B[32m";
-
     private Extrato extrato;
 
     public void imprimir(Agrupador agrupador) {

@@ -1,4 +1,4 @@
-package br.com.vr.development.financialcontrolapp.domain.model;
+package br.com.vr.development.financialcontrolapp.application.model;
 
 import static br.com.vr.development.financialcontrolapp.application.enums.TipoTransferencia.TEF;
 

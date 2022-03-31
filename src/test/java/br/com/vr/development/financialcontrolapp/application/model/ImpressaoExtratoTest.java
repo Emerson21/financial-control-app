@@ -1,4 +1,4 @@
-package br.com.vr.development.financialcontrolapp.domain.model;
+package br.com.vr.development.financialcontrolapp.application.model;
 
 import br.com.six2six.fixturefactory.Fixture;
 import br.com.six2six.fixturefactory.loader.FixtureFactoryLoader;

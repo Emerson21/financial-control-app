@@ -1,4 +1,4 @@
-package br.com.vr.development.financialcontrolapp.domain.model;
+package br.com.vr.development.financialcontrolapp.application.model;
 
 import java.math.BigDecimal;
 import java.util.Arrays;
