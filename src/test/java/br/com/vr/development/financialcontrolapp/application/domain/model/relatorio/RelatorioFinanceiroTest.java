@@ -9,6 +9,7 @@ import br.com.vr.development.financialcontrolapp.application.domain.model.Valor;
 import br.com.vr.development.financialcontrolapp.application.domain.model.lancamento.Lancamento;
 import br.com.vr.development.financialcontrolapp.exception.DespesaException;
 import br.com.vr.development.financialcontrolapp.exception.RendaException;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
@@ -57,8 +58,10 @@ public class RelatorioFinanceiroTest extends LoadFixturesSetup {
             List<Receita> receitas = Arrays.asList(receita1, receita2, receita3);
 
 
-            Relatorio financeiro = new RelarioFinanceiro(despesas, receitas);
+            RelarioFinanceiro financeiro = new RelarioFinanceiro(despesas, receitas);
 
+            Assertions.assertThat(financeiro.getTotalDespesas()).isEqualTo(new Valor("-1350"));
+            Assertions.assertThat(financeiro.getTotalRendas()).isEqualTo(new Valor("50000"));
 
         } catch (DespesaException e) {
             e.printStackTrace();

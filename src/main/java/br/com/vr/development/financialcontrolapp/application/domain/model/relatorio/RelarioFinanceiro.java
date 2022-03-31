@@ -2,6 +2,7 @@ package br.com.vr.development.financialcontrolapp.application.domain.model.relat
 
 import br.com.vr.development.financialcontrolapp.application.domain.model.Despesa;
 import br.com.vr.development.financialcontrolapp.application.domain.model.Valor;
+import lombok.Getter;
 
 import java.util.List;
 
@@ -10,7 +11,10 @@ public class RelarioFinanceiro implements Relatorio {
     private List<Despesa> despesas;
     private List<Receita> receitas;
 
+    @Getter
     private Valor totalDespesas;
+
+    @Getter
     private Valor totalRendas;
 
     public RelarioFinanceiro(List<Despesa> despesas, List<Receita> receitas) {
