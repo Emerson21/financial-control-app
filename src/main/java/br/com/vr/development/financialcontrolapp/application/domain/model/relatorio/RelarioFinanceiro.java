@@ -21,20 +21,13 @@ public class RelarioFinanceiro implements Relatorio {
         this.despesas = despesas;
         this.receitas = receitas;
 
-        somarDespesas(despesas);
-        somarRendas(receitas);
+        this.totalDespesas = somarValores(despesas);
+        this.totalRendas = somarValores(receitas);
 
     }
 
-    private void somarRendas(List<Receita> receitas) {
-        this.totalRendas = (receitas == null || receitas.isEmpty())
-                ? Valor.ZERO
-                : receitas.stream().map(receita -> receita.getValor()).reduce(Valor.ZERO, Valor::adicionar);
+    private Valor somarValores(List<? extends Transacao> transacoes) {
+        return transacoes.stream().map(Transacao::getValor).reduce(Valor.ZERO, Valor::adicionar);
     }
 
-    private void somarDespesas(List<Despesa> despesas) {
-        totalDespesas = (despesas == null || despesas.isEmpty())
-                ? Valor.ZERO
-                : despesas.stream().map(despesa -> despesa.getValor()).reduce(Valor.ZERO, Valor::adicionar);
-    }
 }
