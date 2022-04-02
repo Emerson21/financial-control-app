@@ -5,16 +5,9 @@ import br.com.vr.development.financialcontrolapp.exception.RendaException;
 
 public class Receita extends Transacao {
 
-    private Categoria categoria;
-
     public Receita(Lancamento lancamento, Categoria categoria) throws RendaException {
-        super(lancamento);
-        this.categoria = categoria;
+        super(lancamento, categoria);
         if (lancamento.isDebito()) throw new RendaException();
-    }
-
-    public enum Categoria {
-        RESGATE_INVESTIMENTO, SALRIO, SALARIO
     }
 
 }

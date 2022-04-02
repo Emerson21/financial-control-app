@@ -6,15 +6,9 @@ import br.com.vr.development.financialcontrolapp.exception.DespesaException;
 
 public class Despesa extends Transacao {
 
-    private Categoria categoria;
-
     public Despesa(Lancamento lancamento, Categoria categoria) throws DespesaException {
-        super(lancamento);
-        this.categoria = categoria;
+        super(lancamento, categoria);
         if (lancamento.isCredito()) throw new DespesaException();
     }
 
-    public enum Categoria {
-        ALIMENTACAO, CASA, ESTUDO
-    }
 }

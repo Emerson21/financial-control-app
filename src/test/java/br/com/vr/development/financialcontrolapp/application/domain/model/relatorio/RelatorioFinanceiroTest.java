@@ -52,7 +52,7 @@ public class RelatorioFinanceiroTest extends LoadFixturesSetup {
 
             Receita receita1 = new Receita(lancamentoPositivo1, Receita.Categoria.SALARIO);
             Receita receita2 = new Receita(lancamentoPositivo2, Receita.Categoria.RESGATE_INVESTIMENTO);
-            Receita receita3 = new Receita(lancamentoPositivo3, Receita.Categoria.SALRIO);
+            Receita receita3 = new Receita(lancamentoPositivo3, Receita.Categoria.SALARIO);
 
             List<Despesa> despesas = Arrays.asList(despesa1, despesa2, despesa3);
             List<Receita> receitas = Arrays.asList(receita1, receita2, receita3);
