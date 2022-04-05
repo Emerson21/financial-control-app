@@ -9,7 +9,6 @@ import br.com.vr.development.financialcontrolapp.application.domain.model.Valor;
 import br.com.vr.development.financialcontrolapp.application.domain.model.lancamento.Lancamento;
 import br.com.vr.development.financialcontrolapp.exception.DespesaException;
 import br.com.vr.development.financialcontrolapp.exception.RendaException;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
@@ -19,6 +18,7 @@ import java.util.List;
 
 import static br.com.vr.development.financialcontrolapp.application.enums.TipoTransferencia.PIX;
 import static br.com.vr.development.financialcontrolapp.application.enums.TipoTransferencia.TED;
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class RelatorioFinanceiroPorCategoriaTest extends LoadFixturesSetup {
 
@@ -32,9 +32,7 @@ public class RelatorioFinanceiroPorCategoriaTest extends LoadFixturesSetup {
             transacoes.addAll(getDespesas(contaCorrente));
             transacoes.addAll(getReceitas(contaCorrente));
 
-
             RelarioFinanceiroPorCategoria totalPorCategoria = new RelarioFinanceiroPorCategoria(transacoes);
-
 
             TotalPorCategoria resgateInvestimento = totalPorCategoria.getTotalPorCategorias().stream().filter(total -> total.getCategoria() == Transacao.Categoria.RESGATE_INVESTIMENTO).findFirst().get();
             TotalPorCategoria estudo = totalPorCategoria.getTotalPorCategorias().stream().filter(total -> total.getCategoria() == Transacao.Categoria.ESTUDO).findFirst().get();
@@ -42,12 +40,11 @@ public class RelatorioFinanceiroPorCategoriaTest extends LoadFixturesSetup {
             TotalPorCategoria casa = totalPorCategoria.getTotalPorCategorias().stream().filter(total -> total.getCategoria() == Transacao.Categoria.CASA).findFirst().get();
             TotalPorCategoria alimentacao = totalPorCategoria.getTotalPorCategorias().stream().filter(total -> total.getCategoria() == Transacao.Categoria.ALIMENTACAO).findFirst().get();
 
-
-            Assertions.assertThat(resgateInvestimento.getValor()).isEqualTo(new Valor("30000"));
-            Assertions.assertThat(estudo.getValor()).isEqualTo(new Valor("-1000"));
-            Assertions.assertThat(salario.getValor()).isEqualTo(new Valor("20000"));
-            Assertions.assertThat(casa.getValor()).isEqualTo(new Valor("-300"));
-            Assertions.assertThat(alimentacao.getValor()).isEqualTo(new Valor("-50"));
+            assertThat(resgateInvestimento.getValor()).isEqualTo(new Valor("30000"));
+            assertThat(estudo.getValor()).isEqualTo(new Valor("-1000"));
+            assertThat(salario.getValor()).isEqualTo(new Valor("20000"));
+            assertThat(casa.getValor()).isEqualTo(new Valor("-300"));
+            assertThat(alimentacao.getValor()).isEqualTo(new Valor("-50"));
 
         } catch (DespesaException e) {
             e.printStackTrace();
