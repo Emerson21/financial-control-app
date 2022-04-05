@@ -1,31 +1,20 @@
 package br.com.vr.development.financialcontrolapp.application.domain.model.movimentacoes;
 
 import br.com.vr.development.financialcontrolapp.application.domain.model.Grupo;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 
-import java.util.Iterator;
-import java.util.List;
-
-public class MovimentacaoAgrupada implements Iterable<Grupo> {
+@AllArgsConstructor
+public class MovimentacaoAgrupada {
 
     public static final String ANSI_GREEN = "\u001B[32m";
 
-    private List<Grupo> grupos;
+    @Getter
+    private Grupo grupo;
     private String keyNameField;
-
-    public MovimentacaoAgrupada(List<Grupo> grupos, String keyNameField) {
-        this.grupos = grupos;
-        this.keyNameField = keyNameField;
-    }
-
-    @Override
-    public Iterator<Grupo> iterator() {
-        return this.grupos.iterator();
-    }
+    private String agrupador;
 
     public String lerNome() {
-        return ANSI_GREEN + keyNameField + " : " + grupos.stream()
-                .findFirst()
-                .get()
-                .getAgrupador().toString() + " | Movimentações";
+        return ANSI_GREEN + keyNameField + " : " + agrupador + " | Movimentacoes";
     }
 }

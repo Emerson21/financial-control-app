@@ -62,12 +62,10 @@ public class Valor implements Comparable {
     }
 
     public String toString() {
-//        Locale locale = new Locale("pr-BR");
-//        return String.format("Valor: R$ %s", NumberFormat.getCurrencyInstance(new Locale("pr-BR")).format(this.valor));
         if (this.ehNegativo()) {
-            return String.format("Valor: R$ %s", NumberFormat.getCurrencyInstance().format(this.valor));
+            return String.format("Valor: %s", NumberFormat.getCurrencyInstance().format(this.valor));
         } else {
-            return String.format("Valor: R$ %s", NumberFormat.getCurrencyInstance().format(this.valor));
+            return String.format("Valor: %s", NumberFormat.getCurrencyInstance().format(this.valor));
         }
 
     }

@@ -22,7 +22,9 @@ import static br.com.vr.development.financialcontrolapp.application.enums.TipoLa
 @Entity
 @Table(name = "lancamento", schema = "financial_app")
 public class Lancamento implements Movimentacao {
-    
+
+    private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy hh:mm:ss");
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -32,6 +34,7 @@ public class Lancamento implements Movimentacao {
     @Enumerated(EnumType.STRING)
     private TipoLancamento tipoLancamento;
 
+    @Getter
     @Column(name = "data_hora")
     private LocalDateTime dataHora;
 
@@ -74,7 +77,6 @@ public class Lancamento implements Movimentacao {
 
     @Override
     public String imprimir() {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy hh:mm:ss");
         return String.format("%s | %s | %s | %s | %s", tipoLancamento, tipoTransferencia, valor, descricao, dataHora.format(formatter));
     }
 

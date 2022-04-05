@@ -6,7 +6,7 @@ import lombok.Getter;
 
 import java.util.List;
 
-public class RelarioFinanceiro implements Relatorio {
+public class RelatorioFinanceiro implements Relatorio {
 
     @Getter
     private Valor totalDespesas;
@@ -14,7 +14,7 @@ public class RelarioFinanceiro implements Relatorio {
     @Getter
     private Valor totalRendas;
 
-    public RelarioFinanceiro(List<Despesa> despesas, List<Receita> receitas) {
+    public RelatorioFinanceiro(List<Despesa> despesas, List<Receita> receitas) {
         this.totalDespesas = somarValores(despesas);
         this.totalRendas = somarValores(receitas);
     }

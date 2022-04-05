@@ -32,7 +32,7 @@ public class RelatorioFinanceiroPorCategoriaTest extends LoadFixturesSetup {
             transacoes.addAll(getDespesas(contaCorrente));
             transacoes.addAll(getReceitas(contaCorrente));
 
-            RelarioFinanceiroPorCategoria totalPorCategoria = new RelarioFinanceiroPorCategoria(transacoes);
+            RelatorioFinanceiroPorCategoria totalPorCategoria = new RelatorioFinanceiroPorCategoria(transacoes);
 
             TotalPorCategoria resgateInvestimento = totalPorCategoria.getTotalPorCategorias().stream().filter(total -> total.getCategoria() == Transacao.Categoria.RESGATE_INVESTIMENTO).findFirst().get();
             TotalPorCategoria estudo = totalPorCategoria.getTotalPorCategorias().stream().filter(total -> total.getCategoria() == Transacao.Categoria.ESTUDO).findFirst().get();

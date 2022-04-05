@@ -9,12 +9,12 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @ToString
-public class RelarioFinanceiroPorCategoria implements Relatorio {
+public class RelatorioFinanceiroPorCategoria implements Relatorio {
 
     @Getter
     private List<TotalPorCategoria> totalPorCategorias = new ArrayList<>();
 
-    public RelarioFinanceiroPorCategoria(List<? extends Transacao> transacoes) {
+    public RelatorioFinanceiroPorCategoria(List<? extends Transacao> transacoes) {
         this.totalPorCategorias = agruparValorPorCategoria(transacoes);
 
     }

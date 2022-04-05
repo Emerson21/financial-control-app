@@ -21,7 +21,7 @@ public class Extrato  {
                 .collect(Collectors.toSet());
     }
 
-    public MovimentacaoAgrupada agrupar(Agrupador agrupador) {
+    public List<MovimentacaoAgrupada> agrupar(Agrupador agrupador) {
         return agrupador.agrupar(movimentacoes);
     }
 }

@@ -8,25 +8,32 @@ import java.util.stream.Collector;
 
 public abstract class Agrupador {
 
-    protected Agrupador() { }
-
     private Collector<Movimentacao, ?, Map<Object, List<Movimentacao>>> algoritmoDeAgrupamento;
+
+    protected abstract String getKeyNameField();
 
     protected Agrupador(Collector<Movimentacao, ?, Map<Object, List<Movimentacao>>> collector) {
         this.algoritmoDeAgrupamento = collector;
     }
 
-    protected abstract String getKeyNameField();
+    public List<MovimentacaoAgrupada> agrupar(Collection<Movimentacao> movimentacoes) {
+        List<MovimentacaoAgrupada> movimentacaoAgrupadas = new ArrayList<>();
 
-    public MovimentacaoAgrupada agrupar(Collection<Movimentacao> movimentacoes) {
-        List<Grupo> grupos = new ArrayList<>();
+        Map<Object, List<Movimentacao>> agrupamento = movimentacoes.stream().collect(this.algoritmoDeAgrupamento);
 
-        Map<Object, List<Movimentacao>> map = movimentacoes.stream().collect(this.algoritmoDeAgrupamento);
-        for(Map.Entry<Object, List<Movimentacao>> entry : map.entrySet()) {
-            grupos.add(new Grupo(entry.getKey(), entry.getValue()));
+        agrupamento.entrySet().stream().map(entry ->
+                new MovimentacaoAgrupada(
+                        new Grupo(entry.getValue()),
+                        getKeyNameField(),
+                        entry.getKey().toString()
+                )
+            );
+
+        for(Map.Entry<Object, List<Movimentacao>> entry : agrupamento.entrySet()) {
+            movimentacaoAgrupadas.add(new MovimentacaoAgrupada(new Grupo(entry.getValue()), getKeyNameField(), entry.getKey().toString()));
         }
 
-        return new MovimentacaoAgrupada(grupos, getKeyNameField());
+        return movimentacaoAgrupadas;
     }
 
 }

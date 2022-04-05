@@ -9,7 +9,6 @@ import br.com.vr.development.financialcontrolapp.application.domain.model.Valor;
 import br.com.vr.development.financialcontrolapp.application.domain.model.lancamento.Lancamento;
 import br.com.vr.development.financialcontrolapp.exception.DespesaException;
 import br.com.vr.development.financialcontrolapp.exception.RendaException;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
@@ -18,6 +17,7 @@ import java.util.List;
 
 import static br.com.vr.development.financialcontrolapp.application.enums.TipoTransferencia.TED;
 import static br.com.vr.development.financialcontrolapp.application.enums.TipoTransferencia.PIX;
+import static org.assertj.core.api.Assertions.assertThat;
 
 public class RelatorioFinanceiroTest extends LoadFixturesSetup {
 
@@ -58,10 +58,10 @@ public class RelatorioFinanceiroTest extends LoadFixturesSetup {
             List<Receita> receitas = Arrays.asList(receita1, receita2, receita3);
 
 
-            RelarioFinanceiro financeiro = new RelarioFinanceiro(despesas, receitas);
+            RelatorioFinanceiro financeiro = new RelatorioFinanceiro(despesas, receitas);
 
-            Assertions.assertThat(financeiro.getTotalDespesas()).isEqualTo(new Valor("-1350"));
-            Assertions.assertThat(financeiro.getTotalRendas()).isEqualTo(new Valor("50000"));
+            assertThat(financeiro.getTotalDespesas()).isEqualTo(new Valor("-1350"));
+            assertThat(financeiro.getTotalRendas()).isEqualTo(new Valor("50000"));
 
         } catch (DespesaException e) {
             e.printStackTrace();

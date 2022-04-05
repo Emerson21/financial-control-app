@@ -18,7 +18,7 @@ public class Descricao {
     private String texto;
 
     public String toString() {
-        return String.format("Descrição: %s", texto);
+        return String.format("Descricao: %s", texto);
     }
 
 }
