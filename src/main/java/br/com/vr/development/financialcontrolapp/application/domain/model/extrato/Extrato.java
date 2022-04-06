@@ -17,7 +17,7 @@ public class Extrato  {
 
     public Extrato(Set<Lancamento> movimentacoes, Periodo periodo) {
         this.movimentacoes = movimentacoes.stream()
-                .filter(lancamento -> periodo.contains(lancamento.getData()))
+                .filter(lancamento -> periodo.contains(lancamento.getDataHora()))
                 .collect(Collectors.toSet());
     }
 
