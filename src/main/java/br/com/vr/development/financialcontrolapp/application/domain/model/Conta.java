@@ -99,7 +99,7 @@ public class Conta implements ContaDestino, ContaOrigem {
             throw new SaldoInsuficienteException();
         }
 
-        adicionar(criaLancamentoNegativo(valor, new Descricao("Transferencia entre contas correntes"), this, tipoTransferencia));
+        adicionar(criaLancamentoNegativo(valor, tipoTransferencia.descricao(), this, tipoTransferencia));
     }
 
 }

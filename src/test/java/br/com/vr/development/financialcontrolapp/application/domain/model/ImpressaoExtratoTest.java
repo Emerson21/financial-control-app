@@ -15,6 +15,7 @@ import org.mockito.Mockito;
 import org.springframework.test.util.ReflectionTestUtils;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Arrays;
 import java.util.List;
@@ -40,10 +41,10 @@ public class ImpressaoExtratoTest extends LoadFixturesSetup {
     @Test
     void deveImprimirExtrato() {
         LocalDate hoje = LocalDate.now();
-        LocalDate ontem = LocalDate.now().minusDays(1);
-        LocalDate amanha = LocalDate.now().plusDays(1);
+        LocalDate ontem = LocalDate.now().minusDays(1).atStartOfDay().toLocalDate();
+        LocalDate amanha = LocalDate.now().plusDays(1).atStartOfDay().toLocalDate();
 
-        Periodo periodo = new Periodo(ontem.minusDays(1), amanha.plusDays(1));
+        Periodo periodo = new Periodo(ontem.minusDays(1), amanha.plusDays(1).atTime(LocalTime.MAX).toLocalDate());
 
         Set<Lancamento> lancamentos = getLancamentos();
 

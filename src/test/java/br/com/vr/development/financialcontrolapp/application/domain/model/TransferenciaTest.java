@@ -1,18 +1,16 @@
 package br.com.vr.development.financialcontrolapp.application.domain.model;
 
 import static br.com.vr.development.financialcontrolapp.application.enums.TipoTransferencia.TEF;
+import static org.assertj.core.api.Assertions.assertThat;
 
 import java.math.BigDecimal;
 import java.util.Arrays;
 
-import br.com.vr.development.financialcontrolapp.application.domain.model.*;
-import br.com.vr.development.financialcontrolapp.fixtures.AgenciaBancariaFixture;
 import br.com.vr.development.financialcontrolapp.fixtures.CorrentistaFixture;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 import br.com.vr.development.financialcontrolapp.application.domain.model.components.DepositoInicialFactory;
-import br.com.vr.development.financialcontrolapp.application.domain.model.transferencia.ContaOrigem;
 import br.com.vr.development.financialcontrolapp.application.domain.model.transferencia.Transferencia;
 
 class TransferenciaTest {
@@ -22,15 +20,15 @@ class TransferenciaTest {
         Conta contaOrigem = getContaOrigem();
         Conta contaDestino = getContaDestino();
 
-        new Transferencia(new Valor("10"), (ContaOrigem) contaOrigem, contaDestino, TEF).execute();
-        Assertions.assertThat(contaOrigem.getSaldo()).isEqualTo(new Valor("40"));
-        Assertions.assertThat(contaDestino.getSaldo()).isEqualTo(new Valor("60"));
+        new Transferencia(new Valor("10"), contaOrigem, contaDestino, TEF).execute();
+        assertThat(contaOrigem.getSaldo()).isEqualTo(new Valor("40"));
+        assertThat(contaDestino.getSaldo()).isEqualTo(new Valor("60"));
     }
 
     @Test
     void deveLancarExceptionSaldoInsuficienteExceptionQuandoNaoHouverValorDisponivelParaSaque() {
         Assertions.assertThatThrownBy(() -> {
-            new Transferencia(new Valor("50,01"), (ContaOrigem) getContaOrigem(), getContaDestino(), TEF).execute();
+            new Transferencia(new Valor("50,01"), getContaOrigem(), getContaDestino(), TEF).execute();
         });
 
     }
@@ -40,9 +38,9 @@ class TransferenciaTest {
         Conta poupanca = getContaPoupanca();
         Conta origem = getContaOrigem();
 
-        new Transferencia(new Valor("0.01"), (ContaOrigem) origem, poupanca, TEF).execute();
-        Assertions.assertThat(origem.getSaldo()).isEqualTo(new Valor("49.99"));
-        Assertions.assertThat(poupanca.getSaldo()).isEqualTo(new Valor("50.01"));
+        new Transferencia(new Valor("0.01"), origem, poupanca, TEF).execute();
+        assertThat(origem.getSaldo()).isEqualTo(new Valor("49.99"));
+        assertThat(poupanca.getSaldo()).isEqualTo(new Valor("50.01"));
 
     }
 
