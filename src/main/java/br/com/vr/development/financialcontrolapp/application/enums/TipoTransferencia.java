@@ -9,7 +9,8 @@ public enum TipoTransferencia {
     TEF(Valor.ZERO, new Descricao("Transferencia entre contas correntes")),
     PIX(Valor.ZERO, new Descricao("Transferencia entre contas correntes")),
     DEPOSITO(Valor.ZERO, new Descricao("Transferencia entre contas correntes")),
-    CARTAO_DEBITO(Valor.ZERO, new Descricao("Transacao no cartao de debito"));
+    CARTAO_DEBITO(Valor.ZERO, new Descricao("Transacao no cartao de debito")),
+    CARTAO_CREDITO(Valor.ZERO, new Descricao("Transacao no cartao de credito"));
 
     private Valor taxa;
     private Descricao descricao;

@@ -5,6 +5,8 @@ import br.com.vr.development.financialcontrolapp.application.enums.TipoTransfere
 
 public interface ContaDestino {
 
+    Valor getSaldo();
+
     void deposita(Valor valor, TipoTransferencia tipoTransferencia);
     
 }

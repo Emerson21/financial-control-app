@@ -60,6 +60,7 @@ public class Conta implements ContaDestino, ContaOrigem {
         this.adicionaDepositoInicialComoLancamento();
     }
 
+    @Override
     public Valor getSaldo() {
         return !possuiSaldo()
                 ? Valor.ZERO

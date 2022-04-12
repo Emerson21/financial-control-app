@@ -42,6 +42,10 @@ public class Valor implements Comparable {
         return this.valor;
     }
 
+    public Valor menos(Valor valor) {
+        return new Valor(this.valor.subtract(valor.getValor()));
+    }
+
     @Override
     public int compareTo(Object valor) {
         if ( valor == null )

@@ -8,4 +8,7 @@ public class SaldoInsuficienteException extends RuntimeException {
         super(MESSAGE);
     }
 
+    public SaldoInsuficienteException(String message) {
+        super(message);
+    }
 }
