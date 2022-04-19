@@ -5,6 +5,7 @@ import br.com.vr.development.financialcontrolapp.application.domain.model.cartoe
 import br.com.vr.development.financialcontrolapp.application.domain.model.lancamento.Lancamento;
 import br.com.vr.development.financialcontrolapp.application.domain.model.transferencia.ContaDestino;
 import br.com.vr.development.financialcontrolapp.application.enums.Competencia;
+import br.com.vr.development.financialcontrolapp.exception.LimiteExcedidoException;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.List;
@@ -28,7 +29,7 @@ public class CartaoDeCredito implements Cartao {
     }
 
     @Override
-    public void debitar(Valor valor, Descricao descricao, ContaDestino contaDestino) {
+    public void debitar(Valor valor, Descricao descricao, ContaDestino contaDestino) throws LimiteExcedidoException {
         limite.saque(valor);
         contaDestino.deposita(valor, CARTAO_CREDITO);
         fatura.novoLancamento(valor, descricao);

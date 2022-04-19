@@ -6,6 +6,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import java.math.BigDecimal;
 import java.util.Arrays;
 
+import br.com.vr.development.financialcontrolapp.exception.SaldoInsuficienteException;
 import br.com.vr.development.financialcontrolapp.fixtures.CorrentistaFixture;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -16,7 +17,7 @@ import br.com.vr.development.financialcontrolapp.application.domain.model.transf
 class TransferenciaTest {
 
     @Test
-    void deveRealizarUmTEFDeUmaContaCorrenteParaOutra() {
+    void deveRealizarUmTEFDeUmaContaCorrenteParaOutra() throws SaldoInsuficienteException {
         Conta contaOrigem = getContaOrigem();
         Conta contaDestino = getContaDestino();
 
@@ -34,7 +35,7 @@ class TransferenciaTest {
     }
 
     @Test
-    void deveRealizarUmaTEFDeContaPoupancaParaContaCorrente() { 
+    void deveRealizarUmaTEFDeContaPoupancaParaContaCorrente() throws SaldoInsuficienteException {
         Conta poupanca = getContaPoupanca();
         Conta origem = getContaOrigem();
 

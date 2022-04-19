@@ -34,11 +34,11 @@ public final class Valor implements Comparable {
         return this.valor.compareTo(BigDecimal.ZERO) < 0;
     }
 
-    public Valor adicionar(Valor valor) {
+    public Valor mais(Valor valor) {
         return new Valor(this.valor.add(valor.getValor()));
     }
 
-    public Valor adicionar(BigDecimal valor) {
+    public Valor mais(BigDecimal valor) {
         return new Valor(this.valor.add(valor));
     }
 

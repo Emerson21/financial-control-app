@@ -66,7 +66,7 @@ public class Conta implements ContaDestino, ContaOrigem {
                 ? Valor.ZERO
                 : getLancamentos().stream()
                 .map(Lancamento::getValor)
-                .reduce(Valor.ZERO, Valor::adicionar);
+                .reduce(Valor.ZERO, Valor::mais);
     }
 
     void adicionaDepositoInicialComoLancamento() {
@@ -95,7 +95,7 @@ public class Conta implements ContaDestino, ContaOrigem {
     }
 
     @Override
-    public void saque(Valor valor, TipoTransferencia tipoTransferencia) {
+    public void saque(Valor valor, TipoTransferencia tipoTransferencia) throws SaldoInsuficienteException {
         if (!possuiSaldoDisponivel(valor)) {
             throw new SaldoInsuficienteException();
         }

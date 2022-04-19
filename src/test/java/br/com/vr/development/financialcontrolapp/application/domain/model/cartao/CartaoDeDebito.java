@@ -7,6 +7,7 @@ import br.com.vr.development.financialcontrolapp.application.domain.model.Valor;
 import br.com.vr.development.financialcontrolapp.application.domain.model.transferencia.ContaDestino;
 import br.com.vr.development.financialcontrolapp.application.domain.model.transferencia.Transferencia;
 import br.com.vr.development.financialcontrolapp.application.enums.TipoTransferencia;
+import br.com.vr.development.financialcontrolapp.exception.SaldoInsuficienteException;
 
 public class CartaoDeDebito implements Cartao {
 
@@ -17,7 +18,7 @@ public class CartaoDeDebito implements Cartao {
     }
 
     @Override
-    public void debitar(Valor valor, Descricao descricao, ContaDestino contaDestino) {
+    public void debitar(Valor valor, Descricao descricao, ContaDestino contaDestino) throws SaldoInsuficienteException {
         new Transferencia(valor, contaCorrente, contaDestino, TipoTransferencia.CARTAO_DEBITO).execute();
     }
 }

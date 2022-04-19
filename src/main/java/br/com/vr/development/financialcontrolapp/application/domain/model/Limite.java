@@ -1,6 +1,6 @@
 package br.com.vr.development.financialcontrolapp.application.domain.model;
 
-import br.com.vr.development.financialcontrolapp.exception.LimiteIndisponivelException;
+import br.com.vr.development.financialcontrolapp.exception.LimiteExcedidoException;
 
 public final class Limite {
 
@@ -14,12 +14,11 @@ public final class Limite {
         return valor;
     }
 
-    public void saque(Valor valor) throws LimiteIndisponivelException {
-        this.valor = this.valor.menos(valor);
-        if (this.valor.ehNegativo()) {
-            this.valor = this.valor.adicionar(valor);
-            throw new LimiteIndisponivelException();
+    public void saque(Valor valor) throws LimiteExcedidoException {
+        if (this.valor.menos(valor).ehNegativo()) {
+            throw new LimiteExcedidoException();
         }
 
+        this.valor = this.valor.menos(valor);
     }
 }

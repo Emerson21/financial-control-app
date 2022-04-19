@@ -2,6 +2,7 @@ package br.com.vr.development.financialcontrolapp.application.domain.model;
 
 import br.com.vr.development.financialcontrolapp.application.domain.model.cartao.CartaoDeDebito;
 import br.com.vr.development.financialcontrolapp.application.domain.model.transferencia.ContaDestino;
+import br.com.vr.development.financialcontrolapp.exception.SaldoInsuficienteException;
 import br.com.vr.development.financialcontrolapp.fixtures.ContaCorrenteFixture;
 import org.junit.jupiter.api.Test;
 
@@ -11,7 +12,7 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 public class CartaoTest {
 
     @Test
-    void deveDebitar50ReaisDaContaCorrenteNoCartaoDeDebito() {
+    void deveDebitar50ReaisDaContaCorrenteNoCartaoDeDebito() throws SaldoInsuficienteException {
         ContaDestino contaDestino = ContaCorrenteFixture.create();
 
         CartaoDeDebito cartao = new CartaoDeDebito(ContaCorrenteFixture.create());

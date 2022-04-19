@@ -20,7 +20,7 @@ public class RelatorioFinanceiro implements Relatorio {
     }
 
     private Valor somarValores(List<? extends Transacao> transacoes) {
-        return transacoes.stream().map(Transacao::getValor).reduce(Valor.ZERO, Valor::adicionar);
+        return transacoes.stream().map(Transacao::getValor).reduce(Valor.ZERO, Valor::mais);
     }
 
 }

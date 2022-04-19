@@ -1,14 +1,13 @@
 package br.com.vr.development.financialcontrolapp.application.domain.model.cartao;
 
 import br.com.vr.development.financialcontrolapp.application.domain.model.Descricao;
-import br.com.vr.development.financialcontrolapp.application.domain.model.Fatura;
 import br.com.vr.development.financialcontrolapp.application.domain.model.Limite;
 import br.com.vr.development.financialcontrolapp.application.domain.model.Valor;
 import br.com.vr.development.financialcontrolapp.application.domain.model.cartoes.CartaoDeCredito;
 import br.com.vr.development.financialcontrolapp.application.domain.model.cartoes.fatura.Vencimento;
 import br.com.vr.development.financialcontrolapp.application.domain.model.transferencia.ContaDestino;
 import br.com.vr.development.financialcontrolapp.application.enums.Competencia;
-import br.com.vr.development.financialcontrolapp.exception.LimiteIndisponivelException;
+import br.com.vr.development.financialcontrolapp.exception.LimiteExcedidoException;
 import br.com.vr.development.financialcontrolapp.fixtures.ContaCorrenteFixture;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -24,7 +23,7 @@ public class CartaoDeCreditoTest {
     }
 
     @Test
-    void deveRealizarUmaTransacaoDeUmaCompraNoValorDe100Reais() throws LimiteIndisponivelException {
+    void deveRealizarUmaTransacaoDeUmaCompraNoValorDe100Reais() throws LimiteExcedidoException {
         CartaoDeCredito cartaoDeCredito = new CartaoDeCredito(new Limite(new Valor("5000")), Competencia.FEVEREIRO, Vencimento.dia(10));
         ContaDestino contaDestino = ContaCorrenteFixture.create();
 

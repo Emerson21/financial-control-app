@@ -26,7 +26,7 @@ public class RelatorioFinanceiroPorCategoria implements Relatorio {
                 .stream().map(entry ->
                         new TotalPorCategoria(
                                 entry.getKey(),
-                                entry.getValue().stream().map(Transacao::getValor).reduce(Valor::adicionar).get()
+                                entry.getValue().stream().map(Transacao::getValor).reduce(Valor::mais).get()
                         )
                 ).collect(Collectors.toList());
     }

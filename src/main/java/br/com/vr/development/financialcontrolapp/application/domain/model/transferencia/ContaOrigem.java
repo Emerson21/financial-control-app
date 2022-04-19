@@ -3,6 +3,7 @@ package br.com.vr.development.financialcontrolapp.application.domain.model.trans
 import br.com.vr.development.financialcontrolapp.application.domain.model.Descricao;
 import br.com.vr.development.financialcontrolapp.application.domain.model.Valor;
 import br.com.vr.development.financialcontrolapp.application.enums.TipoTransferencia;
+import br.com.vr.development.financialcontrolapp.exception.SaldoInsuficienteException;
 
 import java.time.LocalDateTime;
 
@@ -10,6 +11,6 @@ public interface ContaOrigem {
 
     Valor getSaldo();
 
-    void saque(Valor valor, TipoTransferencia tipoTransferencia);
+    void saque(Valor valor, TipoTransferencia tipoTransferencia) throws SaldoInsuficienteException;
 
 }

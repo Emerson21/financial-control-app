@@ -21,7 +21,7 @@ public enum TipoTransferencia {
     }
 
     public Valor aplicaTaxaNo(Valor valorTransferencia) {
-        return taxa.adicionar(valorTransferencia);
+        return taxa.mais(valorTransferencia);
     }
 
     public Descricao descricao() {
