@@ -1,27 +1,36 @@
 package br.com.vr.development.financialcontrolapp.application.domain.model;
 
+import br.com.vr.development.financialcontrolapp.application.domain.model.cartoes.fatura.Vencimento;
 import br.com.vr.development.financialcontrolapp.application.domain.model.lancamento.Lancamento;
+import br.com.vr.development.financialcontrolapp.application.enums.Competencia;
 import br.com.vr.development.financialcontrolapp.application.enums.TipoTransferencia;
-import br.com.vr.development.financialcontrolapp.exception.SaldoInsuficienteException;
 
-public class Fatura extends Conta {
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
-    private Limite limite;
+public class Fatura {
 
-    public Fatura(Limite limite) {
-        this.limite = limite;
+    private Periodo periodo;
+
+    private Vencimento vencimento;
+
+    private List<Lancamento> lancamentos;
+
+    public Fatura(Competencia competencia, Vencimento vencimento) {
+        this.periodo = new Periodo(competencia.inicio(), competencia.fim());
+        this.vencimento = vencimento;
     }
 
-    @Override
-    public void saque(Valor valor, TipoTransferencia tipoTransferencia) {
-        if (limite.naoPossuiSaldo(valor)) { //acredito que nao esteja em um linguagem ubiqua
-            throw new SaldoInsuficienteException("Limite insuficiente para realizar transacao");
-        }
+    public void novoLancamento(Valor valor, Descricao descricao) {
+        if (lancamentos == null) lancamentos = new ArrayList<>();
 
-        criarLancamento(valor, new Descricao("Compra realizada no cartao de credito"));
+        lancamentos.add(
+            Lancamento.criaLancamentoNegativo(valor, descricao, null, TipoTransferencia.CARTAO_CREDITO)
+        );
     }
 
-    private void criarLancamento(Valor valor, Descricao descricao) {
-        adicionar(Lancamento.criaLancamentoNegativo(valor, descricao, this, TipoTransferencia.CARTAO_CREDITO));
+    public List<Lancamento> lancamentos() {
+        return Collections.unmodifiableList(lancamentos);
     }
 }

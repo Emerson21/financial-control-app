@@ -1,14 +1,25 @@
 package br.com.vr.development.financialcontrolapp.application.domain.model;
 
-public class Limite {
+import br.com.vr.development.financialcontrolapp.exception.LimiteIndisponivelException;
 
-    private Valor limite;
+public final class Limite {
 
-    public Limite(Valor limite) {
-        this.limite = limite;
+    private Valor valor;
+
+    public Limite(Valor valor) {
+        this.valor = valor;
     }
 
-    public boolean naoPossuiSaldo(Valor valor) {
-        return this.limite.menos(valor).ehNegativo();
+    public Valor valor() {
+        return valor;
+    }
+
+    public void saque(Valor valor) throws LimiteIndisponivelException {
+        this.valor = this.valor.menos(valor);
+        if (this.valor.ehNegativo()) {
+            this.valor = this.valor.adicionar(valor);
+            throw new LimiteIndisponivelException();
+        }
+
     }
 }

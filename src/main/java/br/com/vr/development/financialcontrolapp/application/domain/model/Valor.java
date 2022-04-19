@@ -11,7 +11,7 @@ import java.text.NumberFormat;
 @Embeddable
 @EqualsAndHashCode
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-public class Valor implements Comparable {
+public final class Valor implements Comparable {
 
 
     public static final Valor ZERO = new Valor("0");
@@ -24,6 +24,10 @@ public class Valor implements Comparable {
 
     public Valor(String valor) {
         this.valor = new BigDecimal(valor);
+    }
+
+    public static Valor de(String valor) {
+        return new Valor(valor);
     }
 
     public boolean ehNegativo() {

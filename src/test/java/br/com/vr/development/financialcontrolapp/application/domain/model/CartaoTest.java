@@ -1,66 +1,39 @@
 package br.com.vr.development.financialcontrolapp.application.domain.model;
 
-import br.com.vr.development.financialcontrolapp.application.domain.model.cartoes.FuncoesCartao;
+import br.com.vr.development.financialcontrolapp.application.domain.model.cartao.CartaoDeDebito;
 import br.com.vr.development.financialcontrolapp.application.domain.model.transferencia.ContaDestino;
-import br.com.vr.development.financialcontrolapp.application.domain.model.transferencia.ContaOrigem;
-import br.com.vr.development.financialcontrolapp.application.enums.FuncaoCartao;
 import br.com.vr.development.financialcontrolapp.fixtures.ContaCorrenteFixture;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 public class CartaoTest {
 
     @Test
     void deveDebitar50ReaisDaContaCorrenteNoCartaoDeDebito() {
-
-        FuncoesCartao funcoesCartao = new FuncoesCartao();
-        funcoesCartao.adicionarFuncao(FuncaoCartao.DEBITO);
-
         ContaDestino contaDestino = ContaCorrenteFixture.create();
 
-        Cartao cartao = new Cartao(funcoesCartao, ContaCorrenteFixture.create());
-        cartao.debitar(new Valor("50"), FuncaoCartao.DEBITO, contaDestino);
+        CartaoDeDebito cartao = new CartaoDeDebito(ContaCorrenteFixture.create());
+        cartao.debitar(new Valor("50"), new Descricao("Compra no cartao de debito"), contaDestino);
 
-        Assertions.assertThat(contaDestino.getSaldo()).isEqualTo(new Valor("100"));
+        assertThat(contaDestino.getSaldo()).isEqualTo(new Valor("100"));
     }
 
     @Test
     void deveLancarExceptionAoTentarPassarAFuncaoCreditoNumCartaoQuePossuiSomenteDebito() {
-        FuncoesCartao funcoesCartao = new FuncoesCartao();
-        funcoesCartao.adicionarFuncao(FuncaoCartao.DEBITO);
-
         ContaDestino contaDestino = ContaCorrenteFixture.create();
 
-        Cartao cartao = new Cartao(funcoesCartao, ContaCorrenteFixture.create());
-        Assertions.assertThatThrownBy(() -> cartao.debitar(new Valor("400"), FuncaoCartao.CREDITO, contaDestino));
+        CartaoDeDebito cartao = new CartaoDeDebito(ContaCorrenteFixture.create());
+        assertThatThrownBy(() -> cartao.debitar(new Valor("400"), new Descricao("Compra no cartao de debito"), contaDestino));
     }
 
     @Test
     void deveLancarExceptionAoTentarPassarAFuncaoDebitoNumCartaoQuePossuiSomenteCredito() {
-        FuncoesCartao funcoesCartao = new FuncoesCartao();
-        funcoesCartao.adicionarFuncao(FuncaoCartao.CREDITO);
-
         ContaDestino contaDestino = ContaCorrenteFixture.create();
 
-        Cartao cartao = new Cartao(funcoesCartao, ContaCorrenteFixture.create());
-        Assertions.assertThatThrownBy(() -> cartao.debitar(new Valor("400"), FuncaoCartao.DEBITO, contaDestino));
-    }
-
-    @Test
-    void deveDebitarDaFaturaDoCartaoDeCredito50Reais() {
-
-        FuncoesCartao funcoesCartao = new FuncoesCartao();
-        funcoesCartao.adicionarFuncao(FuncaoCartao.CREDITO);
-
-        ContaDestino contaDestino = ContaCorrenteFixture.create();
-
-        ContaOrigem contaOrigem = new Fatura(new Limite(new Valor("1000")));
-
-        Cartao cartao = new Cartao(funcoesCartao, contaOrigem);
-        cartao.debitar(new Valor("50"), FuncaoCartao.CREDITO, contaDestino);
-
-        Assertions.assertThat(contaDestino.getSaldo()).isEqualTo(new Valor("100"));
-        Assertions.assertThat(((Fatura)contaOrigem).getLancamentos()).isNotEmpty();
+        CartaoDeDebito cartao = new CartaoDeDebito(ContaCorrenteFixture.create());
+        assertThatThrownBy(() -> cartao.debitar(new Valor("400"), new Descricao("Compra no cartao de debito"), contaDestino));
     }
 
 }
