@@ -78,4 +78,7 @@ public final class Valor implements Comparable {
 
     }
 
+    public boolean ehPositivo() {
+        return this.valor.compareTo(BigDecimal.ZERO) > 0;
+    }
 }

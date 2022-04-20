@@ -21,4 +21,8 @@ public final class Limite {
 
         this.valor = this.valor.menos(valor);
     }
+
+    public void creditar(Valor valorPagamento) {
+        this.valor = this.valor.mais(valorPagamento);
+    }
 }
