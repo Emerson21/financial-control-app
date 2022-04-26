@@ -6,16 +6,13 @@ import br.com.vr.development.financialcontrolapp.application.domain.model.lancam
 import br.com.vr.development.financialcontrolapp.application.domain.model.transferencia.ContaDestino;
 import br.com.vr.development.financialcontrolapp.application.domain.model.transferencia.ContaOrigem;
 import br.com.vr.development.financialcontrolapp.application.enums.Competencia;
-import br.com.vr.development.financialcontrolapp.application.enums.StatusFatura;
 import br.com.vr.development.financialcontrolapp.application.enums.TipoTransferencia;
 import br.com.vr.development.financialcontrolapp.exception.LimiteExcedidoException;
-import br.com.vr.development.financialcontrolapp.exception.SaldoInsuficienteException;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static br.com.vr.development.financialcontrolapp.application.enums.StatusFatura.*;
 import static br.com.vr.development.financialcontrolapp.application.enums.TipoTransferencia.CARTAO_CREDITO;
 
 @Slf4j
@@ -24,9 +21,9 @@ public class CartaoDeCredito implements Cartao {
     private Limite limite;
     private List<Fatura> faturas = new ArrayList<>();
 
-    public CartaoDeCredito(Limite limite) {
+    public CartaoDeCredito(Limite limite, Fatura fatura) {
         this.limite = limite;
-        this.faturas.add(new Fatura(Competencia.JANEIRO, Vencimento.dia(5)));
+        this.faturas.add(fatura);
     }
 
     public Valor limite() {
@@ -53,33 +50,32 @@ public class CartaoDeCredito implements Cartao {
         return faturas.stream().filter(f -> f.ehDa(competencia)).findFirst().orElseThrow(Exception::new);
     }
 
-    public void pagarFatura(Competencia competencia, Valor valorPagamento, ContaOrigem contaOrigem) {
-        try {
-            Fatura fatura = this.fatura(competencia);
-            contaOrigem.saque(valorPagamento, TipoTransferencia.PAGAMENTO_DE_FATURA);
-            limite.creditar(valorPagamento);
+    public void pagarValorTotalDaFatura(Competencia competencia, ContaOrigem contaOrigem) throws Exception {
+        Fatura fatura = this.fatura(competencia);
+        contaOrigem.saque(fatura.valor(), TipoTransferencia.PAGAMENTO_DE_FATURA);
+        limite.creditar(fatura.valor());
 
-            if (ehPagamentoTotal(fatura, valorPagamento)) {
-                fatura.setStatus(PAGA);
-                return;
-            }
-
-            fatura.setStatus(PARCIALMENTE_PAGA);
-            Valor valorRemanescente = fatura.valor().menos(valorPagamento);
-            faturaEmAberto().novoLancamento(valorRemanescente, new Descricao("Valor remanescente de fatura"));
-            
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        fatura.paga();
     }
 
-    private boolean ehPagamentoTotal(Fatura fatura, Valor valorPagamento) {
-        return fatura.valor().menos(valorPagamento).equals(Valor.ZERO);
+    public void pagarValorParcialDaFatura(Competencia competencia, Valor valorPagamento, ContaCorrente contaOrigem) throws Exception {
+        Fatura fatura = this.fatura(competencia);
+        contaOrigem.saque(valorPagamento, TipoTransferencia.PAGAMENTO_DE_FATURA);
+        limite.creditar(valorPagamento);
+
+        fatura.parcialmentePaga();
+        Valor valorRemanescente = fatura.valor().menos(valorPagamento);
+        faturaEmAberto(competencia).novoLancamento(valorRemanescente, new Descricao("Valor remanescente de fatura"));
     }
 
-    private Fatura faturaEmAberto() throws Exception {
-        return this.faturas.stream().filter(f -> f.status() == EM_ABERTO).findFirst().orElseThrow(Exception::new);
+    private Fatura faturaEmAberto(Competencia competencia) throws Exception {
+        return this.faturas.stream().filter(f -> f.status().isAberta()).findFirst().orElse(criarNovaFatura(competencia.proxima()));
     }
 
+    private Fatura criarNovaFatura(Competencia competencia) {
+        Fatura fatura = new Fatura(competencia, Vencimento.dia(5));
+        this.faturas.add(fatura);
+        return fatura;
+    }
 
 }

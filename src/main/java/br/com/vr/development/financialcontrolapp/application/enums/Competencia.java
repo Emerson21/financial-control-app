@@ -37,10 +37,8 @@ public enum Competencia {
         this.fim = fim;
     }
 
-    public static Competencia atual() {
-        return Arrays.stream(Competencia.values())
-                .filter(competencia -> LocalDate.now().compareTo(competencia.inicio) >= 0 &&  LocalDate.now().compareTo(competencia.fim) <= 0)
-                .findFirst().get();
+    public Competencia proxima() throws Exception {
+        return this.getBy(this.inicio.getMonth().plus(1));
     }
 
     public LocalDate inicio() {
@@ -50,5 +48,13 @@ public enum Competencia {
     public LocalDate fim() {
         return this.fim;
     }
+
+    private Competencia getBy(Month month) throws Exception {
+        return Arrays.stream(Competencia.values())
+                .filter(mes -> mes.inicio.getMonth().equals(month))
+                .findFirst()
+                .orElseThrow(Exception::new);
+    }
+
 }
 

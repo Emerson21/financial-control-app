@@ -17,8 +17,6 @@ public class Fatura {
     private final Vencimento vencimento;
     private List<Lancamento> lancamentos;
     private Valor valor = Valor.ZERO;
-
-    @Setter
     private StatusFatura status = StatusFatura.EM_ABERTO;
 
     public Fatura(Competencia competencia, Vencimento vencimento) {
@@ -49,5 +47,13 @@ public class Fatura {
 
     public StatusFatura status() {
         return this.status;
+    }
+
+    public void paga() {
+        this.status = StatusFatura.PAGA;
+    }
+
+    public void parcialmentePaga() {
+        this.status = StatusFatura.PARCIALMENTE_PAGA;
     }
 }
