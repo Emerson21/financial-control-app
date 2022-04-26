@@ -1,6 +1,6 @@
 package br.com.vr.development.financialcontrolapp.application.domain.model;
 
-import br.com.vr.development.financialcontrolapp.application.domain.model.cartao.CartaoDeDebito;
+import br.com.vr.development.financialcontrolapp.application.domain.model.cartoes.CartaoDeDebito;
 import br.com.vr.development.financialcontrolapp.application.domain.model.transferencia.ContaDestino;
 import br.com.vr.development.financialcontrolapp.exception.SaldoInsuficienteException;
 import br.com.vr.development.financialcontrolapp.fixtures.ContaCorrenteFixture;

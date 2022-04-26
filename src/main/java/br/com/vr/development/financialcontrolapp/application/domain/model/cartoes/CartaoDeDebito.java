@@ -1,4 +1,4 @@
-package br.com.vr.development.financialcontrolapp.application.domain.model.cartao;
+package br.com.vr.development.financialcontrolapp.application.domain.model.cartoes;
 
 import br.com.vr.development.financialcontrolapp.application.domain.model.Cartao;
 import br.com.vr.development.financialcontrolapp.application.domain.model.ContaCorrente;

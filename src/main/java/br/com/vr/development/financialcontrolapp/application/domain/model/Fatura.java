@@ -5,7 +5,6 @@ import br.com.vr.development.financialcontrolapp.application.domain.model.lancam
 import br.com.vr.development.financialcontrolapp.application.enums.Competencia;
 import br.com.vr.development.financialcontrolapp.application.enums.StatusFatura;
 import br.com.vr.development.financialcontrolapp.application.enums.TipoTransferencia;
-import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -55,5 +54,9 @@ public class Fatura {
 
     public void parcialmentePaga() {
         this.status = StatusFatura.PARCIALMENTE_PAGA;
+    }
+
+    public void pagar(Valor valorPagamento) {
+        this.status = StatusFatura.definir(valorPagamento, this.valor);
     }
 }

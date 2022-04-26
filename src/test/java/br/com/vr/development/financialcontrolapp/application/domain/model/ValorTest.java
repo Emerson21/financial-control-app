@@ -44,4 +44,9 @@ class ValorTest {
         assertThat(valor).isEqualTo(new Valor("100"));
     }
 
+    @Test
+    void deveTestarIgualdadeDeValoresComCasasDecimais() {
+        assertThat(true).isFalse();
+    }
+
 }

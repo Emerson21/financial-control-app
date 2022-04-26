@@ -55,7 +55,7 @@ public class CartaoDeCredito implements Cartao {
         contaOrigem.saque(fatura.valor(), TipoTransferencia.PAGAMENTO_DE_FATURA);
         limite.creditar(fatura.valor());
 
-        fatura.paga();
+        fatura.pagar(fatura.valor());
     }
 
     public void pagarValorParcialDaFatura(Competencia competencia, Valor valorPagamento, ContaCorrente contaOrigem) throws Exception {
@@ -63,13 +63,16 @@ public class CartaoDeCredito implements Cartao {
         contaOrigem.saque(valorPagamento, TipoTransferencia.PAGAMENTO_DE_FATURA);
         limite.creditar(valorPagamento);
 
-        fatura.parcialmentePaga();
+        fatura.pagar(valorPagamento);
         Valor valorRemanescente = fatura.valor().menos(valorPagamento);
         faturaEmAberto(competencia).novoLancamento(valorRemanescente, new Descricao("Valor remanescente de fatura"));
     }
 
     private Fatura faturaEmAberto(Competencia competencia) throws Exception {
-        return this.faturas.stream().filter(f -> f.status().isAberta()).findFirst().orElse(criarNovaFatura(competencia.proxima()));
+        return this.faturas.stream()
+                .filter(f -> f.status().isAberta())
+                .findFirst()
+                .orElse(criarNovaFatura(competencia.proxima()));
     }
 
     private Fatura criarNovaFatura(Competencia competencia) {
