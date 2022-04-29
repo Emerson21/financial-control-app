@@ -51,4 +51,12 @@ public class Fatura {
     public void pagar(Valor valorPagamento) {
         this.status = StatusFatura.definir(valorPagamento, this.valor);
     }
+
+    public boolean isParcialmentePaga() {
+        return this.status.isParcialmentePaga();
+    }
+
+    public boolean isPaga() {
+        return this.status.isPaga();
+    }
 }

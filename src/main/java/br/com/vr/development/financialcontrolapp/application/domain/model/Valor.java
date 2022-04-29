@@ -16,6 +16,10 @@ public final class Valor implements Comparable<Valor> {
     private BigDecimal valor;
 
     public Valor(BigDecimal valor) {
+        if (valor == null) {
+            throw new NullPointerException();
+        }
+
         this.valor = valor;
     }
 
@@ -32,27 +36,20 @@ public final class Valor implements Comparable<Valor> {
     }
 
     public Valor mais(Valor valor) {
-        return new Valor(this.valor.add(valor.getValor()));
+        return new Valor(this.valor.add(valor.valor));
     }
 
     public Valor mais(BigDecimal valor) {
         return new Valor(this.valor.add(valor));
     }
 
-    private BigDecimal getValor() {
-        return this.valor;
-    }
-
     public Valor menos(Valor valor) {
-        return new Valor(this.valor.subtract(valor.getValor()));
+        return new Valor(this.valor.subtract(valor.valor));
     }
 
     @Override
     public int compareTo(Valor valor) {
-        if ( valor == null )
-            throw new NullPointerException();
-        
-        return this.valor.compareTo(valor.getValor());
+        return this.valor.compareTo(valor.valor);
     }
 
     public Valor negate() {
@@ -80,6 +77,6 @@ public final class Valor implements Comparable<Valor> {
             throw new IllegalArgumentException();
         }
 
-        return this.valor.compareTo(((Valor) valor).getValor()) == 0;
+        return this.valor.compareTo(((Valor) valor).valor) == 0;
     }
 }

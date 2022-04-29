@@ -20,4 +20,8 @@ public enum StatusFatura {
     public boolean isParcialmentePaga() {
         return this == PARCIALMENTE_PAGA;
     }
+
+    public boolean isPaga() {
+        return this == PAGA;
+    }
 }

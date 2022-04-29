@@ -53,7 +53,7 @@ public class CartaoDeCredito implements Cartao {
         contaOrigem.pagar(fatura, valorPagamento);
         limite.creditar(valorPagamento);
 
-        if (fatura.status().isParcialmentePaga()) {
+        if (fatura.isParcialmentePaga()) {
             Valor valorRemanescente = fatura.valor().menos(valorPagamento);
             faturaEmAberto(competencia).novoLancamento(valorRemanescente, new Descricao("Valor remanescente de fatura"));
         }
