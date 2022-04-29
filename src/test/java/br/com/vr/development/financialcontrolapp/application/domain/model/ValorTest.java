@@ -46,7 +46,12 @@ class ValorTest {
 
     @Test
     void deveTestarIgualdadeDeValoresComCasasDecimais() {
-        assertThat(true).isFalse();
+        assertThat(new Valor("1.00").compareTo(new Valor("1.00"))).isEqualTo(0);
+        assertThat(new Valor("1.00").equals(new Valor("1"))).isTrue();
+        assertThat(new Valor("1.01").equals(new Valor("1"))).isFalse();
+        assertThat(new Valor("1.01").equals(new Valor("1.00"))).isFalse();
+        assertThat(new Valor("1").equals(new Valor("1"))).isTrue();
+        assertThat(new Valor("1.00").compareTo(new Valor("1"))).isEqualTo(0);
     }
 
 }

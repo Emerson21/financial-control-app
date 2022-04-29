@@ -1,7 +1,6 @@
 package br.com.vr.development.financialcontrolapp.application.domain.model;
 
 import lombok.AccessLevel;
-import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.Embeddable;
@@ -9,10 +8,8 @@ import java.math.BigDecimal;
 import java.text.NumberFormat;
 
 @Embeddable
-@EqualsAndHashCode
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-public final class Valor implements Comparable {
-
+public final class Valor implements Comparable<Valor> {
 
     public static final Valor ZERO = new Valor("0");
 
@@ -51,14 +48,11 @@ public final class Valor implements Comparable {
     }
 
     @Override
-    public int compareTo(Object valor) {
+    public int compareTo(Valor valor) {
         if ( valor == null )
             throw new NullPointerException();
         
-        if (!(valor instanceof Valor)) 
-            throw new IllegalArgumentException();
-       
-        return this.valor.compareTo(((Valor) valor).getValor());
+        return this.valor.compareTo(valor.getValor());
     }
 
     public Valor negate() {
@@ -72,13 +66,20 @@ public final class Valor implements Comparable {
     public String toString() {
         if (this.ehNegativo()) {
             return String.format("Valor: %s", NumberFormat.getCurrencyInstance().format(this.valor));
-        } else {
-            return String.format("Valor: %s", NumberFormat.getCurrencyInstance().format(this.valor));
         }
 
+        return String.format("Valor: %s", NumberFormat.getCurrencyInstance().format(this.valor));
     }
 
-    public boolean ehPositivo() {
-        return this.valor.compareTo(BigDecimal.ZERO) > 0;
+    @Override
+    public boolean equals(Object valor) {
+        if ( valor == null )
+            throw new NullPointerException();
+
+        if (!(valor instanceof Valor)) {
+            throw new IllegalArgumentException();
+        }
+
+        return this.valor.compareTo(((Valor) valor).getValor()) == 0;
     }
 }

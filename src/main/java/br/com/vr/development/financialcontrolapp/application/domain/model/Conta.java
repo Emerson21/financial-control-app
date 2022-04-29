@@ -103,4 +103,8 @@ public class Conta implements ContaDestino, ContaOrigem {
         adicionar(criaLancamentoNegativo(valor, tipoTransferencia.descricao(), this, tipoTransferencia));
     }
 
+    public void pagar(Fatura fatura, Valor valor) throws SaldoInsuficienteException {
+        this.saque(valor, TipoTransferencia.PAGAMENTO_DE_FATURA);
+        fatura.pagar(valor);
+    }
 }

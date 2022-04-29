@@ -1,8 +1,8 @@
 package br.com.vr.development.financialcontrolapp.application.domain.model;
 
+import br.com.vr.development.financialcontrolapp.application.enums.Competencia;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import org.apache.tomcat.jni.Local;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -14,6 +14,11 @@ public class Periodo {
 
     private LocalDate dataInicial;
     private LocalDate dataFinal;
+
+    public Periodo(Competencia competencia) {
+        this.dataInicial = competencia.inicio();
+        this.dataFinal = competencia.fim();
+    }
 
     public boolean contains(LocalDateTime dataMovimentacao) {
         return dataMovimentacao != null

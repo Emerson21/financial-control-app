@@ -16,4 +16,8 @@ public enum StatusFatura {
     public boolean isAberta() {
         return this == EM_ABERTO;
     }
+
+    public boolean isParcialmentePaga() {
+        return this == PARCIALMENTE_PAGA;
+    }
 }

@@ -4,9 +4,7 @@ import br.com.vr.development.financialcontrolapp.application.domain.model.*;
 import br.com.vr.development.financialcontrolapp.application.domain.model.cartoes.fatura.Vencimento;
 import br.com.vr.development.financialcontrolapp.application.domain.model.lancamento.Lancamento;
 import br.com.vr.development.financialcontrolapp.application.domain.model.transferencia.ContaDestino;
-import br.com.vr.development.financialcontrolapp.application.domain.model.transferencia.ContaOrigem;
 import br.com.vr.development.financialcontrolapp.application.enums.Competencia;
-import br.com.vr.development.financialcontrolapp.application.enums.TipoTransferencia;
 import br.com.vr.development.financialcontrolapp.exception.LimiteExcedidoException;
 import lombok.extern.slf4j.Slf4j;
 
@@ -50,22 +48,15 @@ public class CartaoDeCredito implements Cartao {
         return faturas.stream().filter(f -> f.ehDa(competencia)).findFirst().orElseThrow(Exception::new);
     }
 
-    public void pagarValorTotalDaFatura(Competencia competencia, ContaOrigem contaOrigem) throws Exception {
+    public void pagarFatura(Competencia competencia, Valor valorPagamento, ContaCorrente contaOrigem) throws Exception {
         Fatura fatura = this.fatura(competencia);
-        contaOrigem.saque(fatura.valor(), TipoTransferencia.PAGAMENTO_DE_FATURA);
-        limite.creditar(fatura.valor());
-
-        fatura.pagar(fatura.valor());
-    }
-
-    public void pagarValorParcialDaFatura(Competencia competencia, Valor valorPagamento, ContaCorrente contaOrigem) throws Exception {
-        Fatura fatura = this.fatura(competencia);
-        contaOrigem.saque(valorPagamento, TipoTransferencia.PAGAMENTO_DE_FATURA);
+        contaOrigem.pagar(fatura, valorPagamento);
         limite.creditar(valorPagamento);
 
-        fatura.pagar(valorPagamento);
-        Valor valorRemanescente = fatura.valor().menos(valorPagamento);
-        faturaEmAberto(competencia).novoLancamento(valorRemanescente, new Descricao("Valor remanescente de fatura"));
+        if (fatura.status().isParcialmentePaga()) {
+            Valor valorRemanescente = fatura.valor().menos(valorPagamento);
+            faturaEmAberto(competencia).novoLancamento(valorRemanescente, new Descricao("Valor remanescente de fatura"));
+        }
     }
 
     private Fatura faturaEmAberto(Competencia competencia) throws Exception {

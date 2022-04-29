@@ -19,7 +19,7 @@ public class Fatura {
     private StatusFatura status = StatusFatura.EM_ABERTO;
 
     public Fatura(Competencia competencia, Vencimento vencimento) {
-        this.periodo = new Periodo(competencia.inicio(), competencia.fim());
+        this.periodo = new Periodo(competencia);
         this.vencimento = vencimento;
     }
 
@@ -46,14 +46,6 @@ public class Fatura {
 
     public StatusFatura status() {
         return this.status;
-    }
-
-    public void paga() {
-        this.status = StatusFatura.PAGA;
-    }
-
-    public void parcialmentePaga() {
-        this.status = StatusFatura.PARCIALMENTE_PAGA;
     }
 
     public void pagar(Valor valorPagamento) {
