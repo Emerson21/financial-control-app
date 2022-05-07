@@ -6,6 +6,7 @@ import br.com.vr.development.financialcontrolapp.application.domain.model.movime
 import br.com.vr.development.financialcontrolapp.application.domain.model.Valor;
 import br.com.vr.development.financialcontrolapp.application.enums.TipoLancamento;
 import br.com.vr.development.financialcontrolapp.application.enums.TipoTransferencia;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -43,6 +44,7 @@ public class Lancamento implements Movimentacao {
     @Embedded
     private Valor valor;
 
+    @JsonBackReference
     @JoinColumn(name = "conta_id", referencedColumnName = "id")
     @ManyToOne
     private Conta conta;

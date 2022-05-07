@@ -8,9 +8,16 @@ import br.com.vr.development.financialcontrolapp.application.domain.model.transf
 import br.com.vr.development.financialcontrolapp.application.domain.model.transferencia.Transferencia;
 import br.com.vr.development.financialcontrolapp.application.enums.TipoTransferencia;
 import br.com.vr.development.financialcontrolapp.exception.SaldoInsuficienteException;
+import lombok.AccessLevel;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class CartaoDeDebito implements Cartao {
 
+    @Getter
+    @Setter
     private ContaCorrente contaCorrente;
 
     public CartaoDeDebito(ContaCorrente contaCorrente) {

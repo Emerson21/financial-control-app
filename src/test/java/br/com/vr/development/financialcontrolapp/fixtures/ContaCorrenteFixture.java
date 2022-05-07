@@ -19,12 +19,8 @@ public class ContaCorrenteFixture implements TemplateLoader {
             add("agencia", one(AgenciaBancaria.class, "valid"));
             add("numero", 123456789L);
             add("digito", 1);
-            // add("correntista", one(Correntista.class, "valid"));
-            // add("lancamentos", has(1).of(Lancamento.class, "valid"));
             add("depositoInicial", new DepositoInicialFactory(new BigDecimal("50")).create(new BigDecimal("50")));
         }});
-
-        
     }
 
     public static ContaCorrente create() {

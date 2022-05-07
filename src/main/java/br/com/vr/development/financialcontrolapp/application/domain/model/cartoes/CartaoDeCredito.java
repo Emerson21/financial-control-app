@@ -6,6 +6,8 @@ import br.com.vr.development.financialcontrolapp.application.domain.model.lancam
 import br.com.vr.development.financialcontrolapp.application.domain.model.transferencia.ContaDestino;
 import br.com.vr.development.financialcontrolapp.application.enums.Competencia;
 import br.com.vr.development.financialcontrolapp.exception.LimiteExcedidoException;
+import lombok.Getter;
+import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.ArrayList;
@@ -14,6 +16,8 @@ import java.util.List;
 import static br.com.vr.development.financialcontrolapp.application.enums.TipoTransferencia.CARTAO_CREDITO;
 
 @Slf4j
+@Getter
+@Setter
 public class CartaoDeCredito implements Cartao {
 
     private Limite limite;

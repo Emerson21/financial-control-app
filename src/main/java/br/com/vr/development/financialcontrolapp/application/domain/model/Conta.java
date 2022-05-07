@@ -6,8 +6,11 @@ import br.com.vr.development.financialcontrolapp.application.domain.model.transf
 import br.com.vr.development.financialcontrolapp.application.domain.model.transferencia.ContaOrigem;
 import br.com.vr.development.financialcontrolapp.application.enums.TipoTransferencia;
 import br.com.vr.development.financialcontrolapp.exception.SaldoInsuficienteException;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AccessLevel;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -21,35 +24,38 @@ import static br.com.vr.development.financialcontrolapp.application.domain.model
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Inheritance(strategy = InheritanceType.JOINED)
 @Table(name = "conta")
+@Getter
+@Setter
 public class Conta implements ContaDestino, ContaOrigem {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long id;
+    private Long id;
 
     @JoinColumn(name ="id_agencia", referencedColumnName = "id")
     @ManyToOne(cascade = CascadeType.ALL)
-    AgenciaBancaria agencia;
+    protected AgenciaBancaria agencia;
 
     @NotNull
     @Column(name = "numero", nullable = false)
-    Long numero;
+    private Long numero;
 
     @NotNull
     @Column(name = "digito", nullable = false)
-    int digito;
+    private int digito;
 
     @JoinColumn(name = "id_correntista", referencedColumnName = "id")
     @OneToOne(cascade = CascadeType.ALL)
-    Correntista correntista;
+    private Correntista correntista;
 
+    @JsonManagedReference
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "conta")
-    Set<Lancamento> lancamentos = new HashSet<>();
+    private Set<Lancamento> lancamentos = new HashSet<>();
 
     @Embedded
     @NotNull
     @Column(name = "deposito_inicial", nullable = false)
-    DepositoInicial depositoInicial;
+    private DepositoInicial depositoInicial;
 
     public Conta(AgenciaBancaria agencia, Correntista correntista, DepositoInicial depositoInicial) {
         this.agencia = agencia;
