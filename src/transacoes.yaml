@@ -24,19 +24,25 @@ paths:
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Links'
-        '404':
-            description: 'Sample response: Retonado se não for encontrado o cpf ou a conta origem'
-            content:
-              application/json:
-                schema:
-                  $ref: '#/components/schemas/ErroResponse'
-        default:
-          description: Unexpected error
+                $ref: '#/components/schemas/SucessoResponse'
+        '400':
+          description: 'Sample response: Quando não informado um campo obrigatório'
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Error'
+                $ref: '#/components/schemas/ErroResponse'
+        '404':
+          description: 'Sample response: Retonado se não for encontrado o cpf ou a conta origem'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErroResponse'
+        '500':
+          description: 'Sample response: Erro interno'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErroResponse'
 components:
   schemas:
     Transacao:
