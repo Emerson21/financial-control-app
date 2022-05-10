@@ -1,0 +1,125 @@
+openapi: 3.0.0
+info:
+  version: '1.0.0'
+  title: 'Transacoes'
+  license:
+    name: MIT
+servers:
+  - url: 'localhost:3000'
+paths:
+  /transacoes:
+    post:
+      summary: 'Sample endpoint: Cria uma transação bancária'
+      operationId: criarTransacao
+      tags:
+        - transacoes
+      requestBody:
+        content: 
+          'application/vnd.transacoes.v1+json':
+            schema: #/components/schemas/TransacaoDTO
+              properties:
+                cartao:
+                  description: "Objeto Cartao para conter a informacão do numero"
+                  type: object
+                contaOrigem:
+                  description: "Objeto que contém as informações de uma conta de origem, de onde o dinheiro será retirado"
+                  type: object
+                contaDestino: 
+                  description: "Objeto que contém as informações de uma conta de destino, de onde o dinheiro será depositado"
+                  type: object
+                valor:
+                  type: object
+                  $ref: '#/components/schemas/Valor'
+                tipo:
+                  type: object
+                  $ref: "#/components/schemas/Tipo"
+
+      responses:
+        '201':
+          description: 'Sample response: Retorna um link com o id criado da transacao para que possa ser consultado essa transacao em específico.'
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Links'
+        default:
+          description: Unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+components:
+  schemas:
+    TransacaoDTO:
+      type: object
+      required: 
+        - cartao
+        - contaOrigem
+        - contaDestino
+        - valor
+        - tipo
+    ContaOrigemDTO:
+      type: object
+      properties:
+        cpf:
+          type: object
+          $ref: '#/components/schemas/Cpf'
+    Cpf:
+      type: object
+      properties:
+        documento:
+          type: string
+    ContaDestinoDTO:
+      type: object
+      properties:
+        cpf:
+          type: object
+          $ref: '#/components/schemas/Cpf'
+        conta:
+          type: object
+          $ref: '#/components/schemas/Conta'
+    Conta:
+      type: object
+      properties:
+        banco:
+          type: object
+        agencia:
+          type: object
+        numero:
+          type: integer
+        digito:
+          type: integer
+        cpf:
+          type: object
+          $ref: '#/components/schemas/Cpf'
+    Valor:
+      type: object
+      properties:
+        total:
+          type: number
+          format: bigdecimal
+    Tipo:
+        type: string
+        enum: [DOC, TED, PIX]
+    Links: 
+      type: array
+      items:
+          $ref: '#/components/schemas/HateoasResponse'
+    HateoasResponse:
+      type: object
+      required:
+        - href
+        - rel
+        - type
+      properties:
+          href:
+            type: string
+            description: "URI retornada para ter acesso a proxima operacao"
+          type:
+            type: string
+            description: "Metodo a ser utilizado para consultar o a URI retornada no campo href"
+  securitySchemes:
+    BasicAuth:
+      type: http
+      scheme: basic
+security:
+  - BasicAuth: []
