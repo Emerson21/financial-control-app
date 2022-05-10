@@ -33,6 +33,8 @@ import static org.mockito.Mockito.times;
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 public class TransacoesResourceTest {
 
+    private static final String URI = "/transacoes/v1";
+
     private MockMvc mockMvc;
 
     @InjectMocks
@@ -69,7 +71,7 @@ public class TransacoesResourceTest {
         doNothing().when(transacoesService).transacionar(any(TransacaoDTO.class));
 
         mockMvc.perform(
-            MockMvcRequestBuilders.post("/transacoes/v1")
+            MockMvcRequestBuilders.post(URI)
                     .content(payload)
                     .contentType(MediaType.APPLICATION_JSON))
             .andExpect(MockMvcResultMatchers.status().isOk());
