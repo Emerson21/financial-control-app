@@ -15,25 +15,9 @@ paths:
         - transacoes
       requestBody:
         content: 
-          'application/vnd.transacoes.v1+json':
-            schema: #/components/schemas/TransacaoDTO
-              properties:
-                cartao:
-                  description: "Objeto Cartao para conter a informacão do numero"
-                  type: object
-                contaOrigem:
-                  description: "Objeto que contém as informações de uma conta de origem, de onde o dinheiro será retirado"
-                  type: object
-                contaDestino: 
-                  description: "Objeto que contém as informações de uma conta de destino, de onde o dinheiro será depositado"
-                  type: object
-                valor:
-                  type: object
-                  $ref: '#/components/schemas/Valor'
-                tipo:
-                  type: object
-                  $ref: "#/components/schemas/Tipo"
-
+          application/vnd.transacoes.v1+json:
+            schema:
+              $ref: "#/components/schemas/Transacao"
       responses:
         '201':
           description: 'Sample response: Retorna um link com o id criado da transacao para que possa ser consultado essa transacao em específico.'
@@ -41,6 +25,12 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Links'
+        '404':
+            description: 'Sample response: Retonado se não for encontrado o cpf ou a conta origem'
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ErroResponse'
         default:
           description: Unexpected error
           content:
@@ -49,15 +39,27 @@ paths:
                 $ref: '#/components/schemas/Error'
 components:
   schemas:
-    TransacaoDTO:
+    Transacao:
       type: object
       required: 
-        - cartao
         - contaOrigem
         - contaDestino
         - valor
         - tipo
-    ContaOrigemDTO:
+      properties:
+        contaOrigem:
+            description: "Objeto que contém as informações de uma conta de origem, de onde o dinheiro será retirado"
+            type: object
+        contaDestino: 
+            description: "Objeto que contém as informações de uma conta de destino, de onde o dinheiro será depositado"
+            type: object
+        valor:
+            type: object
+            $ref: '#/components/schemas/Valor'
+        tipo:
+            type: object
+            $ref: "#/components/schemas/Tipo"
+    ContaOrigem:
       type: object
       properties:
         cpf:
@@ -68,7 +70,7 @@ components:
       properties:
         documento:
           type: string
-    ContaDestinoDTO:
+    ContaDestino:
       type: object
       properties:
         cpf:
@@ -100,6 +102,15 @@ components:
     Tipo:
         type: string
         enum: [DOC, TED, PIX]
+    SucessoResponse:
+      type: object
+      properties:
+        mensagem: 
+          type: string
+          description: Mensagem de sucesso ao realizar a operação
+        _links:
+          type: object
+          $ref: '#/components/schemas/Links'
     Links: 
       type: array
       items:
@@ -108,7 +119,6 @@ components:
       type: object
       required:
         - href
-        - rel
         - type
       properties:
           href:
@@ -117,6 +127,15 @@ components:
           type:
             type: string
             description: "Metodo a ser utilizado para consultar o a URI retornada no campo href"
+    ErroResponse:
+      type: object
+      properties:
+        codigo:
+          type: string
+          description: 'Código retornado referente ao erro'
+        mensagem:
+          type: string
+          description: 'Mensagem de erro retornada referente ao erro'
   securitySchemes:
     BasicAuth:
       type: http
