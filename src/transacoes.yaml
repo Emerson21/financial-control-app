@@ -48,29 +48,25 @@ components:
     Transacao:
       type: object
       required: 
-        - contaOrigem
+        - cpf
         - contaDestino
         - valor
         - tipo
       properties:
-        contaOrigem:
-            description: "Objeto que contém as informações de uma conta de origem, de onde o dinheiro será retirado"
+        cpf:
+            description: "identificador do correntista da conta de origem"
             type: object
+            $ref: '#/components/schemas/Cpf'
         contaDestino: 
             description: "Objeto que contém as informações de uma conta de destino, de onde o dinheiro será depositado"
             type: object
+            $ref: '#/components/schemas/Conta'
         valor:
             type: object
             $ref: '#/components/schemas/Valor'
         tipo:
             type: object
             $ref: "#/components/schemas/Tipo"
-    ContaOrigem:
-      type: object
-      properties:
-        cpf:
-          type: object
-          $ref: '#/components/schemas/Cpf'
     Cpf:
       type: object
       properties:
@@ -89,16 +85,13 @@ components:
       type: object
       properties:
         banco:
-          type: object
+          type: integer
         agencia:
-          type: object
+          type: integer
         numero:
           type: integer
         digito:
           type: integer
-        cpf:
-          type: object
-          $ref: '#/components/schemas/Cpf'
     Valor:
       type: object
       properties:
