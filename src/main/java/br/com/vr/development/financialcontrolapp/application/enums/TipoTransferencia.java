@@ -5,9 +5,10 @@ import br.com.vr.development.financialcontrolapp.application.domain.model.Valor;
 
 public enum TipoTransferencia {
 
-    TED(new Valor("5"), new Descricao("Transferencia entre contas correntes")),
-    TEF(Valor.ZERO, new Descricao("Transferencia entre contas correntes")),
-    PIX(Valor.ZERO, new Descricao("Transferencia entre contas correntes")),
+    TED(new Valor("5"), new Descricao("TED - Transferencia entre contas correntes")),
+    TEF(Valor.ZERO, new Descricao("TEF - Transferencia entre contas correntes")),
+    DOC(Valor.ZERO, new Descricao("DOC - Transferencia entre contas correntes")),
+    PIX(Valor.ZERO, new Descricao("PIX - Transferencia entre contas correntes")),
     DEPOSITO(Valor.ZERO, new Descricao("Transferencia entre contas correntes")),
     CARTAO_DEBITO(Valor.ZERO, new Descricao("Transacao no cartao de debito")),
     CARTAO_CREDITO(Valor.ZERO, new Descricao("Transacao no cartao de credito")),
