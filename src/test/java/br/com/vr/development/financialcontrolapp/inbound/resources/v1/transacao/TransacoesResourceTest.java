@@ -3,9 +3,9 @@ package br.com.vr.development.financialcontrolapp.inbound.resources.v1.transacao
 import br.com.vr.development.financialcontrolapp.application.domain.model.ContaCorrente;
 import br.com.vr.development.financialcontrolapp.application.domain.model.Cpf;
 import br.com.vr.development.financialcontrolapp.application.domain.model.transferencia.Transferencia;
+import br.com.vr.development.financialcontrolapp.application.domain.service.transacoes.TransacoesService;
 import br.com.vr.development.financialcontrolapp.exception.ContaNotFoundException;
 import br.com.vr.development.financialcontrolapp.exception.FinancialExceptionHandler;
-import br.com.vr.development.financialcontrolapp.application.domain.service.transacoes.TransacoesService;
 import br.com.vr.development.financialcontrolapp.fixtures.ContaCorrenteFixture;
 import br.com.vr.development.financialcontrolapp.inbound.resources.v1.transacao.dto.*;
 import br.com.vr.development.financialcontrolapp.repository.ContaRepository;
@@ -16,7 +16,6 @@ import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.datatype.jdk8.Jdk8Module;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import com.fasterxml.jackson.module.paramnames.ParameterNamesModule;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
