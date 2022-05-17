@@ -8,6 +8,7 @@ import br.com.six2six.fixturefactory.loader.TemplateLoader;
 import br.com.vr.development.financialcontrolapp.application.domain.model.*;
 import br.com.vr.development.financialcontrolapp.application.domain.model.components.DepositoInicial;
 import br.com.vr.development.financialcontrolapp.application.domain.model.components.DepositoInicialFactory;
+import br.com.vr.development.financialcontrolapp.application.domain.model.conta.ContaCorrente;
 
 public class ContaCorrenteFixture implements TemplateLoader {
 

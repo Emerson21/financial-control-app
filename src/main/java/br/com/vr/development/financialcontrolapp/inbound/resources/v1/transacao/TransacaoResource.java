@@ -1,6 +1,6 @@
 package br.com.vr.development.financialcontrolapp.inbound.resources.v1.transacao;
 
-import br.com.vr.development.financialcontrolapp.application.domain.model.ContaCorrente;
+import br.com.vr.development.financialcontrolapp.application.domain.model.conta.ContaCorrente;
 import br.com.vr.development.financialcontrolapp.application.domain.model.Cpf;
 import br.com.vr.development.financialcontrolapp.application.domain.model.transferencia.ContaDestino;
 import br.com.vr.development.financialcontrolapp.application.domain.model.transferencia.Transferencia;

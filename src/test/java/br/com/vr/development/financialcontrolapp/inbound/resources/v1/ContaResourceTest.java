@@ -21,7 +21,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import br.com.vr.development.financialcontrolapp.application.domain.model.AgenciaBancaria;
 import br.com.vr.development.financialcontrolapp.application.domain.model.Banco;
 import br.com.vr.development.financialcontrolapp.application.domain.model.Cnpj;
-import br.com.vr.development.financialcontrolapp.application.domain.model.ContaCorrente;
+import br.com.vr.development.financialcontrolapp.application.domain.model.conta.ContaCorrente;
 import br.com.vr.development.financialcontrolapp.application.domain.model.NomeFantasia;
 import br.com.vr.development.financialcontrolapp.application.domain.model.components.DepositoInicialFactory;
 import br.com.vr.development.financialcontrolapp.application.domain.service.ContaService;

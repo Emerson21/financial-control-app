@@ -3,6 +3,7 @@ package br.com.vr.development.financialcontrolapp.application.domain.model;
 import java.math.BigDecimal;
 import java.util.Arrays;
 
+import br.com.vr.development.financialcontrolapp.application.domain.model.conta.ContaCorrente;
 import br.com.vr.development.financialcontrolapp.fixtures.CorrentistaFixture;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;

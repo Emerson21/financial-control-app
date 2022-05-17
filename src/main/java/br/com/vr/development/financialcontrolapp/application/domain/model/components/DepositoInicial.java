@@ -1,6 +1,6 @@
 package br.com.vr.development.financialcontrolapp.application.domain.model.components;
 
-import br.com.vr.development.financialcontrolapp.application.domain.model.Conta;
+import br.com.vr.development.financialcontrolapp.application.domain.model.conta.Conta;
 import br.com.vr.development.financialcontrolapp.application.domain.model.Descricao;
 import br.com.vr.development.financialcontrolapp.application.domain.model.Valor;
 import br.com.vr.development.financialcontrolapp.application.domain.model.lancamento.Lancamento;

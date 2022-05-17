@@ -2,6 +2,7 @@ package br.com.vr.development.financialcontrolapp.application.domain.model;
 
 import br.com.six2six.fixturefactory.Fixture;
 import br.com.six2six.fixturefactory.loader.FixtureFactoryLoader;
+import br.com.vr.development.financialcontrolapp.application.domain.model.conta.ContaCorrente;
 import br.com.vr.development.financialcontrolapp.application.domain.model.extrato.Extrato;
 import br.com.vr.development.financialcontrolapp.application.domain.model.lancamento.Lancamento;
 import org.assertj.core.api.Assertions;

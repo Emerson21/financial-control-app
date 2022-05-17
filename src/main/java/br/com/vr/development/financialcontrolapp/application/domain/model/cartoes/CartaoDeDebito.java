@@ -1,7 +1,7 @@
 package br.com.vr.development.financialcontrolapp.application.domain.model.cartoes;
 
 import br.com.vr.development.financialcontrolapp.application.domain.model.Cartao;
-import br.com.vr.development.financialcontrolapp.application.domain.model.ContaCorrente;
+import br.com.vr.development.financialcontrolapp.application.domain.model.conta.ContaCorrente;
 import br.com.vr.development.financialcontrolapp.application.domain.model.Descricao;
 import br.com.vr.development.financialcontrolapp.application.domain.model.Valor;
 import br.com.vr.development.financialcontrolapp.application.domain.model.transferencia.ContaDestino;

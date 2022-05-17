@@ -14,10 +14,8 @@ public class Transferencia {
     private TipoTransferencia tipoTransferencia;
 
     public void execute() throws SaldoInsuficienteException {
-
         this.contaOrigem.saque(tipoTransferencia.aplicaTaxaNo(valor), tipoTransferencia);
         this.contaDestino.deposita(valor, tipoTransferencia);
-
     }
 
 }

@@ -3,6 +3,7 @@ package br.com.vr.development.financialcontrolapp.application.domain.model.fatur
 import br.com.vr.development.financialcontrolapp.application.domain.model.*;
 import br.com.vr.development.financialcontrolapp.application.domain.model.cartoes.CartaoDeCredito;
 import br.com.vr.development.financialcontrolapp.application.domain.model.cartoes.fatura.Vencimento;
+import br.com.vr.development.financialcontrolapp.application.domain.model.conta.ContaCorrente;
 import br.com.vr.development.financialcontrolapp.application.domain.model.transferencia.ContaDestino;
 import br.com.vr.development.financialcontrolapp.application.enums.Competencia;
 import br.com.vr.development.financialcontrolapp.application.enums.TipoTransferencia;

@@ -1,8 +1,8 @@
 package br.com.vr.development.financialcontrolapp.application.domain.model.transferencia;
 
-import br.com.vr.development.financialcontrolapp.application.domain.model.ContaCorrente;
+import br.com.vr.development.financialcontrolapp.application.domain.model.conta.ContaCorrente;
 import br.com.vr.development.financialcontrolapp.application.domain.model.Fatura;
-import br.com.vr.development.financialcontrolapp.application.domain.model.Poupanca;
+import br.com.vr.development.financialcontrolapp.application.domain.model.conta.Poupanca;
 import br.com.vr.development.financialcontrolapp.application.domain.model.Valor;
 
 import br.com.vr.development.financialcontrolapp.application.enums.TipoTransferencia;

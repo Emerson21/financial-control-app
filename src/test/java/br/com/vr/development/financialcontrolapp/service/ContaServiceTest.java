@@ -25,7 +25,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import br.com.vr.development.financialcontrolapp.application.domain.model.AgenciaBancaria;
 import br.com.vr.development.financialcontrolapp.application.domain.model.Banco;
 import br.com.vr.development.financialcontrolapp.application.domain.model.Celular;
-import br.com.vr.development.financialcontrolapp.application.domain.model.ContaCorrente;
+import br.com.vr.development.financialcontrolapp.application.domain.model.conta.ContaCorrente;
 import br.com.vr.development.financialcontrolapp.application.domain.model.Cpf;
 import br.com.vr.development.financialcontrolapp.application.domain.model.DataNascimento;
 import br.com.vr.development.financialcontrolapp.application.domain.model.Email;

@@ -2,7 +2,7 @@ package br.com.vr.development.financialcontrolapp.application.domain.model.relat
 
 import br.com.six2six.fixturefactory.Fixture;
 import br.com.vr.development.financialcontrolapp.LoadFixturesSetup;
-import br.com.vr.development.financialcontrolapp.application.domain.model.ContaCorrente;
+import br.com.vr.development.financialcontrolapp.application.domain.model.conta.ContaCorrente;
 import br.com.vr.development.financialcontrolapp.application.domain.model.Descricao;
 import br.com.vr.development.financialcontrolapp.application.domain.model.Despesa;
 import br.com.vr.development.financialcontrolapp.application.domain.model.Valor;

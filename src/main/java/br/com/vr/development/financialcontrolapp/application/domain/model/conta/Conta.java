@@ -1,5 +1,6 @@
-package br.com.vr.development.financialcontrolapp.application.domain.model;
+package br.com.vr.development.financialcontrolapp.application.domain.model.conta;
 
+import br.com.vr.development.financialcontrolapp.application.domain.model.*;
 import br.com.vr.development.financialcontrolapp.application.domain.model.components.DepositoInicial;
 import br.com.vr.development.financialcontrolapp.application.domain.model.lancamento.Lancamento;
 import br.com.vr.development.financialcontrolapp.application.domain.model.transferencia.ContaDestino;

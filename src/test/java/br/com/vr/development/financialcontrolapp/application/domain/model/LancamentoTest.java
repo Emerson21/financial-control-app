@@ -2,9 +2,7 @@ package br.com.vr.development.financialcontrolapp.application.domain.model;
 
 import br.com.six2six.fixturefactory.Fixture;
 import br.com.six2six.fixturefactory.loader.FixtureFactoryLoader;
-import br.com.vr.development.financialcontrolapp.application.domain.model.ContaCorrente;
-import br.com.vr.development.financialcontrolapp.application.domain.model.Descricao;
-import br.com.vr.development.financialcontrolapp.application.domain.model.Valor;
+import br.com.vr.development.financialcontrolapp.application.domain.model.conta.ContaCorrente;
 import br.com.vr.development.financialcontrolapp.application.domain.model.lancamento.Lancamento;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;

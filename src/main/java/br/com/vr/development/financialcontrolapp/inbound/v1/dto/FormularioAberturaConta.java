@@ -2,6 +2,7 @@ package br.com.vr.development.financialcontrolapp.inbound.v1.dto;
 
 import br.com.vr.development.financialcontrolapp.application.domain.model.*;
 import br.com.vr.development.financialcontrolapp.application.domain.model.components.DepositoInicial;
+import br.com.vr.development.financialcontrolapp.application.domain.model.conta.ContaCorrente;
 import lombok.*;
 
 import javax.validation.Valid;
@@ -42,7 +43,7 @@ public class FormularioAberturaConta {
     @NotNull
     private AgenciaBancariaDTO agenciaBancaria;
 
-    public ContaCorrente toContaCorrente(AgenciaBancaria agenciaBancaria,  DepositoInicial depositoInicial) {
+    public ContaCorrente toContaCorrente(AgenciaBancaria agenciaBancaria, DepositoInicial depositoInicial) {
 
         Correntista correntista = new Correntista(
             this.prospect.getNome(), 

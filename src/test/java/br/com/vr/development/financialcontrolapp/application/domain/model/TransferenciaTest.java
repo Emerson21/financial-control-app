@@ -6,6 +6,9 @@ import static org.assertj.core.api.Assertions.assertThat;
 import java.math.BigDecimal;
 import java.util.Arrays;
 
+import br.com.vr.development.financialcontrolapp.application.domain.model.conta.Conta;
+import br.com.vr.development.financialcontrolapp.application.domain.model.conta.ContaCorrente;
+import br.com.vr.development.financialcontrolapp.application.domain.model.conta.Poupanca;
 import br.com.vr.development.financialcontrolapp.exception.SaldoInsuficienteException;
 import br.com.vr.development.financialcontrolapp.fixtures.CorrentistaFixture;
 import org.assertj.core.api.Assertions;
