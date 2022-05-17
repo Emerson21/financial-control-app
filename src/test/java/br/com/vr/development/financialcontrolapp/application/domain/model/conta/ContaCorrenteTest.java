@@ -1,8 +1,12 @@
-package br.com.vr.development.financialcontrolapp.application.domain.model;
+package br.com.vr.development.financialcontrolapp.application.domain.model.conta;
 
 import java.math.BigDecimal;
 import java.util.Arrays;
 
+import br.com.vr.development.financialcontrolapp.application.domain.model.AgenciaBancaria;
+import br.com.vr.development.financialcontrolapp.application.domain.model.Banco;
+import br.com.vr.development.financialcontrolapp.application.domain.model.Cnpj;
+import br.com.vr.development.financialcontrolapp.application.domain.model.NomeFantasia;
 import br.com.vr.development.financialcontrolapp.application.domain.model.conta.ContaCorrente;
 import br.com.vr.development.financialcontrolapp.fixtures.CorrentistaFixture;
 import org.junit.jupiter.api.Assertions;
