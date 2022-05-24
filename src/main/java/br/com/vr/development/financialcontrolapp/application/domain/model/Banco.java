@@ -48,4 +48,8 @@ public class Banco {
     @Setter
     @OneToMany(mappedBy = "banco", fetch = FetchType.EAGER)
     private List<AgenciaBancaria> agencias;
+
+    public Banco(String codigo) {
+        this.codigo = codigo;
+    }
 }

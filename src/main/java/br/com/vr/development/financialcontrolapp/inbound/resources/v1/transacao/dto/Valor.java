@@ -13,8 +13,6 @@ public class Valor {
 
     private BigDecimal value;
 
-    public br.com.vr.development.financialcontrolapp.application.domain.model.Valor toModel() {
-        return new br.com.vr.development.financialcontrolapp.application.domain.model.Valor(value);
-    }
+
 
 }

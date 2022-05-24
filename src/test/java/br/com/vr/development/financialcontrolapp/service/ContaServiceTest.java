@@ -41,8 +41,8 @@ import br.com.vr.development.financialcontrolapp.inbound.v1.dto.AgenciaBancariaD
 import br.com.vr.development.financialcontrolapp.inbound.v1.dto.FormularioAberturaConta;
 import br.com.vr.development.financialcontrolapp.exception.BancoInvalidoException;
 import br.com.vr.development.financialcontrolapp.exception.DepositoInicialException;
-import br.com.vr.development.financialcontrolapp.repository.BancoRepository;
-import br.com.vr.development.financialcontrolapp.repository.ContaRepository;
+import br.com.vr.development.financialcontrolapp.infrastructure.repository.BancoRepository;
+import br.com.vr.development.financialcontrolapp.infrastructure.repository.ContaRepository;
 
 @SpringBootTest
 @TestInstance(Lifecycle.PER_CLASS)

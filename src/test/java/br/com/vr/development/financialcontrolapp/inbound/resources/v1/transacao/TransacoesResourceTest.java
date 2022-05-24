@@ -8,7 +8,8 @@ import br.com.vr.development.financialcontrolapp.exception.ContaNotFoundExceptio
 import br.com.vr.development.financialcontrolapp.exception.FinancialExceptionHandler;
 import br.com.vr.development.financialcontrolapp.fixtures.ContaCorrenteFixture;
 import br.com.vr.development.financialcontrolapp.inbound.resources.v1.transacao.dto.*;
-import br.com.vr.development.financialcontrolapp.repository.ContaRepository;
+import br.com.vr.development.financialcontrolapp.infrastructure.gateway.TransferenciaExternaClient;
+import br.com.vr.development.financialcontrolapp.infrastructure.repository.ContaRepository;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -51,6 +52,9 @@ public class TransacoesResourceTest {
     @Mock
     private ContaRepository contaRepository;
 
+    @Mock
+    private TransferenciaExternaClient transferenciaExternaClient;
+
     private ObjectMapper objectMapper = new ObjectMapper();
 
     @BeforeEach
@@ -67,7 +71,7 @@ public class TransacoesResourceTest {
     @Test
     void deveRealizarUmaTransacaoBancaria() throws Exception {
         DadosConta dadosConta = new DadosConta("077", "0987", "3", "123456789", "0");
-        ContaDestino contaDestino = new ContaDestino(new CpfDTO("46133685026"), dadosConta);
+        ContaDestinoDTO contaDestino = new ContaDestinoDTO(new CpfDTO("46133685026"), dadosConta, "Nome Correntista");
         Transacao transacao = new Transacao("54173913010", new Valor(new BigDecimal("50")), TED, contaDestino);
 
         ContaCorrente contaCorrente = ContaCorrenteFixture.create();
@@ -93,7 +97,7 @@ public class TransacoesResourceTest {
     @Test
     void deveLancarContaNotFoundExceptionQuandoNaoEncontrarContaCadastrada() throws Exception {
         DadosConta dadosConta = new DadosConta("077", "0987", "3", "123456789", "0");
-        ContaDestino contaDestino = new ContaDestino(new CpfDTO("46133685026"), dadosConta);
+        ContaDestinoDTO contaDestino = new ContaDestinoDTO(new CpfDTO("46133685026"), dadosConta, "Nome Correntista");
         Transacao transacao = new Transacao("54173913010", new Valor(new BigDecimal("50")), TED, contaDestino);
 
         String payload = objectMapper

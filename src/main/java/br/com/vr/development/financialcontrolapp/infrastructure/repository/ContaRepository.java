@@ -1,4 +1,4 @@
-package br.com.vr.development.financialcontrolapp.repository;
+package br.com.vr.development.financialcontrolapp.infrastructure.repository;
 
 import br.com.vr.development.financialcontrolapp.application.domain.model.Cpf;
 import org.springframework.data.jpa.repository.JpaRepository;

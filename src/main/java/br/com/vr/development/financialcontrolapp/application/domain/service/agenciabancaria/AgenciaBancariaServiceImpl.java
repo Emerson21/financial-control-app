@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 
 import br.com.vr.development.financialcontrolapp.application.domain.model.AgenciaBancaria;
 import br.com.vr.development.financialcontrolapp.exception.AgenciaInvalidaException;
-import br.com.vr.development.financialcontrolapp.repository.AgenciaRepository;
+import br.com.vr.development.financialcontrolapp.infrastructure.repository.AgenciaRepository;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j

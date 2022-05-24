@@ -31,7 +31,7 @@ import br.com.vr.development.financialcontrolapp.exception.FinancialExceptionHan
 
 @SpringBootTest
 @TestInstance(Lifecycle.PER_CLASS)
-public class ContaResourceTest {
+class ContaResourceTest {
 
     @InjectMocks
     private ContaResource contaResource;
@@ -51,13 +51,10 @@ public class ContaResourceTest {
         mockMvc = MockMvcBuilders.standaloneSetup(this.contaResource)
             .setControllerAdvice(new FinancialExceptionHandler())
             .build();
-
-        // depositoInicialFactory = new DepositoInicialFactory(new BigDecimal("50"));
-        // ReflectionTestUtils.setField(depositoInicialFactory, "valorMinimoPermitido", new BigDecimal("50"));
     }
 
     @Test
-    public void deveRetornarStatus_201_AoReceberDadosParaAberturaDaContaCorrente() throws Exception {
+    void deveRetornarStatus_201_AoReceberDadosParaAberturaDaContaCorrente() throws Exception {
 
         String payload = "{\"prospect\":{\"nome\":{\"primeiroNome\":\"Emerson\",\"sobrenome\":\"Haraguchi\",\"nomeCompleto\":\"Emerson Haraguchi\"}," + 
             "\"documento\":{\"numero\":\"29222004000\",\"valido\":true,\"tipoDocumento\":\"CPF\"},\"dataDeNascimento\":{\"data\":[1988,10,21]}},\"enderecos\":[{\"cep\":\"13940-970\",\"logradouro\":\"Avenida Brasil 160\",\"numero\":\"607\",\"estado\":\"SAO_PAULO\",\"complemento\":null,\"bairro\":\"Centro\",\"municipio\":\"Águas de Lindóia\", \"tipoEndereco\":\"RESIDENCIAL\"}],\"telefone\":{\"ddd\":\"19\",\"numero\":\"2901-7197\"},\"email\":{\"email\":\"thomascauajorgebarbosa-98@agnet.com.br\"},\"renda\":{\"valor\":2000},\"valorDepositoAbertura\":50, " +
@@ -84,7 +81,7 @@ public class ContaResourceTest {
     }
 
     @Test
-    public void deveRetornarStatus_422_paraValorAberturaMenorQue50() throws Exception {
+    void deveRetornarStatus_422_paraValorAberturaMenorQue50() throws Exception {
 
         String payload = "{\"prospect\":{\"nome\":{\"primeiroNome\":\"Emerson\",\"sobrenome\":\"Haraguchi\",\"nomeCompleto\":\"Emerson Haraguchi\"}," + 
             "\"documento\":{\"numero\":\"29222004000\",\"valido\":true,\"tipoDocumento\":\"CPF\"},\"dataDeNascimento\":{\"data\":[1988,10,21]}}," + 
@@ -98,7 +95,7 @@ public class ContaResourceTest {
     }
 
     @Test
-    public void deveRetornarStatus_400_paraPessoaNuloNoFormularioAbertura() throws Exception {
+    void deveRetornarStatus_400_paraPessoaNuloNoFormularioAbertura() throws Exception {
 
         String payload = "{\"documento\":{\"numero\":\"29222004000\",\"valido\":true,\"tipoDocumento\":\"CPF\"},\"dataDeNascimento\":{\"data\":[1988,10,21]}}," + 
             "\"enderecos\":[{\"cep\":\"13940-970\",\"logradouro\":\"Avenida Brasil 160\",\"numero\":\"607\",\"estado\":\"SAO_PAULO\",\"complemento\":null,\"bairro\":\"Centro\",\"municipio\":\"Águas de Lindóia\", \"tipoEndereco\":\"RESIDENCIAL\"}],\"telefone\":{\"ddd\":\"19\",\"numero\":\"2901-7197\"},\"email\":{\"email\":\"thomascauajorgebarbosa-98@agnet.com.br\"},\"renda\":{\"valor\":2000},\"valorDepositoAbertura\":50," +
@@ -111,7 +108,7 @@ public class ContaResourceTest {
     }
 
     @Test
-    public void deveRetornarStatus_400_paraDocumentoNuloNoFormularioAbertura() throws Exception {
+    void deveRetornarStatus_400_paraDocumentoNuloNoFormularioAbertura() throws Exception {
 
         String payload = "{\"prospect\":{\"nome\":{\"primeiroNome\":\"Emerson\",\"sobrenome\":\"Haraguchi\",\"nomeCompleto\":\"Emerson Haraguchi\"}," + 
         "\"dataDeNascimento\":{\"data\":[1988,10,21]}}," + 

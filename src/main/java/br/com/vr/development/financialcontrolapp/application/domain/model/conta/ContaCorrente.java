@@ -17,6 +17,10 @@ import javax.persistence.Table;
 @Table(name = "conta_corrente")
 public class ContaCorrente extends Conta {
 
+    public ContaCorrente(Conta conta) {
+        super(conta);
+    }
+
     public ContaCorrente(AgenciaBancaria agencia, Correntista correntista, DepositoInicial depositoInicial) {
         super(agencia, correntista, depositoInicial);
     }

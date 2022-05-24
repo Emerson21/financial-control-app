@@ -16,3 +16,7 @@ spring:
 conta:
   abertura:
     valorMinimo: 50
+
+microservice:
+  depositar:
+    url: "http://localhost:8080/api/"

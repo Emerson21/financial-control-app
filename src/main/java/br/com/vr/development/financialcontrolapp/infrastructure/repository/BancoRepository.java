@@ -1,4 +1,4 @@
-package br.com.vr.development.financialcontrolapp.repository;
+package br.com.vr.development.financialcontrolapp.infrastructure.repository;
 
 import java.util.Optional;
 

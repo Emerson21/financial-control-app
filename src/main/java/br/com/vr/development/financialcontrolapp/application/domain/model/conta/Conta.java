@@ -7,11 +7,8 @@ import br.com.vr.development.financialcontrolapp.application.domain.model.transf
 import br.com.vr.development.financialcontrolapp.application.domain.model.transferencia.ContaOrigem;
 import br.com.vr.development.financialcontrolapp.application.enums.TipoTransferencia;
 import br.com.vr.development.financialcontrolapp.exception.SaldoInsuficienteException;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.AccessLevel;
-import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -25,8 +22,6 @@ import static br.com.vr.development.financialcontrolapp.application.domain.model
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Inheritance(strategy = InheritanceType.JOINED)
 @Table(name = "conta")
-@Getter
-@Setter
 public class Conta implements ContaDestino, ContaOrigem {
 
     @Id
@@ -49,7 +44,6 @@ public class Conta implements ContaDestino, ContaOrigem {
     @OneToOne(cascade = CascadeType.ALL)
     private Correntista correntista;
 
-    @JsonManagedReference
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "conta")
     private Set<Lancamento> lancamentos = new HashSet<>();
 
@@ -67,7 +61,10 @@ public class Conta implements ContaDestino, ContaOrigem {
         this.adicionaDepositoInicialComoLancamento();
     }
 
-    @Override
+    public Conta(Conta conta) {
+        this(conta.agencia, conta.correntista, conta.depositoInicial);
+    }
+
     public Valor getSaldo() {
         return !possuiSaldo()
                 ? Valor.ZERO
@@ -90,6 +87,11 @@ public class Conta implements ContaDestino, ContaOrigem {
 
     public Set<Lancamento> getLancamentos() {
         return this.lancamentos;
+    }
+
+    @Override
+    public Banco getBanco() {
+        return this.agencia.getBanco();
     }
 
     @Override

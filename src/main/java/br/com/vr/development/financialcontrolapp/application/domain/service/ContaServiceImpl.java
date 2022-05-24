@@ -5,8 +5,8 @@ import org.springframework.stereotype.Service;
 
 import br.com.vr.development.financialcontrolapp.application.domain.model.conta.ContaCorrente;
 import br.com.vr.development.financialcontrolapp.exception.BancoInvalidoException;
-import br.com.vr.development.financialcontrolapp.repository.BancoRepository;
-import br.com.vr.development.financialcontrolapp.repository.ContaRepository;
+import br.com.vr.development.financialcontrolapp.infrastructure.repository.BancoRepository;
+import br.com.vr.development.financialcontrolapp.infrastructure.repository.ContaRepository;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j

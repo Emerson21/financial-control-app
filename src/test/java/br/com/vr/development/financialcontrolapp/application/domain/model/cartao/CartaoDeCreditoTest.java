@@ -3,6 +3,7 @@ package br.com.vr.development.financialcontrolapp.application.domain.model.carta
 import br.com.vr.development.financialcontrolapp.application.domain.model.*;
 import br.com.vr.development.financialcontrolapp.application.domain.model.cartoes.CartaoDeCredito;
 import br.com.vr.development.financialcontrolapp.application.domain.model.cartoes.fatura.Vencimento;
+import br.com.vr.development.financialcontrolapp.application.domain.model.conta.Conta;
 import br.com.vr.development.financialcontrolapp.application.domain.model.transferencia.ContaDestino;
 import br.com.vr.development.financialcontrolapp.exception.LimiteExcedidoException;
 import br.com.vr.development.financialcontrolapp.fixtures.ContaCorrenteFixture;
@@ -23,13 +24,13 @@ public class CartaoDeCreditoTest {
     @Test
     void deveRealizarUmaTransacaoDeUmaCompraNoValorDe100Reais() throws LimiteExcedidoException {
         CartaoDeCredito cartaoDeCredito = new CartaoDeCredito(new Limite(new Valor("5000")), new Fatura(JANEIRO, Vencimento.dia(5)));
-        ContaDestino contaDestino = ContaCorrenteFixture.create();
+        Conta destino = ContaCorrenteFixture.create();
 
-        cartaoDeCredito.debitar(Valor.de("100"), new Descricao("Compra no cartao de credito"), contaDestino);
+        cartaoDeCredito.debitar(Valor.de("100"), new Descricao("Compra no cartao de credito"), destino);
 
         assertThat(cartaoDeCredito.limite()).isEqualTo(new Valor("4900"));
         assertThat(cartaoDeCredito.lancamentos()).isNotEmpty();
-        assertThat(contaDestino.getSaldo()).isEqualTo(new Valor("150"));
+        assertThat(destino.getSaldo()).isEqualTo(new Valor("150"));
     }
 
     @Test
@@ -39,7 +40,5 @@ public class CartaoDeCreditoTest {
 
         assertThatThrownBy(() -> cartaoDeCredito.debitar(Valor.de("5001"), new Descricao("Compra no cartao de credito"),  contaDestino));
     }
-
-
 
 }
