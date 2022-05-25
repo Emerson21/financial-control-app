@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 )
 public interface TransferenciaExternaClient {
 
-    @PostMapping("/deposito")
+    @PostMapping("/transacoes")
     void depositar(@RequestBody ContaDestino contaDestino);
 
 }

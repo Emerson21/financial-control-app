@@ -41,4 +41,14 @@ public class FinancialExceptionHandler extends ResponseEntityExceptionHandler {
                 request);
     }
 
+    @ExceptionHandler({SaldoInsuficienteException.class})
+    public ResponseEntity<Object> saldoInsuficienteException(SaldoInsuficienteException saldoInsuficienteException, WebRequest request) {
+        ErroResponse response = new ErroResponse("-4", saldoInsuficienteException.getMessage());
+
+        return super.handleExceptionInternal(saldoInsuficienteException,
+                response,
+                HttpHeaders.EMPTY,
+                HttpStatus.UNPROCESSABLE_ENTITY,
+                request);
+    }
 }

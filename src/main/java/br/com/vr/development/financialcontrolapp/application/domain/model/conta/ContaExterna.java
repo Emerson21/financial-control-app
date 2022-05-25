@@ -8,7 +8,13 @@ import br.com.vr.development.financialcontrolapp.application.domain.model.transf
 import br.com.vr.development.financialcontrolapp.application.enums.TipoTransferencia;
 import br.com.vr.development.financialcontrolapp.infrastructure.gateway.TransferenciaExternaClient;
 import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.ToString;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
+@ToString
+@Getter
 @AllArgsConstructor
 public class ContaExterna implements ContaDestino {
 
@@ -33,6 +39,7 @@ public class ContaExterna implements ContaDestino {
 
     @Override
     public void deposita(Valor valor, TipoTransferencia tipoTransferencia) {
+        log.info("request {}", this);
         this.client.depositar(this);
     }
 }
