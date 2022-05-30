@@ -2,15 +2,22 @@ package br.com.vr.development.financialcontrolapp.application.domain.model;
 
 import br.com.vr.development.financialcontrolapp.application.domain.model.cartoes.CartaoDeDebito;
 import br.com.vr.development.financialcontrolapp.application.domain.model.conta.Conta;
-import br.com.vr.development.financialcontrolapp.application.domain.model.transferencia.ContaDestino;
+import br.com.vr.development.financialcontrolapp.application.domain.model.transferencia.ContaDestinoInterna;
 import br.com.vr.development.financialcontrolapp.exception.SaldoInsuficienteException;
 import br.com.vr.development.financialcontrolapp.fixtures.ContaCorrenteFixture;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.MockitoAnnotations;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 public class CartaoTest {
+
+    @BeforeEach
+    void setUp() {
+        MockitoAnnotations.openMocks(this);
+    }
 
     @Test
     void deveDebitar50ReaisDaContaCorrenteNoCartaoDeDebito() throws SaldoInsuficienteException {
@@ -24,7 +31,7 @@ public class CartaoTest {
 
     @Test
     void deveLancarExceptionAoTentarPassarAFuncaoCreditoNumCartaoQuePossuiSomenteDebito() {
-        ContaDestino contaDestino = ContaCorrenteFixture.create();
+        ContaDestinoInterna contaDestino = ContaCorrenteFixture.create();
 
         CartaoDeDebito cartao = new CartaoDeDebito(ContaCorrenteFixture.create());
         assertThatThrownBy(() -> cartao.debitar(new Valor("400"), new Descricao("Compra no cartao de debito"), contaDestino));
@@ -32,7 +39,7 @@ public class CartaoTest {
 
     @Test
     void deveLancarExceptionAoTentarPassarAFuncaoDebitoNumCartaoQuePossuiSomenteCredito() {
-        ContaDestino contaDestino = ContaCorrenteFixture.create();
+        ContaDestinoInterna contaDestino = ContaCorrenteFixture.create();
 
         CartaoDeDebito cartao = new CartaoDeDebito(ContaCorrenteFixture.create());
         assertThatThrownBy(() -> cartao.debitar(new Valor("400"), new Descricao("Compra no cartao de debito"), contaDestino));

@@ -1,13 +1,12 @@
 package br.com.vr.development.financialcontrolapp.application.domain.service.transacoes;
 
-import br.com.vr.development.financialcontrolapp.application.domain.model.transferencia.Transferencia;
+import br.com.vr.development.financialcontrolapp.application.domain.model.Valor;
+import br.com.vr.development.financialcontrolapp.application.domain.model.transferencia.ContaDestino;
+import br.com.vr.development.financialcontrolapp.application.domain.model.transferencia.ContaOrigem;
+import br.com.vr.development.financialcontrolapp.application.enums.TipoTransferencia;
 import br.com.vr.development.financialcontrolapp.exception.SaldoInsuficienteException;
-import org.springframework.stereotype.Service;
 
-@Service
-public class TransacoesService {
-
-    public void transacionar(Transferencia transferencia) throws SaldoInsuficienteException {
-        transferencia.execute();
-    }
+public interface TransacoesService {
+    void transacionar(Valor valor, ContaOrigem contaOrigem, ContaDestino
+            contaDestino, TipoTransferencia tipo) throws SaldoInsuficienteException;
 }

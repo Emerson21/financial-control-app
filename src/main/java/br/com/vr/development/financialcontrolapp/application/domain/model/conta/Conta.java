@@ -3,7 +3,7 @@ package br.com.vr.development.financialcontrolapp.application.domain.model.conta
 import br.com.vr.development.financialcontrolapp.application.domain.model.*;
 import br.com.vr.development.financialcontrolapp.application.domain.model.components.DepositoInicial;
 import br.com.vr.development.financialcontrolapp.application.domain.model.lancamento.Lancamento;
-import br.com.vr.development.financialcontrolapp.application.domain.model.transferencia.ContaDestino;
+import br.com.vr.development.financialcontrolapp.application.domain.model.transferencia.ContaDestinoInterna;
 import br.com.vr.development.financialcontrolapp.application.domain.model.transferencia.ContaOrigem;
 import br.com.vr.development.financialcontrolapp.application.enums.TipoTransferencia;
 import br.com.vr.development.financialcontrolapp.exception.SaldoInsuficienteException;
@@ -22,7 +22,7 @@ import static br.com.vr.development.financialcontrolapp.application.domain.model
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Inheritance(strategy = InheritanceType.JOINED)
 @Table(name = "conta")
-public class Conta implements ContaDestino, ContaOrigem {
+public class Conta implements ContaDestinoInterna, ContaOrigem {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

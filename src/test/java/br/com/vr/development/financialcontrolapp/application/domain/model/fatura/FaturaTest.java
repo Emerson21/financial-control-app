@@ -4,7 +4,7 @@ import br.com.vr.development.financialcontrolapp.application.domain.model.*;
 import br.com.vr.development.financialcontrolapp.application.domain.model.cartoes.CartaoDeCredito;
 import br.com.vr.development.financialcontrolapp.application.domain.model.cartoes.fatura.Vencimento;
 import br.com.vr.development.financialcontrolapp.application.domain.model.conta.ContaCorrente;
-import br.com.vr.development.financialcontrolapp.application.domain.model.transferencia.ContaDestino;
+import br.com.vr.development.financialcontrolapp.application.domain.model.transferencia.ContaDestinoInterna;
 import br.com.vr.development.financialcontrolapp.application.enums.Competencia;
 import br.com.vr.development.financialcontrolapp.application.enums.TipoTransferencia;
 import br.com.vr.development.financialcontrolapp.fixtures.ContaCorrenteFixture;
@@ -53,7 +53,7 @@ class FaturaTest {
         ContaCorrente contaOrigem = ContaCorrenteFixture.create();
         contaOrigem.deposita(new Valor("450"), TipoTransferencia.DEPOSITO);
 
-        ContaDestino contaDestino = ContaCorrenteFixture.create();
+        ContaDestinoInterna contaDestino = ContaCorrenteFixture.create();
         cartaoDeCredito.debitar(Valor.de("500"), new Descricao("Compra no cartao de credito"), contaDestino);
 
         Valor limite = cartaoDeCredito.limite();
@@ -72,7 +72,7 @@ class FaturaTest {
         ContaCorrente contaOrigem = ContaCorrenteFixture.create();
         contaOrigem.deposita(new Valor("450"), TipoTransferencia.DEPOSITO);
 
-        ContaDestino contaDestino = ContaCorrenteFixture.create();
+        ContaDestinoInterna contaDestino = ContaCorrenteFixture.create();
         cartaoDeCredito.debitar(Valor.de("500"), new Descricao("Compra no cartao de credito"), contaDestino);
 
         Valor limite = cartaoDeCredito.limite();

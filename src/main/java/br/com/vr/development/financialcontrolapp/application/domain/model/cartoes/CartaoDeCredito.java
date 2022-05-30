@@ -4,7 +4,7 @@ import br.com.vr.development.financialcontrolapp.application.domain.model.*;
 import br.com.vr.development.financialcontrolapp.application.domain.model.cartoes.fatura.Vencimento;
 import br.com.vr.development.financialcontrolapp.application.domain.model.conta.ContaCorrente;
 import br.com.vr.development.financialcontrolapp.application.domain.model.lancamento.Lancamento;
-import br.com.vr.development.financialcontrolapp.application.domain.model.transferencia.ContaDestino;
+import br.com.vr.development.financialcontrolapp.application.domain.model.transferencia.ContaDestinoInterna;
 import br.com.vr.development.financialcontrolapp.application.enums.Competencia;
 import br.com.vr.development.financialcontrolapp.exception.LimiteExcedidoException;
 import lombok.Getter;
@@ -34,7 +34,7 @@ public class CartaoDeCredito implements Cartao {
     }
 
     @Override
-    public void debitar(Valor valor, Descricao descricao, ContaDestino contaDestino) throws LimiteExcedidoException {
+    public void debitar(Valor valor, Descricao descricao, ContaDestinoInterna contaDestino) throws LimiteExcedidoException {
         limite.saque(valor);
         contaDestino.deposita(valor, CARTAO_CREDITO);
         faturas.get(0).novoLancamento(valor, descricao);

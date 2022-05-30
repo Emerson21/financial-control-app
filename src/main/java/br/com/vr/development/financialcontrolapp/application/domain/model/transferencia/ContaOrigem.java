@@ -13,5 +13,5 @@ public interface ContaOrigem {
 
     void pagar(Fatura fatura, Valor valor) throws SaldoInsuficienteException;
 
-    public Banco getBanco();
+    Banco getBanco();
 }

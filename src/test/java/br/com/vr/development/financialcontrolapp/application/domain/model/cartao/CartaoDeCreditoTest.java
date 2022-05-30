@@ -4,7 +4,7 @@ import br.com.vr.development.financialcontrolapp.application.domain.model.*;
 import br.com.vr.development.financialcontrolapp.application.domain.model.cartoes.CartaoDeCredito;
 import br.com.vr.development.financialcontrolapp.application.domain.model.cartoes.fatura.Vencimento;
 import br.com.vr.development.financialcontrolapp.application.domain.model.conta.Conta;
-import br.com.vr.development.financialcontrolapp.application.domain.model.transferencia.ContaDestino;
+import br.com.vr.development.financialcontrolapp.application.domain.model.transferencia.ContaDestinoInterna;
 import br.com.vr.development.financialcontrolapp.exception.LimiteExcedidoException;
 import br.com.vr.development.financialcontrolapp.fixtures.ContaCorrenteFixture;
 import org.junit.jupiter.api.Test;
@@ -36,7 +36,7 @@ public class CartaoDeCreditoTest {
     @Test
     void deveRealizarUmaTransacaoDeUmaCompraNoValorAcimaDoLimiteDe5000Reais() {
         CartaoDeCredito cartaoDeCredito = new CartaoDeCredito(new Limite(new Valor("5000")), new Fatura(JANEIRO, Vencimento.dia(5)));
-        ContaDestino contaDestino = ContaCorrenteFixture.create();
+        ContaDestinoInterna contaDestino = ContaCorrenteFixture.create();
 
         assertThatThrownBy(() -> cartaoDeCredito.debitar(Valor.de("5001"), new Descricao("Compra no cartao de credito"),  contaDestino));
     }

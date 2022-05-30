@@ -6,7 +6,6 @@ import br.com.vr.development.financialcontrolapp.application.domain.model.Cpf;
 import br.com.vr.development.financialcontrolapp.application.domain.model.Valor;
 import br.com.vr.development.financialcontrolapp.application.domain.model.transferencia.ContaDestino;
 import br.com.vr.development.financialcontrolapp.application.enums.TipoTransferencia;
-import br.com.vr.development.financialcontrolapp.infrastructure.gateway.TransferenciaExternaClient;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.ToString;
@@ -30,16 +29,4 @@ public class ContaExterna implements ContaDestino {
 
     private Cpf cpf;
 
-    private TransferenciaExternaClient client;
-
-    @Override
-    public Banco getBanco() {
-        return this.banco;
-    }
-
-    @Override
-    public void deposita(Valor valor, TipoTransferencia tipoTransferencia) {
-        log.info("request {}", this);
-        this.client.depositar(this);
-    }
 }

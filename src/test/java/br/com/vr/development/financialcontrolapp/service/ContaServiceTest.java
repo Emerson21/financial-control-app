@@ -36,7 +36,7 @@ import br.com.vr.development.financialcontrolapp.application.domain.model.Pessoa
 import br.com.vr.development.financialcontrolapp.application.domain.model.RendaMensal;
 import br.com.vr.development.financialcontrolapp.application.domain.model.components.DepositoInicial;
 import br.com.vr.development.financialcontrolapp.application.domain.model.components.DepositoInicialFactory;
-import br.com.vr.development.financialcontrolapp.application.domain.service.ContaServiceImpl;
+import br.com.vr.development.financialcontrolapp.application.domain.service.ContaService;
 import br.com.vr.development.financialcontrolapp.inbound.v1.dto.AgenciaBancariaDTO;
 import br.com.vr.development.financialcontrolapp.inbound.v1.dto.FormularioAberturaConta;
 import br.com.vr.development.financialcontrolapp.exception.BancoInvalidoException;
@@ -49,7 +49,7 @@ import br.com.vr.development.financialcontrolapp.infrastructure.repository.Conta
 public class ContaServiceTest {
 
     @InjectMocks
-    private ContaServiceImpl contaService;
+    private ContaService contaService;
 
     @BeforeAll
     public void init() {

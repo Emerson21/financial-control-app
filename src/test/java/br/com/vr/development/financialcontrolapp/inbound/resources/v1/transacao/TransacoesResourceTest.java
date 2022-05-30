@@ -1,8 +1,11 @@
 package br.com.vr.development.financialcontrolapp.inbound.resources.v1.transacao;
 
+import br.com.vr.development.financialcontrolapp.application.domain.model.Banco;
 import br.com.vr.development.financialcontrolapp.application.domain.model.conta.ContaCorrente;
 import br.com.vr.development.financialcontrolapp.application.domain.model.Cpf;
-import br.com.vr.development.financialcontrolapp.application.domain.model.transferencia.Transferencia;
+import br.com.vr.development.financialcontrolapp.application.domain.model.transferencia.TransferenciaComposite;
+import br.com.vr.development.financialcontrolapp.application.domain.model.transferencia.TransferenciaExterna;
+import br.com.vr.development.financialcontrolapp.application.domain.model.transferencia.TransferenciaInterna;
 import br.com.vr.development.financialcontrolapp.application.domain.service.transacoes.TransacoesService;
 import br.com.vr.development.financialcontrolapp.exception.ContaNotFoundException;
 import br.com.vr.development.financialcontrolapp.exception.FinancialExceptionHandler;
@@ -23,6 +26,9 @@ import org.junit.jupiter.api.TestInstance;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.mockito.Spy;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
@@ -38,13 +44,13 @@ import static org.mockito.Mockito.*;
 @TestInstance(TestInstance.Lifecycle.PER_METHOD)
 public class TransacoesResourceTest {
 
-    private static final String URI = "/transacoes";
-    private static final String CONTENT_TYPE_TRANSACAO = "application/vnd.transacoes.v1+json";
+    private static final String URI = "/transferencia";
+    private static final String CONTENT_TYPE_TRANSACAO = "application/vnd.transferencia.v1+json";
 
     private MockMvc mockMvc;
 
     @InjectMocks
-    private TransacaoResource transacaoResource;
+    private TransferenciaResource transacaoResource;
 
     @Mock
     private TransacoesService transacoesService;
@@ -53,7 +59,13 @@ public class TransacoesResourceTest {
     private ContaRepository contaRepository;
 
     @Mock
-    private TransferenciaExternaClient transferenciaExternaClient;
+    private TransferenciaExternaClient client;
+
+    @Mock
+    private TransferenciaComposite composite;
+
+    private TransferenciaInterna transferenciaInterna;
+
 
     private ObjectMapper objectMapper = new ObjectMapper();
 
@@ -66,13 +78,15 @@ public class TransacoesResourceTest {
                 .build();
         objectMapper.registerModule(new ParameterNamesModule()).registerModule(new Jdk8Module())
                           .registerModule(new JavaTimeModule()).disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
+
+        transferenciaInterna = new TransferenciaInterna(contaRepository);
     }
 
     @Test
     void deveRealizarUmaTransacaoBancaria() throws Exception {
-        DadosConta dadosConta = new DadosConta("077", "0987", "3", "123456789", "0");
+        DadosConta dadosConta = new DadosConta("1", "0987", "3", "123456789", "0");
         ContaDestinoDTO contaDestino = new ContaDestinoDTO(new CpfDTO("46133685026"), dadosConta, "Nome Correntista");
-        Transacao transacao = new Transacao("54173913010", new Valor(new BigDecimal("50")), TED, contaDestino);
+        Transacao transacao = new Transacao("54173913010", new Valor(new BigDecimal("45")), TED, contaDestino);
 
         ContaCorrente contaCorrente = ContaCorrenteFixture.create();
 
@@ -80,8 +94,8 @@ public class TransacoesResourceTest {
                 .setVisibility(PropertyAccessor.FIELD, JsonAutoDetect.Visibility.ANY)
                 .writeValueAsString(transacao);
 
-        doNothing().when(transacoesService).transacionar(any(Transferencia.class));
         when(contaRepository.findBy(any(Cpf.class))).thenReturn(Optional.of(contaCorrente));
+        when(composite.selecionarTransferencia(any(ContaDestinoDTO.class), any(Banco.class))).thenReturn(transferenciaInterna);
 
         mockMvc.perform(
             MockMvcRequestBuilders.post(URI)
@@ -90,8 +104,7 @@ public class TransacoesResourceTest {
             .andExpect(MockMvcResultMatchers.status().isOk())
             .andExpect(MockMvcResultMatchers.jsonPath("mensagem").value("Transação realizada com sucesso."));
 
-        verify(contaRepository, times(1)).findBy(any(Cpf.class));
-        verify(transacoesService, times(1)).transacionar(any(Transferencia.class));
+        verify(contaRepository, times(2)).findBy(any(Cpf.class));
     }
 
     @Test
@@ -106,6 +119,7 @@ public class TransacoesResourceTest {
 
         ContaNotFoundException contaNotFoundException = new ContaNotFoundException();
         when(contaRepository.findBy(any(Cpf.class))).thenThrow(contaNotFoundException);
+        when(composite.selecionarTransferencia(any(ContaDestinoDTO.class), any(Banco.class))).thenReturn(transferenciaInterna);
 
         mockMvc.perform(MockMvcRequestBuilders.post(URI)
                             .content(payload)

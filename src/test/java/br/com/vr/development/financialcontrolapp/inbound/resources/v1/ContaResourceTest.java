@@ -4,6 +4,7 @@ import static org.mockito.Mockito.when;
 
 import java.math.BigDecimal;
 
+import br.com.vr.development.financialcontrolapp.application.domain.service.ContaService;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
@@ -24,7 +25,6 @@ import br.com.vr.development.financialcontrolapp.application.domain.model.Cnpj;
 import br.com.vr.development.financialcontrolapp.application.domain.model.conta.ContaCorrente;
 import br.com.vr.development.financialcontrolapp.application.domain.model.NomeFantasia;
 import br.com.vr.development.financialcontrolapp.application.domain.model.components.DepositoInicialFactory;
-import br.com.vr.development.financialcontrolapp.application.domain.service.ContaService;
 import br.com.vr.development.financialcontrolapp.application.domain.service.agenciabancaria.AgenciaBancariaService;
 import br.com.vr.development.financialcontrolapp.inbound.v1.ContaResource;
 import br.com.vr.development.financialcontrolapp.exception.FinancialExceptionHandler;

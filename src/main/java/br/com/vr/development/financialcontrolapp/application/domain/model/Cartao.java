@@ -2,12 +2,11 @@ package br.com.vr.development.financialcontrolapp.application.domain.model;
 
 import br.com.vr.development.financialcontrolapp.application.domain.model.cartoes.CartaoDeCredito;
 import br.com.vr.development.financialcontrolapp.application.domain.model.cartoes.CartaoDeDebito;
-import br.com.vr.development.financialcontrolapp.application.domain.model.transferencia.ContaDestino;
+import br.com.vr.development.financialcontrolapp.application.domain.model.transferencia.ContaDestinoInterna;
 import br.com.vr.development.financialcontrolapp.exception.LimiteExcedidoException;
 import br.com.vr.development.financialcontrolapp.exception.SaldoInsuficienteException;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME,
         property = "type",
@@ -19,6 +18,6 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 })
 public interface Cartao {
 
-    void debitar(Valor valor, Descricao descricao, ContaDestino contaDestino) throws LimiteExcedidoException, SaldoInsuficienteException;
+    void debitar(Valor valor, Descricao descricao, ContaDestinoInterna contaDestino) throws LimiteExcedidoException, SaldoInsuficienteException;
 
 }

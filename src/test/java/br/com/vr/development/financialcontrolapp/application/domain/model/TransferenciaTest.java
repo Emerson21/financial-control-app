@@ -11,20 +11,35 @@ import br.com.vr.development.financialcontrolapp.application.domain.model.conta.
 import br.com.vr.development.financialcontrolapp.application.domain.model.conta.Poupanca;
 import br.com.vr.development.financialcontrolapp.exception.SaldoInsuficienteException;
 import br.com.vr.development.financialcontrolapp.fixtures.CorrentistaFixture;
+import br.com.vr.development.financialcontrolapp.infrastructure.repository.ContaRepository;
 import org.assertj.core.api.Assertions;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import br.com.vr.development.financialcontrolapp.application.domain.model.components.DepositoInicialFactory;
-import br.com.vr.development.financialcontrolapp.application.domain.model.transferencia.Transferencia;
+import br.com.vr.development.financialcontrolapp.application.domain.model.transferencia.TransferenciaInterna;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 
 class TransferenciaTest {
+
+    @Mock
+    private ContaRepository contaRepository;
+
+    private TransferenciaInterna transferenciaInterna;
+
+    @BeforeEach
+    public void setup() {
+        MockitoAnnotations.openMocks(this);
+        transferenciaInterna = new TransferenciaInterna(contaRepository);
+    }
 
     @Test
     void deveRealizarUmTEFDeUmaContaCorrenteParaOutra() throws SaldoInsuficienteException {
         Conta contaOrigem = getContaOrigem();
         Conta contaDestino = getContaDestino();
 
-        new Transferencia(new Valor("10"), contaOrigem, contaDestino, TEF).execute();
+        transferenciaInterna.transacionar(new Valor("10"), contaOrigem, contaDestino, TEF);
         assertThat(contaOrigem.getSaldo()).isEqualTo(new Valor("40"));
         assertThat(contaDestino.getSaldo()).isEqualTo(new Valor("60"));
     }
@@ -32,9 +47,8 @@ class TransferenciaTest {
     @Test
     void deveLancarExceptionSaldoInsuficienteExceptionQuandoNaoHouverValorDisponivelParaSaque() {
         Assertions.assertThatThrownBy(() -> {
-            new Transferencia(new Valor("50,01"), getContaOrigem(), getContaDestino(), TEF).execute();
+            transferenciaInterna.transacionar(new Valor("50,01"), getContaOrigem(), getContaDestino(), TEF);
         });
-
     }
 
     @Test
@@ -42,7 +56,8 @@ class TransferenciaTest {
         Conta poupanca = getContaPoupanca();
         Conta origem = getContaOrigem();
 
-        new Transferencia(new Valor("0.01"), origem, poupanca, TEF).execute();
+        transferenciaInterna.transacionar(new Valor("0.01"), origem, poupanca, TEF);
+
         assertThat(origem.getSaldo()).isEqualTo(new Valor("49.99"));
         assertThat(poupanca.getSaldo()).isEqualTo(new Valor("50.01"));
 
