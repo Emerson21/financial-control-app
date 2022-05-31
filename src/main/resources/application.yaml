@@ -20,3 +20,17 @@ conta:
 microservice:
   depositar:
     url: "http://localhost:8081/"
+
+resilience4j.circuitbreaker:
+  configs:
+    default:
+      registerHealthIndicator: true
+      slidingWindowSize: 10
+      permittedNumberOfCallsInHalfOpenState: 3
+      automaticTransitionFromOpenToHalfOpenEnabled: true
+      minimumNumberOfCalls: 5
+      waitDurationInOpenState: 20s
+      failureRateThreshold: 15
+    instances:
+      ms-central-bank-cb:
+        baseConfig: default

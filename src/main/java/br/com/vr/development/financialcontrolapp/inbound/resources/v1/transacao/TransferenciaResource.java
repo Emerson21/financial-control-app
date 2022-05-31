@@ -10,6 +10,7 @@ import br.com.vr.development.financialcontrolapp.exception.ContaNotFoundExceptio
 import br.com.vr.development.financialcontrolapp.exception.SaldoInsuficienteException;
 import br.com.vr.development.financialcontrolapp.inbound.resources.v1.transacao.dto.Transacao;
 import br.com.vr.development.financialcontrolapp.infrastructure.repository.ContaRepository;
+import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -30,6 +31,7 @@ public class TransferenciaResource {
 
     private TransferenciaComposite composite;
 
+    @CircuitBreaker(name = "ms-central-bank-cb", fallbackMethod = "fallback")
     @PostMapping(consumes = CONTENT_TYPE_TRANSACAO)
     public ResponseEntity<SucessoResponse> transferir(@RequestBody Transacao transacao) throws ContaNotFoundException, SaldoInsuficienteException {
         log.info("Transacionando {}", transacao);
@@ -44,10 +46,15 @@ public class TransferenciaResource {
         ContaCorrente contaOrigem = contaRepository.findBy(transacao.getCpfModel()).orElseThrow(ContaNotFoundException::new);
         ContaDestino contaDestino = new ContaDestinoBuilder(transacao.getConta(), contaOrigem.getBanco(), contaRepository).build();
 
-        TransacoesService transacoesService = composite.selecionarTransferencia(transacao.getConta(), contaOrigem.getBanco());
-        transacoesService.transacionar(transacao.toValorModel(), contaOrigem, contaDestino, transacao.getTipo());
+        composite.selecionarTransferencia(transacao.getConta(), contaOrigem.getBanco())
+                .transacionar(transacao.toValorModel(), contaOrigem, contaDestino, transacao.getTipo());
 
         return ResponseEntity.ok().body(new SucessoResponse("Transação realizada com sucesso."));
+    }
+
+    private ResponseEntity<SucessoResponse> fallback(RuntimeException e) {
+        log.error("Executando FallBack do CircuitBreak ", e);
+        throw e;
     }
 
     //TODO - como está o comportamento ao se deparar com um fallback (transação está funcionando?, testes?)

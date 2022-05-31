@@ -5,6 +5,7 @@ import br.com.vr.development.financialcontrolapp.application.domain.service.tran
 import br.com.vr.development.financialcontrolapp.inbound.resources.v1.transacao.dto.ContaDestinoDTO;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 
@@ -15,8 +16,9 @@ public class TransferenciaComposite {
     private TransacoesService transferenciaInterna;
     private TransacoesService transferenciaExterna;
 
-    public TransferenciaComposite(@Qualifier("transferenciaInterna") TransacoesService transferenciaInterna,
-                                  @Qualifier("transferenciaExterna") TransacoesService transferenciaExterna) {
+    @Autowired
+    public TransferenciaComposite(@Qualifier("transferenciaInterna") TransferenciaInterna transferenciaInterna,
+                                  @Qualifier("transferenciaExterna") TransferenciaExterna transferenciaExterna) {
         this.transferenciaInterna = transferenciaInterna;
         this.transferenciaExterna = transferenciaExterna;
     }
