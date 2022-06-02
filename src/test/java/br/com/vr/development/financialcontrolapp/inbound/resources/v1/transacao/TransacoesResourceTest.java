@@ -13,6 +13,7 @@ import br.com.vr.development.financialcontrolapp.fixtures.ContaCorrenteFixture;
 import br.com.vr.development.financialcontrolapp.inbound.resources.v1.transacao.dto.*;
 import br.com.vr.development.financialcontrolapp.infrastructure.gateway.TransferenciaExternaClient;
 import br.com.vr.development.financialcontrolapp.infrastructure.repository.ContaRepository;
+import br.com.vr.development.financialcontrolapp.infrastructure.repository.TransacaoRepository;
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -57,6 +58,9 @@ public class TransacoesResourceTest {
     private ContaRepository contaRepository;
 
     @Mock
+    private TransacaoRepository transacaoRepository;
+
+    @Mock
     private TransferenciaExternaClient client;
 
     @Mock
@@ -92,6 +96,7 @@ public class TransacoesResourceTest {
                 .setVisibility(PropertyAccessor.FIELD, JsonAutoDetect.Visibility.ANY)
                 .writeValueAsString(transacao);
 
+        when(transacaoRepository.findByCpfAndDataHora(anyString(), any(LocalDateTime.class))).thenReturn(Optional.empty());
         when(contaRepository.findBy(any(Cpf.class))).thenReturn(Optional.of(contaCorrente));
         when(composite.selecionarTransferencia(any(ContaDestinoDTO.class), any(Banco.class))).thenReturn(transferenciaInterna);
 
@@ -116,6 +121,7 @@ public class TransacoesResourceTest {
                 .writeValueAsString(transacao);
 
         ContaNotFoundException contaNotFoundException = new ContaNotFoundException();
+        when(transacaoRepository.findByCpfAndDataHora(anyString(), any(LocalDateTime.class))).thenReturn(Optional.empty());
         when(contaRepository.findBy(any(Cpf.class))).thenThrow(contaNotFoundException);
         when(composite.selecionarTransferencia(any(ContaDestinoDTO.class), any(Banco.class))).thenReturn(transferenciaInterna);
 

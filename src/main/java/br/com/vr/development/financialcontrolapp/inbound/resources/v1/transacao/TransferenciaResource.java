@@ -11,6 +11,7 @@ import br.com.vr.development.financialcontrolapp.exception.SaldoInsuficienteExce
 import br.com.vr.development.financialcontrolapp.inbound.resources.v1.transacao.dto.Transacao;
 import br.com.vr.development.financialcontrolapp.infrastructure.repository.ContaRepository;
 import br.com.vr.development.financialcontrolapp.infrastructure.repository.TransacaoRepository;
+import feign.RetryableException;
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -45,7 +46,7 @@ public class TransferenciaResource {
                 composite.selecionarTransferencia(transacao.getConta(), contaOrigem.getBanco())
                         .transacionar(transacao.toValorModel(), contaOrigem, contaDestino, transacao.getTipo());
 
-            } catch (Exception e) {
+            } catch (RetryableException e) {
                 log.error("Erro {}", e);
                 transacaoRepository.delete(entity);
             }
