@@ -2,6 +2,8 @@ package br.com.vr.development.financialcontrolapp.inbound.resources.v1.transacao
 
 import lombok.*;
 
+import javax.persistence.Column;
+import javax.persistence.Embeddable;
 import java.math.BigDecimal;
 
 @Getter
@@ -9,10 +11,10 @@ import java.math.BigDecimal;
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
+@Embeddable
 public class Valor {
 
+    @Column(name = "valor")
     private BigDecimal value;
-
-
 
 }

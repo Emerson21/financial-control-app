@@ -10,6 +10,7 @@ import br.com.vr.development.financialcontrolapp.exception.ContaNotFoundExceptio
 import br.com.vr.development.financialcontrolapp.exception.SaldoInsuficienteException;
 import br.com.vr.development.financialcontrolapp.inbound.resources.v1.transacao.dto.Transacao;
 import br.com.vr.development.financialcontrolapp.infrastructure.repository.ContaRepository;
+import br.com.vr.development.financialcontrolapp.infrastructure.repository.TransacaoRepository;
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -28,37 +29,31 @@ public class TransferenciaResource {
     private static final String CONTENT_TYPE_TRANSACAO = "application/vnd.transferencia.v1+json";
 
     private ContaRepository contaRepository;
-
     private TransferenciaComposite composite;
+    private TransacaoRepository transacaoRepository;
 
-    @CircuitBreaker(name = "ms-central-bank-cb", fallbackMethod = "fallback")
     @PostMapping(consumes = CONTENT_TYPE_TRANSACAO)
     public ResponseEntity<SucessoResponse> transferir(@RequestBody Transacao transacao) throws ContaNotFoundException, SaldoInsuficienteException {
         log.info("Transacionando {}", transacao);
 
-        /*
-            Não pode processar a mesma requisição mais do que 1 única vez.
-            Em uma transferencia eu não consigo ser idempotente, porque eu posso ficar realizando diversas transferencias
-            e como não há um identificador de unicidade e o metódo é post eu não consigo controlar o fato de ter multiplas
-            requisições.
-        */
+        if (!transacaoRepository.findByCpfAndDataHora(transacao.getCpf(), transacao.getDataHora()).isPresent()) {
+            Transacao entity = transacaoRepository.save(transacao);
+            try {
+                ContaCorrente contaOrigem = contaRepository.findBy(transacao.getCpfModel()).orElseThrow(ContaNotFoundException::new);
+                ContaDestino contaDestino = new ContaDestinoBuilder(transacao.getConta(), contaOrigem.getBanco(), contaRepository).build();
 
-        ContaCorrente contaOrigem = contaRepository.findBy(transacao.getCpfModel()).orElseThrow(ContaNotFoundException::new);
-        ContaDestino contaDestino = new ContaDestinoBuilder(transacao.getConta(), contaOrigem.getBanco(), contaRepository).build();
+                composite.selecionarTransferencia(transacao.getConta(), contaOrigem.getBanco())
+                        .transacionar(transacao.toValorModel(), contaOrigem, contaDestino, transacao.getTipo());
 
-        composite.selecionarTransferencia(transacao.getConta(), contaOrigem.getBanco())
-                .transacionar(transacao.toValorModel(), contaOrigem, contaDestino, transacao.getTipo());
+            } catch (Exception e) {
+                log.error("Erro {}", e);
+                transacaoRepository.delete(entity);
+            }
+        }
 
         return ResponseEntity.ok().body(new SucessoResponse("Transação realizada com sucesso."));
     }
 
-    private ResponseEntity<SucessoResponse> fallback(RuntimeException e) {
-        log.error("Executando FallBack do CircuitBreak ", e);
-        throw e;
-    }
-
-    //TODO - como está o comportamento ao se deparar com um fallback (transação está funcionando?, testes?)
-    //TODO - Circuit Break (Resilient4j)
     //TODO - AccessToken pattern
     //TODO - Event sourcing for auditing logging pattern
 

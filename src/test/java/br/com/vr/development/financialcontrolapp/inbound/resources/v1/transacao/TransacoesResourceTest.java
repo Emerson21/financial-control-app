@@ -32,6 +32,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.Optional;
 
 import static br.com.vr.development.financialcontrolapp.application.enums.TipoTransferencia.TED;
@@ -83,7 +84,7 @@ public class TransacoesResourceTest {
     void deveRealizarUmaTransacaoBancaria() throws Exception {
         DadosConta dadosConta = new DadosConta("1", "0987", "3", "123456789", "0");
         ContaDestinoDTO contaDestino = new ContaDestinoDTO(new CpfDTO("46133685026"), dadosConta, "Nome Correntista");
-        Transacao transacao = new Transacao("54173913010", new Valor(new BigDecimal("45")), TED, contaDestino);
+        Transacao transacao = new Transacao("54173913010", new Valor(new BigDecimal("45")), TED, contaDestino, LocalDateTime.now());
 
         ContaCorrente contaCorrente = ContaCorrenteFixture.create();
 
@@ -108,7 +109,7 @@ public class TransacoesResourceTest {
     void deveLancarContaNotFoundExceptionQuandoNaoEncontrarContaCadastrada() throws Exception {
         DadosConta dadosConta = new DadosConta("077", "0987", "3", "123456789", "0");
         ContaDestinoDTO contaDestino = new ContaDestinoDTO(new CpfDTO("46133685026"), dadosConta, "Nome Correntista");
-        Transacao transacao = new Transacao("54173913010", new Valor(new BigDecimal("50")), TED, contaDestino);
+        Transacao transacao = new Transacao("54173913010", new Valor(new BigDecimal("50")), TED, contaDestino, LocalDateTime.now());
 
         String payload = objectMapper
                 .setVisibility(PropertyAccessor.FIELD, JsonAutoDetect.Visibility.ANY)

@@ -7,7 +7,8 @@ spring:
       naming:     
         physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
     database-platform: org.hibernate.dialect.MySQL5InnoDBDialect
-
+  jackson:
+    date-format: "yyyy-MM-dd HH:mm:ss"
   datasource:
     url: jdbc:mysql://localhost:3306/financial_app?useTimezone=true&serverTimezone=UTC&createDatabaseIfNotExist=true
     username: root
