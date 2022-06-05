@@ -20,7 +20,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @RestController
-@RequestMapping("/conta/v1")
+@RequestMapping("/api/conta/v1")
 @AllArgsConstructor
 public class ContaResource {
 
