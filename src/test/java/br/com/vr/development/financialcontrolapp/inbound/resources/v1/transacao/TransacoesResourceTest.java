@@ -4,7 +4,6 @@ import br.com.vr.development.financialcontrolapp.application.domain.model.Banco;
 import br.com.vr.development.financialcontrolapp.application.domain.model.conta.ContaCorrente;
 import br.com.vr.development.financialcontrolapp.application.domain.model.Cpf;
 import br.com.vr.development.financialcontrolapp.application.domain.model.transferencia.TransferenciaComposite;
-import br.com.vr.development.financialcontrolapp.application.domain.model.transferencia.TransferenciaExterna;
 import br.com.vr.development.financialcontrolapp.application.domain.model.transferencia.TransferenciaInterna;
 import br.com.vr.development.financialcontrolapp.application.domain.service.transacoes.TransacoesService;
 import br.com.vr.development.financialcontrolapp.exception.ContaNotFoundException;
@@ -43,7 +42,7 @@ import static org.mockito.Mockito.*;
 @TestInstance(TestInstance.Lifecycle.PER_METHOD)
 public class TransacoesResourceTest {
 
-    private static final String URI = "/transferencia";
+    private static final String URI = "/api/transferencia";
     private static final String CONTENT_TYPE_TRANSACAO = "application/vnd.transferencia.v1+json";
 
     private MockMvc mockMvc;
@@ -88,7 +87,7 @@ public class TransacoesResourceTest {
     void deveRealizarUmaTransacaoBancaria() throws Exception {
         DadosConta dadosConta = new DadosConta("1", "0987", "3", "123456789", "0");
         ContaDestinoDTO contaDestino = new ContaDestinoDTO(new CpfDTO("46133685026"), dadosConta, "Nome Correntista");
-        Transacao transacao = new Transacao("54173913010", new Valor(new BigDecimal("45")), TED, contaDestino, LocalDateTime.now());
+        Transacao transacao = new Transacao("54173913010", new ValorDTO(new BigDecimal("45")), TED, contaDestino, LocalDateTime.now());
 
         ContaCorrente contaCorrente = ContaCorrenteFixture.create();
 
@@ -114,7 +113,7 @@ public class TransacoesResourceTest {
     void deveLancarContaNotFoundExceptionQuandoNaoEncontrarContaCadastrada() throws Exception {
         DadosConta dadosConta = new DadosConta("077", "0987", "3", "123456789", "0");
         ContaDestinoDTO contaDestino = new ContaDestinoDTO(new CpfDTO("46133685026"), dadosConta, "Nome Correntista");
-        Transacao transacao = new Transacao("54173913010", new Valor(new BigDecimal("50")), TED, contaDestino, LocalDateTime.now());
+        Transacao transacao = new Transacao("54173913010", new ValorDTO(new BigDecimal("50")), TED, contaDestino, LocalDateTime.now());
 
         String payload = objectMapper
                 .setVisibility(PropertyAccessor.FIELD, JsonAutoDetect.Visibility.ANY)

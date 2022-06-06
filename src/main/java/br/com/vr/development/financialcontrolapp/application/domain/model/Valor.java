@@ -1,5 +1,6 @@
 package br.com.vr.development.financialcontrolapp.application.domain.model;
 
+import br.com.vr.development.financialcontrolapp.inbound.resources.v1.transacao.dto.ValorDTO;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
@@ -78,5 +79,9 @@ public final class Valor implements Comparable<Valor> {
         }
 
         return this.valor.compareTo(((Valor) valor).valor) == 0;
+    }
+
+    public ValorDTO toValorDTO() {
+        return new ValorDTO(valor);
     }
 }

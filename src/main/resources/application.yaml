@@ -35,17 +35,8 @@ spring:
     driverClassName: com.mysql.cj.jdbc.Driver
   security:
     oauth2:
-#      client:
-#        provider:
-#          keycloack:
-#            issuer-uri: ${my.keycloack.realm.issuer-uri}
-#        registration:
-#          keycloack:
-#            client-id: ${my.keycloack.client.id}
-#            client-secret: ${my.keycloack.client.secret}
       resourceserver:
         jwt:
-#          jws-algorithm: RS256
           issuer-uri: ${my.keycloack.realm.issuer-uri}
           jwk-set-uri: ${my.keycloack.realm.issuer-uri}/protocol/openid-connect/certs
 conta:
@@ -76,29 +67,12 @@ logging:
       springframework:
         security: DEBUG
 
-#rest:
-#  security:
-#    enable: true
-#    api-matcher: /**
-#    issuer-uri: http://localhost:9080/auth/realms/financial-app
-#  cors:
-#    allowed-origins: *
-#    allowed-headers: *
-#    allowed-methods: GET,POST,PUT,PATCH,DELETE,OPTIONS
-#    max-age: 3600
-
-#security:
-#  oauth2:
-#    resource:
-#      id: financial-app
-#      token-info-uri: ${rest.security.issuer-uri}/protocol/openid-connect/token/introspect
-#      user-info-uri: ${rest.security.issuer-uri}/protocol/openid-connect/token/userinfo
-#    jwt:
-#      key-value: -----BEGIN PUBLIC KEY-----\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAxWWGuhj/7cQHWIICVnzeVaCLsS1xwbPIkdAXaoj/KJ3O36d4WqCgEPYMtp5WiWP12hnv85bl/e3k9siVM9+DPePvtirl3cnwHjdLiFCu6EgLrflbnsA2jinsLn6dWohI9iOc2Yjjm9GAQT3Yxen5QotOluWqTZhDvE5/JIz6BohJKBcnkGXhEQ8akTGPJ1/uSz0F/mS4jOKKsEnrd5Ufz9Em8kiyKcskowcTJkfwEXf+KvdCCsrdyMZ3+CzhXiSsgp0b3/l1Sf8FUIU1DQEPbt0BtzEyCTq79Ft8JWM7v3OFgogjisUCjI1CUi8G9FmGTTdIIe3iBTaIfzxkMZxsJwIDAQAB\n-----END PUBLIC KEY-----
-#    client:
-#      client-id: financial-app
-#      client-secret: PXtbVoVGFLXlW2vMdvupF0GbZFs09EzN
-#      user-authorization-uri: ${rest.security.issuer-uri}/protocol/openid-connect/auth
-#      access-token-uri: ${rest.security.issuer-uri}/protocol/openid-connect/token
-#      scope: openid
-#      grant-type: client_credencials
+transacao:
+  queue:
+    name: q.centralbank.notificacaotransacao
+    error: q.centralbank.notificacaotransacao.err
+    wait: q.centralbank.notificacaotransacao.wait
+  exchange:
+    name: x.centralbank.notificacaotransacao
+    error: x.centralbank.notificacaotransacao.err
+    wait: x.centralbank.notificacaotransacao.wait

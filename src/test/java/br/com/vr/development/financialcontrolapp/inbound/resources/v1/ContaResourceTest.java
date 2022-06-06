@@ -74,7 +74,7 @@ class ContaResourceTest {
         when(agenciaBancariaService.findBy(Mockito.anyLong())).thenReturn(agencia);
         Mockito.doNothing().when(contaService).abrir(Mockito.any(ContaCorrente.class));
 
-        this.mockMvc.perform(MockMvcRequestBuilders.post("/conta/v1")
+        this.mockMvc.perform(MockMvcRequestBuilders.post("/api/conta/v1")
             .content(payload)
             .contentType(MediaType.APPLICATION_JSON))
             .andExpect(MockMvcResultMatchers.status().isCreated());
@@ -88,7 +88,7 @@ class ContaResourceTest {
             "\"enderecos\":[{\"cep\":\"13940-970\",\"logradouro\":\"Avenida Brasil 160\",\"numero\":\"607\",\"estado\":\"SAO_PAULO\",\"complemento\":null,\"bairro\":\"Centro\",\"municipio\":\"Águas de Lindóia\", \"tipoEndereco\":\"RESIDENCIAL\"}],\"telefone\":{\"ddd\":\"19\",\"numero\":\"2901-7197\"},\"email\":{\"email\":\"thomascauajorgebarbosa-98@agnet.com.br\"},\"renda\":{\"valor\":2000},\"valorDepositoAbertura\":49.99," +
             "\"agenciaBancaria\": { \"id\":1}}";
 
-        this.mockMvc.perform(MockMvcRequestBuilders.post("/conta/v1")
+        this.mockMvc.perform(MockMvcRequestBuilders.post("/api/conta/v1")
             .content(payload)
             .contentType(MediaType.APPLICATION_JSON))
             .andExpect(MockMvcResultMatchers.status().isUnprocessableEntity());
@@ -101,7 +101,7 @@ class ContaResourceTest {
             "\"enderecos\":[{\"cep\":\"13940-970\",\"logradouro\":\"Avenida Brasil 160\",\"numero\":\"607\",\"estado\":\"SAO_PAULO\",\"complemento\":null,\"bairro\":\"Centro\",\"municipio\":\"Águas de Lindóia\", \"tipoEndereco\":\"RESIDENCIAL\"}],\"telefone\":{\"ddd\":\"19\",\"numero\":\"2901-7197\"},\"email\":{\"email\":\"thomascauajorgebarbosa-98@agnet.com.br\"},\"renda\":{\"valor\":2000},\"valorDepositoAbertura\":50," +
             "\"agenciaBancaria\": { \"id\":1}}";
             
-        this.mockMvc.perform(MockMvcRequestBuilders.post("/conta/v1")
+        this.mockMvc.perform(MockMvcRequestBuilders.post("/api/conta/v1")
             .content(payload)
             .contentType(MediaType.APPLICATION_JSON))
             .andExpect(MockMvcResultMatchers.status().isBadRequest());
@@ -115,7 +115,7 @@ class ContaResourceTest {
         "\"enderecos\":[{\"cep\":\"13940-970\",\"logradouro\":\"Avenida Brasil 160\",\"numero\":\"607\",\"estado\":\"SAO_PAULO\",\"complemento\":null,\"bairro\":\"Centro\",\"municipio\":\"Águas de Lindóia\", \"tipoEndereco\":\"RESIDENCIAL\"}],\"telefone\":{\"ddd\":\"19\",\"numero\":\"2901-7197\"},\"email\":{\"email\":\"thomascauajorgebarbosa-98@agnet.com.br\"},\"renda\":{\"valor\":2000},\"valorDepositoAbertura\":50" +
         "\"agenciaBancaria\": { \"id\":1}}";
 
-        this.mockMvc.perform(MockMvcRequestBuilders.post("/conta/v1")
+        this.mockMvc.perform(MockMvcRequestBuilders.post("/api/conta/v1")
             .content(payload)
             .contentType(MediaType.APPLICATION_JSON))
             .andExpect(MockMvcResultMatchers.status().isBadRequest());

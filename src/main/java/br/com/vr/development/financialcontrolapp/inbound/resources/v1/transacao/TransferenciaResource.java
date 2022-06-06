@@ -4,6 +4,8 @@ import br.com.vr.development.financialcontrolapp.application.domain.model.conta.
 import br.com.vr.development.financialcontrolapp.application.domain.model.conta.ContaDestinoBuilder;
 import br.com.vr.development.financialcontrolapp.application.domain.model.transferencia.ContaDestino;
 import br.com.vr.development.financialcontrolapp.application.domain.model.transferencia.TransferenciaComposite;
+import br.com.vr.development.financialcontrolapp.application.domain.service.MessageSender;
+import br.com.vr.development.financialcontrolapp.application.enums.TipoTransferencia;
 import br.com.vr.development.financialcontrolapp.common.SucessoResponse;
 import br.com.vr.development.financialcontrolapp.exception.ContaNotFoundException;
 import br.com.vr.development.financialcontrolapp.exception.SaldoInsuficienteException;
@@ -13,6 +15,7 @@ import br.com.vr.development.financialcontrolapp.infrastructure.repository.Trans
 import feign.RetryableException;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -28,6 +31,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class TransferenciaResource {
 
     private static final String CONTENT_TYPE_TRANSACAO = "application/vnd.transferencia.v1+json";
+    private static final String CONTENT_TYPE_TRANSACAO_MESSAGE = "application/vnd.transferencia.message.v1+json";
 
     private ContaRepository contaRepository;
     private TransferenciaComposite composite;
@@ -55,7 +59,29 @@ public class TransferenciaResource {
         return ResponseEntity.ok().body(new SucessoResponse("Transação realizada com sucesso."));
     }
 
-    //TODO - AccessToken pattern
-    //TODO - Event sourcing for auditing logging pattern
+    @PostMapping(consumes = CONTENT_TYPE_TRANSACAO_MESSAGE)
+    public ResponseEntity<SucessoResponse> enviar(@RequestBody Transacao transacao) throws ContaNotFoundException, SaldoInsuficienteException {
+        log.info("Transacionando {}", transacao);
+
+        if (!transacaoRepository.findByCpfAndDataHora(transacao.getCpf(), transacao.getDataHora()).isPresent()) {
+            Transacao entity = transacaoRepository.save(transacao);
+            try {
+                ContaCorrente contaOrigem = contaRepository.findBy(transacao.getCpfModel()).orElseThrow(ContaNotFoundException::new);
+                ContaDestino contaDestino = new ContaDestinoBuilder(transacao.getConta(), contaOrigem.getBanco(), contaRepository).build();
+
+                composite.selecionarTransferencia(transacao.getConta(), contaOrigem.getBanco())
+                        .transacionar(transacao.toValorModel(), contaOrigem, contaDestino, TipoTransferencia.PIX);
+
+            } catch (RetryableException e) {
+                log.error("Erro {}", e);
+                transacaoRepository.delete(entity);
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+            }
+        }
+
+        return ResponseEntity.ok().body(new SucessoResponse("Transação realizada com sucesso."));
+    }
+
+
 
 }

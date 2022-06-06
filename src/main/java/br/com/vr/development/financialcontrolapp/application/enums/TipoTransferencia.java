@@ -17,6 +17,7 @@ public enum TipoTransferencia {
     private Valor taxa;
     private Descricao descricao;
 
+
     TipoTransferencia(Valor taxa, Descricao descricao) {
         this.taxa = taxa;
         this.descricao = descricao;

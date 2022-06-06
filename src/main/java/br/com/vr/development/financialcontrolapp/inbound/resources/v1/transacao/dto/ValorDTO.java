@@ -12,7 +12,7 @@ import java.math.BigDecimal;
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 @Embeddable
-public class Valor {
+public class ValorDTO {
 
     @Column(name = "valor")
     private BigDecimal value;

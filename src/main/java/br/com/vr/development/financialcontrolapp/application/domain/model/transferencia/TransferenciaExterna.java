@@ -2,13 +2,16 @@ package br.com.vr.development.financialcontrolapp.application.domain.model.trans
 
 import br.com.vr.development.financialcontrolapp.application.domain.model.Valor;
 import br.com.vr.development.financialcontrolapp.application.domain.model.conta.ContaCorrente;
+import br.com.vr.development.financialcontrolapp.application.domain.model.messages.TransacaoMessage;
+import br.com.vr.development.financialcontrolapp.application.domain.service.MessageSender;
 import br.com.vr.development.financialcontrolapp.application.domain.service.transacoes.TransacoesService;
 import br.com.vr.development.financialcontrolapp.application.enums.TipoTransferencia;
-import br.com.vr.development.financialcontrolapp.common.SucessoResponse;
 import br.com.vr.development.financialcontrolapp.exception.SaldoInsuficienteException;
 import br.com.vr.development.financialcontrolapp.infrastructure.gateway.TransferenciaExternaClient;
 import br.com.vr.development.financialcontrolapp.infrastructure.repository.ContaRepository;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -30,12 +33,25 @@ public class TransferenciaExterna implements TransacoesService {
     @Autowired
     private TransferenciaExternaClient transferenciaExternaClient;
 
-    @CircuitBreaker(name = "ms-central-bank-cb", fallbackMethod = "fallback")
-    @Transactional(isolation = Isolation.SERIALIZABLE)
+    @Autowired
+    private MessageSender messageSender;
+
     @Override
+    @Transactional(isolation = Isolation.SERIALIZABLE)
     public void transacionar(Valor valor, ContaOrigem origem, ContaDestino contaDestino, TipoTransferencia tipoTransferencia) throws SaldoInsuficienteException {
         origem.saque(valor, tipoTransferencia);
         contaRepository.save((ContaCorrente) origem);
+
+        //TODO - avaliar uma regra de expor essa transacao via mensagem em uma classe
+        if (tipoTransferencia == TipoTransferencia.PIX) {
+            this.transacionarViaMessagem(valor, origem, contaDestino, tipoTransferencia);
+        } else {
+            transacionarViaMicroServico(contaDestino);
+        }
+    }
+
+    @CircuitBreaker(name = "ms-central-bank-cb", fallbackMethod = "fallback")
+    public void transacionarViaMicroServico(ContaDestino contaDestino) {
         transferenciaExternaClient.depositar(contaDestino);
     }
 
@@ -43,4 +59,17 @@ public class TransferenciaExterna implements TransacoesService {
         log.error("Executando FallBack do CircuitBreak ", e);
         throw e;
     }
+
+    private void transacionarViaMessagem(Valor valor, ContaOrigem origem, ContaDestino contaDestino, TipoTransferencia tipoTransferencia) {
+        TransacaoMessage transacaoMessage = new TransacaoMessage(valor.toValorDTO(), origem, contaDestino, tipoTransferencia);
+        try {
+            String payload = new ObjectMapper().writeValueAsString(transacaoMessage);
+
+            messageSender.publish(payload);
+        } catch (JsonProcessingException e) {
+            log.error("Erro ao converter mensagem {}", e);
+        }
+
+    }
+
 }

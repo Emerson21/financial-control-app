@@ -26,7 +26,7 @@ public class Transacao {
     private String cpf;
 
     @Embedded
-    private Valor valor;
+    private ValorDTO valor;
 
     @Column
     @Enumerated(EnumType.STRING)
@@ -39,7 +39,7 @@ public class Transacao {
     @Embedded
     private ContaDestinoDTO conta;
 
-    public Transacao(String cpf, Valor valor, TipoTransferencia tipo, ContaDestinoDTO contaDestino, LocalDateTime dataHora) {
+    public Transacao(String cpf, ValorDTO valor, TipoTransferencia tipo, ContaDestinoDTO contaDestino, LocalDateTime dataHora) {
         this.cpf = cpf;
         this.valor = valor;
         this.tipo = tipo;
