@@ -31,7 +31,6 @@ import org.springframework.web.bind.annotation.RestController;
 public class TransferenciaResource {
 
     private static final String CONTENT_TYPE_TRANSACAO = "application/vnd.transferencia.v1+json";
-    private static final String CONTENT_TYPE_TRANSACAO_MESSAGE = "application/vnd.transferencia.message.v1+json";
 
     private ContaRepository contaRepository;
     private TransferenciaComposite composite;
@@ -53,35 +52,11 @@ public class TransferenciaResource {
             } catch (RetryableException e) {
                 log.error("Erro {}", e);
                 transacaoRepository.delete(entity);
-            }
-        }
-
-        return ResponseEntity.ok().body(new SucessoResponse("Transação realizada com sucesso."));
-    }
-
-    @PostMapping(consumes = CONTENT_TYPE_TRANSACAO_MESSAGE)
-    public ResponseEntity<SucessoResponse> enviar(@RequestBody Transacao transacao) throws ContaNotFoundException, SaldoInsuficienteException {
-        log.info("Transacionando {}", transacao);
-
-        if (!transacaoRepository.findByCpfAndDataHora(transacao.getCpf(), transacao.getDataHora()).isPresent()) {
-            Transacao entity = transacaoRepository.save(transacao);
-            try {
-                ContaCorrente contaOrigem = contaRepository.findBy(transacao.getCpfModel()).orElseThrow(ContaNotFoundException::new);
-                ContaDestino contaDestino = new ContaDestinoBuilder(transacao.getConta(), contaOrigem.getBanco(), contaRepository).build();
-
-                composite.selecionarTransferencia(transacao.getConta(), contaOrigem.getBanco())
-                        .transacionar(transacao.toValorModel(), contaOrigem, contaDestino, TipoTransferencia.PIX);
-
-            } catch (RetryableException e) {
-                log.error("Erro {}", e);
-                transacaoRepository.delete(entity);
                 return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
             }
         }
 
         return ResponseEntity.ok().body(new SucessoResponse("Transação realizada com sucesso."));
     }
-
-
 
 }
