@@ -74,7 +74,7 @@ public class Lancamento implements Movimentacao {
     }
 
     public static Lancamento criaLancamentoNegativo(Valor valor, Descricao descricao, Conta conta, TipoTransferencia tipoTransferencia) {
-            return new Lancamento(valor, descricao, conta, DEBITO, tipoTransferencia);
+        return new Lancamento(valor, descricao, conta, DEBITO, tipoTransferencia);
     }
 
     @Override

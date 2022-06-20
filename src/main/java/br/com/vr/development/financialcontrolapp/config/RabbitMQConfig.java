@@ -8,7 +8,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 
-@Configuration
+@Configuration("transacoesPix")
 public class RabbitMQConfig {
 
     @Value("${transacao.exchange.name}")
@@ -43,7 +43,6 @@ public class RabbitMQConfig {
     public TopicExchange exchangeError() {
         return new TopicExchange(exchangeError, true, false);
     }
-
 
     @Bean
     public Queue queue() {
@@ -84,7 +83,7 @@ public class RabbitMQConfig {
     }
 
     @Bean
-    MessageConverter converter() {
+    MessageConverter converterPixTransacoes() {
         return new Jackson2JsonMessageConverter();
     }
 

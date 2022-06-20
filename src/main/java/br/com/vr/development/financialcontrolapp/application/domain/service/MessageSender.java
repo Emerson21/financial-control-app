@@ -15,7 +15,12 @@ public class MessageSender {
     private TopicExchange exchange;
 
     public void publish(String message) {
-        rabbitTemplate.convertAndSend(this.exchange.getName(), "", message);
+        this.publish(message, exchange, "");
     }
+
+    public void publish(String message, TopicExchange topicExchange, String routingKey) {
+        rabbitTemplate.convertAndSend(topicExchange.getName(), routingKey, message);
+    }
+
 
 }

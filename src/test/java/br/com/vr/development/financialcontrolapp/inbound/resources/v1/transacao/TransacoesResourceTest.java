@@ -26,6 +26,7 @@ import org.junit.jupiter.api.TestInstance;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
@@ -65,8 +66,11 @@ public class TransacoesResourceTest {
     @Mock
     private TransferenciaComposite composite;
 
-    private TransferenciaInterna transferenciaInterna;
+    @Mock
+    private ApplicationEventPublisher eventPublisher;
 
+
+    private TransferenciaInterna transferenciaInterna;
 
     private ObjectMapper objectMapper = new ObjectMapper();
 
@@ -80,7 +84,7 @@ public class TransacoesResourceTest {
         objectMapper.registerModule(new ParameterNamesModule()).registerModule(new Jdk8Module())
                           .registerModule(new JavaTimeModule()).disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
 
-        transferenciaInterna = new TransferenciaInterna(contaRepository);
+        transferenciaInterna = new TransferenciaInterna(contaRepository, eventPublisher);
     }
 
     @Test

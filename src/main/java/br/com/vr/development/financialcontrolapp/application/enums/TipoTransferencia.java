@@ -2,7 +2,9 @@ package br.com.vr.development.financialcontrolapp.application.enums;
 
 import br.com.vr.development.financialcontrolapp.application.domain.model.Descricao;
 import br.com.vr.development.financialcontrolapp.application.domain.model.Valor;
+import com.fasterxml.jackson.annotation.JsonFormat;
 
+@JsonFormat(shape = JsonFormat.Shape.STRING)
 public enum TipoTransferencia {
 
     TED(new Valor("5"), new Descricao("TED - Transferencia entre contas correntes")),

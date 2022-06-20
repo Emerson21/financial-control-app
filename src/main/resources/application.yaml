@@ -16,6 +16,8 @@ keycloak:
 #    secret: 4Zxr6n5ekIH8P8eNbekivvBlbbOrSkGK
   #principal-attribute: client_credencials
 
+elasticsearch:
+  url: localhost:9200
 
 spring:
   jpa:
@@ -33,12 +35,17 @@ spring:
     username: root
     password: root
     driverClassName: com.mysql.cj.jdbc.Driver
+  data:
+    mongodb:
+      uri: mongodb://mongoadmin:mongoadmin@localhost:27017
+      database: financialevents
   security:
     oauth2:
       resourceserver:
         jwt:
           issuer-uri: ${my.keycloack.realm.issuer-uri}
           jwk-set-uri: ${my.keycloack.realm.issuer-uri}/protocol/openid-connect/certs
+
 conta:
   abertura:
     valorMinimo: 50
@@ -76,3 +83,22 @@ transacao:
     name: x.centralbank.notificacaotransacao
     error: x.centralbank.notificacaotransacao.err
     wait: x.centralbank.notificacaotransacao.wait
+  event:
+    exchange:
+      name: x.event.transacoes
+      error: x.event.transacoes.err
+      wait: x.event.transacoes.wait
+    queue:
+      name:
+        interna: q.event.transacoes.interna
+        externa: q.event.transacoes.externa
+      error: q.event.transacoes.err
+      wait: q.event.transacoes.wait
+
+
+elastic:
+  password: l3zpSZG8_XfhyohlRC7m
+
+springdoc:
+  swagger-ui:
+    path: /swagger-ui.html

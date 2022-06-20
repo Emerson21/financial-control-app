@@ -4,8 +4,6 @@ import br.com.vr.development.financialcontrolapp.application.domain.model.conta.
 import br.com.vr.development.financialcontrolapp.application.domain.model.conta.ContaDestinoBuilder;
 import br.com.vr.development.financialcontrolapp.application.domain.model.transferencia.ContaDestino;
 import br.com.vr.development.financialcontrolapp.application.domain.model.transferencia.TransferenciaComposite;
-import br.com.vr.development.financialcontrolapp.application.domain.service.MessageSender;
-import br.com.vr.development.financialcontrolapp.application.enums.TipoTransferencia;
 import br.com.vr.development.financialcontrolapp.common.SucessoResponse;
 import br.com.vr.development.financialcontrolapp.exception.ContaNotFoundException;
 import br.com.vr.development.financialcontrolapp.exception.SaldoInsuficienteException;

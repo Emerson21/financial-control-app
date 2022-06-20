@@ -1,5 +1,6 @@
 package br.com.vr.development.financialcontrolapp.inbound.resources.v1.transacao.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.*;
 
 import javax.persistence.Column;
@@ -14,7 +15,14 @@ import java.math.BigDecimal;
 @Embeddable
 public class ValorDTO {
 
+    @JsonIgnore
+    public static final ValorDTO ZERO = new ValorDTO(BigDecimal.ZERO);
+
     @Column(name = "valor")
     private BigDecimal value;
 
+    @JsonIgnore
+    public ValorDTO soma(ValorDTO valorDTO) {
+        return new ValorDTO(valorDTO.getValue().add(value));
+    }
 }

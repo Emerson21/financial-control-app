@@ -1,7 +1,9 @@
 package br.com.vr.development.financialcontrolapp.application.domain.model.transferencia;
 
 import br.com.vr.development.financialcontrolapp.application.domain.model.Valor;
+import br.com.vr.development.financialcontrolapp.application.domain.model.conta.Conta;
 import br.com.vr.development.financialcontrolapp.application.domain.model.conta.ContaCorrente;
+import br.com.vr.development.financialcontrolapp.application.domain.model.events.TransferenciaEvent;
 import br.com.vr.development.financialcontrolapp.application.domain.model.messages.TransacaoMessage;
 import br.com.vr.development.financialcontrolapp.application.domain.service.MessageSender;
 import br.com.vr.development.financialcontrolapp.application.domain.service.transacoes.TransacoesService;
@@ -17,6 +19,7 @@ import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
@@ -36,6 +39,8 @@ public class TransferenciaExterna implements TransacoesService {
     @Autowired
     private MessageSender messageSender;
 
+    private ApplicationEventPublisher eventPublisher;
+
     @Override
     @Transactional(isolation = Isolation.SERIALIZABLE)
     public void transacionar(Valor valor, ContaOrigem origem, ContaDestino contaDestino, TipoTransferencia tipoTransferencia) throws SaldoInsuficienteException {
@@ -48,6 +53,7 @@ public class TransferenciaExterna implements TransacoesService {
         } else {
             transacionarViaMicroServico(contaDestino);
         }
+        eventPublisher.publishEvent(new TransferenciaEvent("TransferenciaExterna",  valor, ((Conta) contaDestino).getLancamentos(), tipoTransferencia));
     }
 
     @CircuitBreaker(name = "ms-central-bank-cb", fallbackMethod = "fallback")

@@ -20,18 +20,22 @@ import br.com.vr.development.financialcontrolapp.application.domain.model.compon
 import br.com.vr.development.financialcontrolapp.application.domain.model.transferencia.TransferenciaInterna;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.springframework.context.ApplicationEventPublisher;
 
 class TransferenciaTest {
 
     @Mock
     private ContaRepository contaRepository;
 
+    @Mock
+    private ApplicationEventPublisher eventPublisher;
+
     private TransferenciaInterna transferenciaInterna;
 
     @BeforeEach
     public void setup() {
         MockitoAnnotations.openMocks(this);
-        transferenciaInterna = new TransferenciaInterna(contaRepository);
+        transferenciaInterna = new TransferenciaInterna(contaRepository, eventPublisher);
     }
 
     @Test
