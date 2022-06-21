@@ -1,6 +1,5 @@
 package br.com.vr.development.financialcontrolapp.inbound.eventhandlers;
 
-import br.com.vr.development.financialcontrolapp.application.domain.model.elasticsearch.ElasticSearchModel;
 import br.com.vr.development.financialcontrolapp.application.enums.TipoTransferencia;
 import br.com.vr.development.financialcontrolapp.common.dtos.LancamentoDTO;
 import br.com.vr.development.financialcontrolapp.inbound.resources.v1.transacao.dto.ValorDTO;
@@ -9,14 +8,16 @@ import org.springframework.data.elasticsearch.annotations.Document;
 import org.springframework.data.elasticsearch.annotations.Field;
 import org.springframework.data.elasticsearch.annotations.FieldType;
 
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.Map;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Document(indexName = "transacoes_externas")
-public class TransacaoExternaEventHandler extends ElasticSearchModel {
+public class TransacaoExternaEventHandler {
+
+    @Id
+    protected String id;
 
     @Field(name = "event_name", type = FieldType.Text)
     private String nomeDoEvento;
@@ -29,7 +30,7 @@ public class TransacaoExternaEventHandler extends ElasticSearchModel {
 
 
     public TransacaoExternaEventHandler(TransacoesEventHandler transacaoMessage) {
-        super.id = UUID.randomUUID().toString();
+        this.id = UUID.randomUUID().toString();
         this.nomeDoEvento = "TransacaoExterna";
         this.dataHoraDoEvento = transacaoMessage.getDataHoraDoEvento();
         this.valorPorTipoTransferencia =
@@ -41,7 +42,7 @@ public class TransacaoExternaEventHandler extends ElasticSearchModel {
                         Collectors.reducing(
                             ValorDTO.ZERO.ZERO,
                             LancamentoDTO::getValor,
-                            ValorDTO::soma))
+                            ValorDTO::somaIgnorandoSinal))
                 );
     }
 }

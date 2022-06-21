@@ -25,4 +25,10 @@ public class ValorDTO {
     public ValorDTO soma(ValorDTO valorDTO) {
         return new ValorDTO(valorDTO.getValue().add(value));
     }
+
+    @JsonIgnore
+    public ValorDTO somaIgnorandoSinal(ValorDTO valorDTO) {
+        return new ValorDTO(valorDTO.getValue().abs().add(value.abs()));
+    }
+
 }

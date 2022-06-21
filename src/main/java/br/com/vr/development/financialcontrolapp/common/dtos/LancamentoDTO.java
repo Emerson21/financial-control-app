@@ -6,7 +6,9 @@ import br.com.vr.development.financialcontrolapp.application.enums.TipoTransfere
 import br.com.vr.development.financialcontrolapp.inbound.resources.v1.transacao.dto.ValorDTO;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.ToString;
 
+@ToString
 @AllArgsConstructor
 public class LancamentoDTO {
 

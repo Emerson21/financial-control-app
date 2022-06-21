@@ -1,6 +1,5 @@
 package br.com.vr.development.financialcontrolapp.inbound.eventhandlers;
 
-import br.com.vr.development.financialcontrolapp.application.domain.model.elasticsearch.ElasticSearchModel;
 import br.com.vr.development.financialcontrolapp.application.enums.TipoTransferencia;
 import br.com.vr.development.financialcontrolapp.inbound.resources.v1.transacao.dto.ValorDTO;
 import org.springframework.data.annotation.Id;
@@ -13,7 +12,10 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 @Document(indexName = "transacoes_internas")
-public class TransacaoInternaEventHandler extends ElasticSearchModel {
+public class TransacaoInternaEventHandler {
+
+    @Id
+    protected String id;
 
     @Field(name = "event_name", type = FieldType.Text)
     private String nomeDoEvento;
@@ -32,7 +34,7 @@ public class TransacaoInternaEventHandler extends ElasticSearchModel {
 
 
     public TransacaoInternaEventHandler(TransacoesEventHandler transacaoMessage) {
-        super.id = UUID.randomUUID().toString();
+        this.id = UUID.randomUUID().toString();
         this.nomeDoEvento = "TransacaoInterna";
         this.dataHoraDoEvento = transacaoMessage.getDataHoraDoEvento();
         this.valorTotal = new ValorDTO(transacaoMessage.getLancamentos()

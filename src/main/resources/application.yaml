@@ -45,7 +45,15 @@ spring:
         jwt:
           issuer-uri: ${my.keycloack.realm.issuer-uri}
           jwk-set-uri: ${my.keycloack.realm.issuer-uri}/protocol/openid-connect/certs
-
+  rabbitmq:
+    listener:
+      simple:
+        retry:
+          enabled: true
+          initial-interval: 3s
+          multiplier: 5
+          max-attempts: 3
+          max-interval: 60s
 conta:
   abertura:
     valorMinimo: 50

@@ -59,6 +59,6 @@ public class TransferenciaEvent {
 
     @JsonIgnore
     public boolean isInterna() {
-        return "interna".equalsIgnoreCase(nomeDoEvento.toLowerCase());
+        return nomeDoEvento.toLowerCase().contains("interna");
     }
 }
