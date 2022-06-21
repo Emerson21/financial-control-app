@@ -20,3 +20,13 @@ The following guides illustrate how to use some features concretely:
 
 * [Building a Hypermedia-Driven RESTful Web Service](https://spring.io/guides/gs/rest-hateoas/)
 
+
+### Commands
+
+###### TODO - criar um docker compose com todos os containers 
+
+    docker start es7 local-mongo sad_swirles rabbitmq local-mysql
+    docker stop es7 local-mongo sad_swirles rabbitmq local-mysql
+
+#### Installing keycloak container 
+    docker run --name keycloack-authenticator -p 8180:8080 -e KEYCLOAK_USER=admin -e KEYCLOAK_PASSWORD=admin quay.io/keycloak/keycloak:15.0.2

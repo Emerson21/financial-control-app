@@ -1,48 +1,32 @@
 # financial-control-app
 
-## Features
-
- - Singup
- - Login and Password
- - Forgot my password
- - Bank Account
-   - Credit Card
-   - Debit Card
-   - Credit/Debit Card
- - Expense and Income entries
- - Wallets
-   - Wallet money
-   - Credit cards
-   - Debit cards
- - Tickets 
-  - Vale-Alimentação
-  - Vale-Refeição
- 
-
 ## Goals to build this app
 
 - [X] Use TDD;
-- [ ] Applying SOLID principles
-- [ ] Not only apply design patterns, but search best designs patterns and your consciously use; For example, when use Builder and why instead to use Factory?
+- [X] Applying SOLID principles
+- [X] Not only apply design patterns, but search best designs patterns and your consciously use; For example, when use Builder and why instead to use Factory?
 - [ ] Write an article and post this solution at medium or other blogpost website.
 
 ## Designs used
 
 - [X] Strategy;
-- [ ] Builder;
 - [X] Factory;
 - [X] S - Single Responsability Principle;
 - [X] O - Open / Closed principle;
-- [ ] L - Liskov Substitution Principle;
-- [ ] I - Interface Segregation Principle;
-- [ ] D - Dependency Inversion Principle;
+- [X] L - Liskov Substitution Principle;
+- [X] I - Interface Segregation Principle;
+- [X] D - Dependency Inversion Principle;
 
 ## Tools
-- [X] Java 11?
-- [ ] EDA - Event Driven Architecture
-- [ ] Kafka
-- [ ] keycloack
-- [ ] Security integrated with keycloack -> Identity Manager
+- [X] Java 11
+- [X] ES - Event Sourcing
+- [X] EQRS - CQRS - Command Query Responsability Segregation
+- [X] RabbitMQ
+- [X] keycloack
+- [X] Security integrated with keycloack -> Identity Manager
+- [X] Mysql
+- [X] Docker
+- [X] Elasticsearch
 - [ ] Actuator, Prometheus and Grafana -> Monitoring
 - [ ] Hateoas -> Restful
 - [ ] Config -> configure times to process doc / ted and card invoice time
@@ -52,16 +36,16 @@
 - [ ] Cloud Load Balancer
 - [ ] Distributed tracing and Log aggregation patterns and visualization with Elasticsearch, Logstash and Kibana
 - [ ] Spring Cloud Sleuth and Zipkin
-- [X] Mysql
-- [X] Docker
 - [ ] Kubernetes (kind - local cluster)
-- [ ] Elasticsearch
 - [ ] Logstash
 - [ ] Kibana
 - [ ] Prometheus
 - [ ] Grafana
-
+- [ ] EDA - Event Driven Architecture
 
 ## Installing Keycloak Docker Image
 
-```docker run --name keycloack-authenticator -p 8180:8080 -e KEYCLOAK_USER=admin -e KEYCLOAK_PASSWORD=admin quay.io/keycloak/keycloak:15.0.2```
+
+   
+
+
