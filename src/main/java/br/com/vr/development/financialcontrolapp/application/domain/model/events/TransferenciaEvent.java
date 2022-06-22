@@ -6,6 +6,7 @@ import br.com.vr.development.financialcontrolapp.application.enums.TipoTransfere
 import br.com.vr.development.financialcontrolapp.common.dtos.LancamentoDTO;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.ToString;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.Field;
@@ -26,6 +27,10 @@ public class TransferenciaEvent {
     @Id
     private String id;
 
+    @JsonProperty("correlation_id")
+    @Field("correlation_id")
+    private UUID correlationId;
+
     @Field(name = "event_name", type = FieldType.Text)
     private String nomeDoEvento;
 
@@ -43,7 +48,9 @@ public class TransferenciaEvent {
     private TipoTransferencia tipoTransferencia;
 
     public TransferenciaEvent(String nomeDoEvento, Valor valor, Set<Lancamento> lancamentos, TipoTransferencia tipoTransferencia) {
-        this.id = UUID.randomUUID().toString();
+        UUID correlationId = UUID.randomUUID();
+        this.id = correlationId.toString();
+        this.correlationId = correlationId;
         this.nomeDoEvento = nomeDoEvento;
         this.dataHoraDoEvento = LocalDateTime.now();
         this.valor = valor;

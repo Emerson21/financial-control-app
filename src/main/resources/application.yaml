@@ -102,6 +102,14 @@ transacao:
         externa: q.event.transacoes.externa
       error: q.event.transacoes.err
       wait: q.event.transacoes.wait
+    saga:
+      transacoes:
+        queue:
+          aprovadas:
+          reprovadas:
+        exchange:
+          aprovadas: x.saga.transacoes.aprovadas
+          reprovadas: x.saga.transacoes.reprovadas
 
 
 elastic:
