@@ -37,8 +37,10 @@ spring:
     driverClassName: com.mysql.cj.jdbc.Driver
   data:
     mongodb:
-      uri: mongodb://mongoadmin:mongoadmin@localhost:27017
+#      uri: mongodb://mongoadmin:mongoadmin@localhost:27017
+      uri: mongodb://admin:admin@localhost:27017
       database: financialevents
+
   security:
     oauth2:
       resourceserver:
@@ -54,6 +56,10 @@ spring:
           multiplier: 5
           max-attempts: 3
           max-interval: 60s
+  kafka:
+    bootstrap-servers: localhost:9092
+    group_id: transferencias
+    auto-offset-reset: earliest
 conta:
   abertura:
     valorMinimo: 50
@@ -81,6 +87,10 @@ logging:
     org:
       springframework:
         security: DEBUG
+        data:
+          mongodb:
+            core:
+              MongoTemplate: DEBUG
 
 transacao:
   queue:
@@ -100,17 +110,17 @@ transacao:
       name:
         interna: q.event.transacoes.interna
         externa: q.event.transacoes.externa
+        reprovadas: x.event.transacoes.reprovadas
       error: q.event.transacoes.err
       wait: q.event.transacoes.wait
     saga:
       transacoes:
         queue:
-          aprovadas:
-          reprovadas:
+          aprovadas: q.saga.transacoes.aprovadas
+          reprovadas: q.saga.transacoes.reprovadas
         exchange:
           aprovadas: x.saga.transacoes.aprovadas
           reprovadas: x.saga.transacoes.reprovadas
-
 
 elastic:
   password: l3zpSZG8_XfhyohlRC7m
@@ -118,3 +128,10 @@ elastic:
 springdoc:
   swagger-ui:
     path: /swagger-ui.html
+
+topico:
+  transferencia:
+    solicitada: transferencia_solicitada
+    sucesso: transferencia_sucesso
+    recebida: transferencia_recebida
+    recusada: transferencia_recusadas

@@ -21,6 +21,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.UUID;
+
 @Slf4j
 @Service
 @Qualifier("transferenciaInterna")
@@ -39,7 +41,8 @@ public class TransferenciaInterna implements TransacoesService {
         contaRepository.save((Conta) origem);
         ((Conta) contaDestino).deposita(valor, tipoTransferencia);
         contaRepository.save((Conta) contaDestino);
-        eventPublisher.publishEvent(new TransferenciaEvent("TransferenciaInterna", valor, ((Conta) contaDestino).getLancamentos(), tipoTransferencia));
+        eventPublisher.publishEvent(new TransferenciaEvent(UUID.randomUUID(),
+                "TransferenciaInterna", valor, ((Conta) contaDestino).getLancamentos(), tipoTransferencia));
     }
 
     private String convertToPayload(TransacaoMessage transacaoMessage) {

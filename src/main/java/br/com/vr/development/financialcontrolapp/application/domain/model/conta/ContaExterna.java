@@ -4,12 +4,16 @@ import br.com.vr.development.financialcontrolapp.application.domain.model.Agenci
 import br.com.vr.development.financialcontrolapp.application.domain.model.Banco;
 import br.com.vr.development.financialcontrolapp.application.domain.model.Cpf;
 import br.com.vr.development.financialcontrolapp.application.domain.model.Valor;
+import br.com.vr.development.financialcontrolapp.application.domain.model.lancamento.Lancamento;
 import br.com.vr.development.financialcontrolapp.application.domain.model.transferencia.ContaDestino;
 import br.com.vr.development.financialcontrolapp.application.enums.TipoTransferencia;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.ToString;
 import lombok.extern.slf4j.Slf4j;
+
+import java.util.HashSet;
+import java.util.Set;
 
 @Slf4j
 @ToString
@@ -29,4 +33,8 @@ public class ContaExterna implements ContaDestino {
 
     private Cpf cpf;
 
+    @Override
+    public Set<Lancamento> getLancamentos() {
+        return new HashSet<>();
+    }
 }

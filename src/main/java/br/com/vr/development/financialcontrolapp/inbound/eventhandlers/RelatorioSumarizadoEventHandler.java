@@ -32,5 +32,10 @@ public class RelatorioSumarizadoEventHandler {
         transacaoExternaEventRepository.save(eventHandler);
     }
 
+    @RabbitListener(queues = {"${transacao.event.queue.name.reprovadas}"})
+    public void relatoriosTransacaoReprovada(String json) throws JsonProcessingException {
+        relatorioSumarizadoTransacaoExterna(json);
+        relatorioSumarizadoTransacaoInterna(json);
+    }
 
 }

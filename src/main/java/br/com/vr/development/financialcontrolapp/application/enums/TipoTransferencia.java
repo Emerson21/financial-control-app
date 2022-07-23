@@ -14,7 +14,8 @@ public enum TipoTransferencia {
     DEPOSITO(Valor.ZERO, new Descricao("Transferencia entre contas correntes")),
     CARTAO_DEBITO(Valor.ZERO, new Descricao("Transacao no cartao de debito")),
     CARTAO_CREDITO(Valor.ZERO, new Descricao("Transacao no cartao de credito")),
-    PAGAMENTO_DE_FATURA(Valor.ZERO, new Descricao("Pagamento de fatura de cartao de credito"));
+    PAGAMENTO_DE_FATURA(Valor.ZERO, new Descricao("Pagamento de fatura de cartao de credito")),
+    ESTORNO_PAGAMENTO(Valor.ZERO, new Descricao("Estorno de pagamento nao aprovador"));
 
     private Valor taxa;
     private Descricao descricao;

@@ -10,6 +10,7 @@ import br.com.vr.development.financialcontrolapp.exception.SaldoInsuficienteExce
 import br.com.vr.development.financialcontrolapp.inbound.resources.v1.transacao.dto.Transacao;
 import br.com.vr.development.financialcontrolapp.infrastructure.repository.ContaRepository;
 import br.com.vr.development.financialcontrolapp.infrastructure.repository.TransacaoRepository;
+import com.fasterxml.jackson.core.JsonProcessingException;
 import feign.RetryableException;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -49,6 +50,11 @@ public class TransferenciaResource {
 
             } catch (RetryableException e) {
                 log.error("Erro {}", e);
+                transacaoRepository.delete(entity);
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+            } catch (JsonProcessingException e) {
+                log.error("Erro {}", e);
+                e.printStackTrace();
                 transacaoRepository.delete(entity);
                 return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
             }

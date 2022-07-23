@@ -7,7 +7,9 @@ import br.com.vr.development.financialcontrolapp.application.domain.model.Valor;
 import br.com.vr.development.financialcontrolapp.application.enums.TipoTransferencia;
 import br.com.vr.development.financialcontrolapp.exception.SaldoInsuficienteException;
 
-public interface ContaOrigem {
+import java.io.Serializable;
+
+public interface ContaOrigem extends Serializable {
 
     void saque(Valor valor, TipoTransferencia tipoTransferencia) throws SaldoInsuficienteException;
 

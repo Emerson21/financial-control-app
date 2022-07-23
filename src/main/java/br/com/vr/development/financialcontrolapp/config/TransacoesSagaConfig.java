@@ -52,7 +52,7 @@ public class TransacoesSagaConfig {
     public Binding bindingQueueTransacoesReprovadas() {
         return BindingBuilder.bind(queueTransacoesReprovadas()).to(transacoesReprovadas()).with("");
     }
-    
+
     @Bean
     MessageConverter transacoesSagaConverter() {
         return new Jackson2JsonMessageConverter();
