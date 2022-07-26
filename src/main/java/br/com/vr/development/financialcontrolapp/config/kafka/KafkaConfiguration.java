@@ -1,8 +1,9 @@
 package br.com.vr.development.financialcontrolapp.config.kafka;
 
 import br.com.vr.development.financialcontrolapp.inbound.listeners.events.TransferenciaRecebidaEvent;
+import br.com.vr.development.financialcontrolapp.inbound.listeners.events.TransferenciaReprovadaEvent;
 import br.com.vr.development.financialcontrolapp.inbound.listeners.events.TransferenciaSolicitadaEvent;
-import br.com.vr.development.financialcontrolapp.inbound.listeners.events.TransferenciaSucessoEvent;
+import br.com.vr.development.financialcontrolapp.inbound.listeners.events.TransferenciaAprovadaEvent;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.clients.producer.ProducerConfig;
 import org.apache.kafka.common.serialization.StringDeserializer;
@@ -43,20 +44,39 @@ public class KafkaConfiguration {
 
     @Bean
     ProducerFactory<String, TransferenciaSolicitadaEvent> producerFactory() {
+        return new DefaultKafkaProducerFactory<>(produtorConfig());
+    }
+
+    Map<String, Object> produtorConfig() {
         Map<String, Object> props = new HashMap<>() {{
             put(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, kafkaServerUrl);
             put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class);
             put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, JsonSerializer.class);
         }};
-
-        return new DefaultKafkaProducerFactory<>(props);
+        return props;
     }
 
     @Bean
-    KafkaListenerContainerFactory<ConcurrentMessageListenerContainer<String, TransferenciaRecebidaEvent>> transferenciaSolicitada() {
+    KafkaListenerContainerFactory<ConcurrentMessageListenerContainer<String, TransferenciaRecebidaEvent>> transferenciaRecebidaContainerFactory() {
         ConcurrentKafkaListenerContainerFactory<String, TransferenciaRecebidaEvent> factory =
                 new ConcurrentKafkaListenerContainerFactory<String, TransferenciaRecebidaEvent>();
         factory.setConsumerFactory(transferenciaRecebidaConsumerFactory());
+        return factory;
+    }
+
+    @Bean
+    KafkaListenerContainerFactory<ConcurrentMessageListenerContainer<String, TransferenciaReprovadaEvent>> transferenciaReprovadaContainerFactory() {
+        ConcurrentKafkaListenerContainerFactory<String, TransferenciaReprovadaEvent> factory =
+                new ConcurrentKafkaListenerContainerFactory<>();
+        factory.setConsumerFactory(transferenciaReprovadaConsumerFactory());
+        return factory;
+    }
+
+    @Bean
+    KafkaListenerContainerFactory<ConcurrentMessageListenerContainer<String, TransferenciaAprovadaEvent>> transferenciaAprovadaContainerFactory() {
+        ConcurrentKafkaListenerContainerFactory<String, TransferenciaAprovadaEvent> factory =
+                new ConcurrentKafkaListenerContainerFactory<>();
+        factory.setConsumerFactory(transferenciaAprovadaConsumerFactory());
         return factory;
     }
 
@@ -69,11 +89,19 @@ public class KafkaConfiguration {
     }
 
     @Bean
-    ConsumerFactory<String, TransferenciaSucessoEvent> transferenciaSucessoConsumerFactory() {
+    ConsumerFactory<String, TransferenciaReprovadaEvent> transferenciaReprovadaConsumerFactory() {
         return new DefaultKafkaConsumerFactory<>(
-                consumerConfigs(TransferenciaSucessoEvent.class),
+          consumerConfigs(TransferenciaReprovadaEvent.class),
+          new StringDeserializer(),
+          jsonDeserializer(TransferenciaReprovadaEvent.class));
+    }
+
+    @Bean
+    ConsumerFactory<String, TransferenciaAprovadaEvent> transferenciaAprovadaConsumerFactory() {
+        return new DefaultKafkaConsumerFactory<>(
+                consumerConfigs(TransferenciaAprovadaEvent.class),
                 new StringDeserializer(),
-                jsonDeserializer(TransferenciaSucessoEvent.class));
+                jsonDeserializer(TransferenciaAprovadaEvent.class));
     }
 
     private <T> JsonDeserializer<T> jsonDeserializer(Class<T> clazz){

@@ -132,6 +132,6 @@ springdoc:
 topico:
   transferencia:
     solicitada: transferencia_solicitada
-    sucesso: transferencia_sucesso
+    aprovada: transferencia_aprovada
     recebida: transferencia_recebida
-    recusada: transferencia_recusadas
+    reprovada: transferencia_reprovada

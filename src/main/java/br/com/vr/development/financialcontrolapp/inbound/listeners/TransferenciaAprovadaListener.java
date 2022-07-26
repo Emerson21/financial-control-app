@@ -1,6 +1,9 @@
 package br.com.vr.development.financialcontrolapp.inbound.listeners;
 
+import br.com.vr.development.financialcontrolapp.application.domain.model.events.transacoes.TransferenciaAprovada;
+import br.com.vr.development.financialcontrolapp.inbound.listeners.events.TransferenciaAprovadaEvent;
 import br.com.vr.development.financialcontrolapp.inbound.listeners.events.TransferenciaRecebidaEvent;
+import br.com.vr.development.financialcontrolapp.infrastructure.repository.TransferenciaAprovadaEventRepository;
 import br.com.vr.development.financialcontrolapp.infrastructure.repository.TransferenciaRecebidaEventRepository;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -10,16 +13,16 @@ import org.springframework.stereotype.Component;
 @Slf4j
 @Component
 @AllArgsConstructor
-public class TransferenciaRecebidaListener {
+public class TransferenciaAprovadaListener {
 
-    private TransferenciaRecebidaEventRepository eventRepository;
+    private TransferenciaAprovadaEventRepository eventRepository;
 
     @KafkaListener(
-        topics = "${topico.transferencia.recebida}",
+        topics = "${topico.transferencia.aprovada}",
         groupId = "${spring.kafka.group_id}",
-        containerFactory = "transferenciaRecebidaContainerFactory"
+        containerFactory = "transferenciaAprovadaContainerFactory"
     )
-    public void consumir(TransferenciaRecebidaEvent evento) {
+    public void consumir(TransferenciaAprovadaEvent evento) {
         log.info("Evento TransferenciaRecebidaEvent recebido {}", evento);
 
         if (!eventRepository.findByCorrelationId(evento.correlationId()).isPresent()) {
@@ -30,9 +33,7 @@ public class TransferenciaRecebidaListener {
         log.info("****************************************");
         log.info("****************************************");
         log.info("****************************************");
-        log.info("****************************************");
-        log.info("******** Transferencia Recebida ********");
-        log.info("******* Aguardando Processamento *******");
+        log.info("******** Transferencia Aprovada ********");
         log.info("****************************************");
         log.info("****************************************");
         log.info("****************************************");

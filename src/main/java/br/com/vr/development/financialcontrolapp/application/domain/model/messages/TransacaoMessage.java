@@ -13,6 +13,7 @@ import java.util.UUID;
 @Setter
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 @AllArgsConstructor
+@ToString
 public class TransacaoMessage {
 
     private UUID correlationId;

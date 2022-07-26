@@ -11,16 +11,16 @@ import java.util.UUID;
 @ToString
 @Getter
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-public class TransferenciaRecebidaEvent extends TransferenciaEvent {
+public class TransferenciaAprovadaEvent extends TransferenciaEvent {
 
-    public TransferenciaRecebidaEvent(UUID correlationId, TransacaoMessage transacaoMessage) {
+    public TransferenciaAprovadaEvent(UUID correlationId, TransacaoMessage transacaoMessage) {
         super(correlationId, transacaoMessage);
     }
 
     @Override
     public boolean equals(Object object) {
-        if (object != null && object instanceof TransferenciaRecebidaEvent) {
-            return ((TransferenciaRecebidaEvent) object).correlationId().equals(this.correlationId());
+        if (object != null && object instanceof TransferenciaAprovadaEvent) {
+            return ((TransferenciaAprovadaEvent) object).correlationId().equals(this.correlationId());
         }
 
         return false;
