@@ -8,6 +8,7 @@ import br.com.vr.development.financialcontrolapp.fixtures.ContaCorrenteFixture;
 import br.com.vr.development.financialcontrolapp.inbound.listeners.events.TransferenciaRecebidaEvent;
 import br.com.vr.development.financialcontrolapp.inbound.resources.v1.transacao.dto.ValorDTO;
 import br.com.vr.development.financialcontrolapp.infrastructure.repository.TransferenciaRecebidaEventRepository;
+import br.com.vr.development.financialcontrolapp.infrastructure.repository.data.model.TransacaoMessageDTO;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
@@ -57,13 +58,13 @@ public class TransferenciaRecebidaListenerTest {
         UUID uuid = UUID.randomUUID();
         ContaCorrente contaCorrente = ContaCorrenteFixture.create();
 
-        TransacaoMessage transacaoMessage =
-                new TransacaoMessage(
+        TransacaoMessageDTO transacaoMessage =
+                new TransacaoMessageDTO(
                     uuid,
-                    new ValorDTO(new BigDecimal("50")),
-                    contaCorrente,
-                    contaCorrente,
-                    TipoTransferencia.PIX
+                    new TransacaoMessageDTO.Valor(new BigDecimal("50")),
+                    contaCorrente.toContaOrigemDTO(),
+                    contaCorrente.toContaDestinoDTO(),
+                    TipoTransferencia.PIX.name()
                 );
 
         TransferenciaRecebidaEvent evento = new TransferenciaRecebidaEvent(uuid, transacaoMessage);

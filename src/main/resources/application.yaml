@@ -39,7 +39,7 @@ spring:
     mongodb:
 #      uri: mongodb://mongoadmin:mongoadmin@localhost:27017
       uri: mongodb://admin:admin@localhost:27017
-      database: financialevents
+      database: transferencias
 
   security:
     oauth2:

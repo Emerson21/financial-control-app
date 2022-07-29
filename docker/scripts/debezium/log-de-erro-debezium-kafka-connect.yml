@@ -1,0 +1,94 @@
+debezium   | 2022-07-27 21:58:56,727 INFO   MongoDB|transferencia-recebida-connector-mongodb|disc  Checking current members of replica set at mongo:27017   [io.debezium.connector.mongodb.ReplicaSetDiscovery]
+debezium   | 2022-07-27 21:58:56,863 INFO   ||  1 records sent during previous 00:02:30.389, last recorded offset: {sec=1658959136, ord=2, transaction_id=null, resume_token=8262E1B520000000022B022C0100296E5A10044AC85E5BB19846EEB47800E112F1F4B5465A5F6964005A10036B462752C9CA420E52279AC3FC23BF9E0004, h=null}   [io.debezium.connector.common.BaseSourceTask]
+debezium   | 2022-07-27 21:58:56,884 ERROR  ||  WorkerSourceTask{id=transferencia-solicitada-connector-0} Task threw an uncaught and unrecoverable exception. Task is being killed and will not recover until manually restarted   [org.apache.kafka.connect.runtime.WorkerTask]
+debezium   | org.apache.kafka.connect.errors.ConnectException: Tolerance exceeded in error handler
+debezium   |    at org.apache.kafka.connect.runtime.errors.RetryWithToleranceOperator.execAndHandleError(RetryWithToleranceOperator.java:223)
+debezium   |    at org.apache.kafka.connect.runtime.errors.RetryWithToleranceOperator.execute(RetryWithToleranceOperator.java:149)
+debezium   |    at org.apache.kafka.connect.runtime.TransformationChain.apply(TransformationChain.java:50)
+debezium   |    at org.apache.kafka.connect.runtime.WorkerSourceTask.sendRecords(WorkerSourceTask.java:355)
+debezium   |    at org.apache.kafka.connect.runtime.WorkerSourceTask.execute(WorkerSourceTask.java:258)
+debezium   |    at org.apache.kafka.connect.runtime.WorkerTask.doRun(WorkerTask.java:188)
+debezium   |    at org.apache.kafka.connect.runtime.WorkerTask.run(WorkerTask.java:243)
+debezium   |    at java.base/java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:515)
+debezium   |    at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:264)
+debezium   |    at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128)
+debezium   |    at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)
+debezium   |    at java.base/java.lang.Thread.run(Thread.java:829)
+debezium   | Caused by: org.apache.kafka.connect.errors.ConnectException: Unable to find payload field payload in event
+debezium   |    at io.debezium.transforms.outbox.EventRouterDelegate.apply(EventRouterDelegate.java:133)
+debezium   |    at io.debezium.connector.mongodb.transforms.outbox.MongoEventRouter.apply(MongoEventRouter.java:62)
+debezium   |    at org.apache.kafka.connect.runtime.TransformationChain.lambda$apply$0(TransformationChain.java:50)
+debezium   |    at org.apache.kafka.connect.runtime.errors.RetryWithToleranceOperator.execAndRetry(RetryWithToleranceOperator.java:173)
+debezium   |    at org.apache.kafka.connect.runtime.errors.RetryWithToleranceOperator.execAndHandleError(RetryWithToleranceOperator.java:207)
+debezium   |    ... 11 more
+
+
+
+
+20989, setName='rs0', canonicalAddress=mongo:27017, hosts=[mongo:27017], passives=[], arbiters=[], primary='mongo:27017', tagSet=TagSet{[]}, electionId=7fffffff0000000000000001, setVersion=1, topologyVersion=null, lastWriteDate=Wed Jul 27 22:13:24 UTC 2022, lastUpdateTimeNanos=34223973323897}   [org.mongodb.driver.cluster]
+2022-07-27 22:13:32,492 INFO   MongoDB|transferencia-reprovada-connector-mongodb|streaming  Opened connection [connectionId{localValue:71, serverValue:77}] to mongo:27017   [org.mongodb.driver.connection]
+2022-07-27 22:13:32,504 INFO   MongoDB|transferencia-reprovada-connector-mongodb|streaming  Opened connection [connectionId{localValue:72, serverValue:78}] to mongo:27017   [org.mongodb.driver.connection]
+2022-07-27 22:13:32,505 INFO   MongoDB|transferencia-reprovada-connector-mongodb|streaming  Reading change stream for 'rs0/mongo:27017' primary mongo:27017 starting at Timestamp{value=7125178962552029189, seconds=1658960004, inc=5}   [io.debezium.connector.mongodb.MongoDbStreamingChangeEventSource]
+2022-07-27 22:13:32,507 INFO   MongoDB|transferencia-reprovada-connector-mongodb|streaming  Resume token not available, starting streaming from time 'Timestamp{value=7125178962552029189, seconds=1658960004, inc=5}'   [io.debezium.connector.mongodb.MongoDbStreamingChangeEventSource]
+2022-07-27 22:14:01,293 INFO   MongoDB|transferencia-solicitada-connector-mongodb|disc  Checking current members of replica set at mongo:27017   [io.debezium.connector.mongodb.ReplicaSetDiscovery]
+2022-07-27 22:14:01,731 INFO   MongoDB|transferencia-recebida-connector-mongodb|disc  Checking current members of replica set at mongo:27017   [io.debezium.connector.mongodb.ReplicaSetDiscovery]
+2022-07-27 22:14:02,062 INFO   MongoDB|transferencia-aprovada-connector-mongodb|disc  Checking current members of replica set at mongo:27017   [io.debezium.connector.mongodb.ReplicaSetDiscovery]
+2022-07-27 22:14:02,344 INFO   MongoDB|transferencia-reprovada-connector-mongodb|disc  Checking current members of replica set at mongo:27017   [io.debezium.connector.mongodb.ReplicaSetDiscovery]
+2022-07-27 22:14:10,347 WARN   MongoDB|transferencia-solicitada-connector-mongodb|streaming  The Kafka Connect schema name 'transferencia-solicitada-connector-mongodb.transferencias.solicitada.Key' is not a valid Avro schema name, so replacing with 'transferencia_solicitada_connector_mongodb.transferencias.solicitada.Key'   [io.debezium.util.SchemaNameAdjuster]
+2022-07-27 22:14:10,347 WARN   MongoDB|transferencia-solicitada-connector-mongodb|streaming  The Kafka Connect schema name 'transferencia-solicitada-connector-mongodb.transferencias.solicitada.Envelope' is not a valid Avro schema name, so replacing with 'transferencia_solicitada_connector_mongodb.transferencias.solicitada.Envelope'   [io.debezium.util.SchemaNam
+eAdjuster]
+2022-07-27 22:14:10,701 INFO   ||  1 records sent during previous 00:00:39.197, last recorded offset: {sec=1658960050, ord=2, transaction_id=null, resume_token=8262E1B8B2000000022B022C0100296E5A10046FCE7EDF923D401AB70B0EF6AA28A394465A5F6964005A1003004B75CD1E34BFA30B65BDE0A8748FAD0004, h=null}   [io.debezium.connector.common.BaseSourceTask]
+2022-07-27 22:14:10,712 ERROR  ||  WorkerSourceTask{id=transferencia-solicitada-connector-0} Task threw an uncaught and unrecoverable exception. Task is being killed and will not recover until manually restarted   [org.apache.kafka.connect.runtime.WorkerTask]
+org.apache.kafka.connect.errors.ConnectException: Tolerance exceeded in error handler
+        at org.apache.kafka.connect.runtime.errors.RetryWithToleranceOperator.execAndHandleError(RetryWithToleranceOperator.java:223)
+        at org.apache.kafka.connect.runtime.errors.RetryWithToleranceOperator.execute(RetryWithToleranceOperator.java:149)
+        at org.apache.kafka.connect.runtime.TransformationChain.apply(TransformationChain.java:50)
+        at org.apache.kafka.connect.runtime.WorkerSourceTask.sendRecords(WorkerSourceTask.java:355)
+        at org.apache.kafka.connect.runtime.WorkerSourceTask.execute(WorkerSourceTask.java:258)
+        at org.apache.kafka.connect.runtime.WorkerTask.doRun(WorkerTask.java:188)
+        at org.apache.kafka.connect.runtime.WorkerTask.run(WorkerTask.java:243)
+        at java.base/java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:515)
+        at java.base/java.util.concurrent.FutureTask.run(FutureTask.java:264)
+        at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1128)
+        at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:628)
+        at java.base/java.lang.Thread.run(Thread.java:829)
+Caused by: org.apache.kafka.connect.errors.ConnectException: Unable to find payload field payload in event
+        at io.debezium.transforms.outbox.EventRouterDelegate.apply(EventRouterDelegate.java:133)
+        at io.debezium.connector.mongodb.transforms.outbox.MongoEventRouter.apply(MongoEventRouter.java:62)
+        at org.apache.kafka.connect.runtime.TransformationChain.lambda$apply$0(TransformationChain.java:50)
+        at org.apache.kafka.connect.runtime.errors.RetryWithToleranceOperator.execAndRetry(RetryWithToleranceOperator.java:173)
+        at org.apache.kafka.connect.runtime.errors.RetryWithToleranceOperator.execAndHandleError(RetryWithToleranceOperator.java:207)
+        ... 11 more
+
+
+ou filtro os tipos de mensagem ou altero a estrutura da tabela outbox para o mongo para essa estrutura
+
+
+id            | uuid                   | not null
+aggregatetype | character varying(255) | not null
+aggregateid   | character varying(255) | not null
+type          | character varying(255) | not null
+payload       | jsonb                  |
+
+"transforms.outbox.table.fields.payload": "",
+"transforms": "outbox",
+"transforms.outbox.type": "io.debezium.connector.mongodb.transforms.outbox.MongoEventRouter",
+"transforms.outbox.topic": "transferencia_solicitada",
+"transforms.outbox.table.fields.additional.placement": "eventType:header:type",
+"transforms.outbox.collection.expand.json.payload": "true",
+
+
+curl -X POST \
+  http://localhost:8083/connectors/ \
+  -H 'content-type: application/json' \
+  -d @transferencia-recebida-connector-mongodb.json
+
+curl -X POST \
+  http://localhost:8083/connectors/ \
+  -H 'content-type: application/json' \
+  -d @transferencia-aprovada-connector-mongodb.json
+
+curl -X POST \
+  http://localhost:8083/connectors/ \
+  -H 'content-type: application/json' \
+  -d @transferencia-reprovada-connector-mongodb.json

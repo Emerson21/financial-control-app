@@ -20,6 +20,7 @@ import javax.validation.constraints.NotNull;
 import br.com.vr.development.financialcontrolapp.application.enums.TipoDocumento;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
@@ -35,11 +36,13 @@ public class Correntista {
     @NotNull
     @Embedded
     @AttributeOverride(name ="primeiroNome", column=@Column(name = "nome_completo", nullable = false))
+    @Getter
     private Nome nome;
 
     @NotNull
     @Embedded
     @AttributeOverride(name = "numero", column = @Column(name = "numero_documento", nullable = false))
+    @Getter
     private Cpf cpf;
 
     @NotNull

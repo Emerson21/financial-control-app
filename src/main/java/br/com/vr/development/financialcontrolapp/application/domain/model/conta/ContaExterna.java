@@ -7,6 +7,7 @@ import br.com.vr.development.financialcontrolapp.application.domain.model.Valor;
 import br.com.vr.development.financialcontrolapp.application.domain.model.lancamento.Lancamento;
 import br.com.vr.development.financialcontrolapp.application.domain.model.transferencia.ContaDestino;
 import br.com.vr.development.financialcontrolapp.application.enums.TipoTransferencia;
+import br.com.vr.development.financialcontrolapp.infrastructure.repository.data.model.TransacaoMessageDTO;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.ToString;
@@ -36,5 +37,19 @@ public class ContaExterna implements ContaDestino {
     @Override
     public Set<Lancamento> getLancamentos() {
         return new HashSet<>();
+    }
+
+    @Override
+    public TransacaoMessageDTO.ContaDestino toContaDestinoDTO() {
+        TransacaoMessageDTO.Banco bancoDTO = new TransacaoMessageDTO.Banco(new TransacaoMessageDTO.NomeFantasia(nomeCorrentista), this.banco.getCodigo());
+
+        return new TransacaoMessageDTO.ContaDestino(
+                bancoDTO,
+                new TransacaoMessageDTO.AgenciaBancaria(bancoDTO, agenciaBancaria.getNumero().intValue(), agenciaBancaria.getDigito().intValue()),
+                this.numero.intValue(),
+                this.digito,
+                nomeCorrentista,
+                new TransacaoMessageDTO.Cpf(cpf.getNumero(), "CPF")
+        );
     }
 }

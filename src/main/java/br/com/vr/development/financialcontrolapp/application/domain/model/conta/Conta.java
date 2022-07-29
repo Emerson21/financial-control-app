@@ -7,6 +7,9 @@ import br.com.vr.development.financialcontrolapp.application.domain.model.transf
 import br.com.vr.development.financialcontrolapp.application.domain.model.transferencia.ContaOrigem;
 import br.com.vr.development.financialcontrolapp.application.enums.TipoTransferencia;
 import br.com.vr.development.financialcontrolapp.exception.SaldoInsuficienteException;
+import br.com.vr.development.financialcontrolapp.infrastructure.repository.data.model.TransacaoMessageDTO;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
@@ -22,6 +25,8 @@ import static br.com.vr.development.financialcontrolapp.application.domain.model
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Inheritance(strategy = InheritanceType.JOINED)
 @Table(name = "conta")
+@JsonIgnoreProperties( ignoreUnknown = true )
+@JsonInclude(JsonInclude.Include.NON_NULL)
 public class Conta implements ContaDestinoInterna, ContaOrigem {
 
     @Id
@@ -34,11 +39,11 @@ public class Conta implements ContaDestinoInterna, ContaOrigem {
 
     @NotNull
     @Column(name = "numero", nullable = false)
-    private Long numero;
+    protected Long numero;
 
     @NotNull
     @Column(name = "digito", nullable = false)
-    private int digito;
+    protected int digito;
 
     @JoinColumn(name = "id_correntista", referencedColumnName = "id")
     @OneToOne(cascade = CascadeType.ALL)
@@ -116,4 +121,46 @@ public class Conta implements ContaDestinoInterna, ContaOrigem {
         this.saque(valor, TipoTransferencia.PAGAMENTO_DE_FATURA);
         fatura.pagar(valor);
     }
+
+    public void removerDependenciaCiclicaEntreAgenciaEBanco() {
+        this.agencia = new AgenciaBancaria(agencia.getId(), null, agencia.getNumero(), agencia.getDigito());
+    }
+
+    protected String nomeCorrentista() {
+        return correntista.getNome().getPrimeiroNome() + " " + correntista.getNome().getSobrenome();
+    }
+
+    protected String getCpfCorrentista() {
+        return correntista.getCpf().getNumero();
+    }
+
+    protected String nomeFantasia() {
+        return this.agencia.getBanco().getNomeFantasia().getNome();
+    }
+
+    @Override
+    public TransacaoMessageDTO.ContaOrigem toContaOrigemDTO() {
+        TransacaoMessageDTO.Banco banco = new TransacaoMessageDTO.Banco(new TransacaoMessageDTO.NomeFantasia(nomeFantasia()), this.agencia.getBanco().getCodigo());
+
+        return new TransacaoMessageDTO.ContaOrigem(
+                new TransacaoMessageDTO.NomeFantasia(nomeFantasia()),
+                banco.getCodigo(),
+                banco
+        );
+    }
+
+    @Override
+    public TransacaoMessageDTO.ContaDestino toContaDestinoDTO() {
+        TransacaoMessageDTO.Banco banco = new TransacaoMessageDTO.Banco(new TransacaoMessageDTO.NomeFantasia(nomeCorrentista()), this.agencia.getBanco().getCodigo());
+
+        return new TransacaoMessageDTO.ContaDestino(
+                banco,
+                new TransacaoMessageDTO.AgenciaBancaria(banco, agencia.getNumero().intValue(), agencia.getDigito().intValue()),
+                this.numero.intValue(),
+                this.digito,
+                nomeCorrentista(),
+                new TransacaoMessageDTO.Cpf(getCpfCorrentista(), "CPF")
+        );
+    }
+
 }

@@ -10,6 +10,7 @@ import br.com.vr.development.financialcontrolapp.application.domain.model.conta.
 import br.com.vr.development.financialcontrolapp.application.domain.model.conta.Poupanca;
 import br.com.vr.development.financialcontrolapp.application.enums.TipoTransferencia;
 import br.com.vr.development.financialcontrolapp.exception.SaldoInsuficienteException;
+import br.com.vr.development.financialcontrolapp.infrastructure.repository.data.model.TransacaoMessageDTO;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
@@ -30,4 +31,8 @@ public interface ContaOrigem extends Serializable {
     void pagar(Fatura fatura, Valor valor) throws SaldoInsuficienteException;
 
     Banco getBanco();
+
+    void removerDependenciaCiclicaEntreAgenciaEBanco();
+
+    TransacaoMessageDTO.ContaOrigem toContaOrigemDTO();
 }

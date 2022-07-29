@@ -26,6 +26,7 @@ public class MessageSender {
     @Autowired
     private KafkaTemplate<String, TransferenciaSolicitadaEvent> kafkaTemplate;
 
+
     @Value("${topico.transferencia.solicitada}")
     private String transferenciaSolicitada;
 

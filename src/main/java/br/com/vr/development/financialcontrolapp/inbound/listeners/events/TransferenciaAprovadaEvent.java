@@ -1,6 +1,6 @@
 package br.com.vr.development.financialcontrolapp.inbound.listeners.events;
 
-import br.com.vr.development.financialcontrolapp.application.domain.model.messages.TransacaoMessage;
+import br.com.vr.development.financialcontrolapp.infrastructure.repository.data.model.TransacaoMessageDTO;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -13,7 +13,7 @@ import java.util.UUID;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class TransferenciaAprovadaEvent extends TransferenciaEvent {
 
-    public TransferenciaAprovadaEvent(UUID correlationId, TransacaoMessage transacaoMessage) {
+    public TransferenciaAprovadaEvent(UUID correlationId, TransacaoMessageDTO transacaoMessage) {
         super(correlationId, transacaoMessage);
     }
 

@@ -4,6 +4,7 @@ import br.com.vr.development.financialcontrolapp.application.domain.model.conta.
 import br.com.vr.development.financialcontrolapp.application.domain.model.conta.ContaExterna;
 import br.com.vr.development.financialcontrolapp.application.domain.model.conta.Poupanca;
 import br.com.vr.development.financialcontrolapp.application.domain.model.lancamento.Lancamento;
+import br.com.vr.development.financialcontrolapp.infrastructure.repository.data.model.TransacaoMessageDTO;
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
@@ -21,4 +22,6 @@ import java.util.Set;
 })
 public interface ContaDestino extends Serializable {
     Set<Lancamento> getLancamentos();
+
+    TransacaoMessageDTO.ContaDestino toContaDestinoDTO();
 }

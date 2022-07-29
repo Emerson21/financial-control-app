@@ -11,7 +11,11 @@ import br.com.vr.development.financialcontrolapp.exception.SaldoInsuficienteExce
 import br.com.vr.development.financialcontrolapp.inbound.listeners.events.TransferenciaSolicitadaEvent;
 import br.com.vr.development.financialcontrolapp.infrastructure.gateway.TransferenciaExternaClient;
 import br.com.vr.development.financialcontrolapp.infrastructure.repository.ContaRepository;
+import br.com.vr.development.financialcontrolapp.infrastructure.repository.TransferenciaSolicitadaEventRepository;
+import br.com.vr.development.financialcontrolapp.infrastructure.repository.data.model.TransacaoMessageDTO;
+import br.com.vr.development.financialcontrolapp.infrastructure.repository.data.model.TransferenciaSolicitadaEventModel;
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -39,10 +43,10 @@ public class TransferenciaExterna implements TransacoesService {
     @Autowired
     private MessageSender messageSender;
 
-
-
-
     private ApplicationEventPublisher eventPublisher;
+
+    @Autowired
+    private TransferenciaSolicitadaEventRepository transferenciaSolicitadaEventRepository;
 
     @Override
     @Transactional(isolation = Isolation.SERIALIZABLE)
@@ -73,11 +77,24 @@ public class TransferenciaExterna implements TransacoesService {
         throw e;
     }
 
-    private void transacionarViaMessagem(UUID correlationId, Valor valor, ContaOrigem origem, ContaDestino contaDestino, TipoTransferencia tipoTransferencia) {
-        TransacaoMessage transacaoMessage = new TransacaoMessage(correlationId, valor.toValorDTO(), origem, contaDestino, tipoTransferencia);
-        TransferenciaSolicitadaEvent transferenciaSolicitadaEvent = new TransferenciaSolicitadaEvent(UUID.randomUUID(), transacaoMessage);
+    private void transacionarViaMessagem(UUID correlationId, Valor valor, ContaOrigem origem, ContaDestino contaDestino, TipoTransferencia tipoTransferencia) throws JsonProcessingException {
+        TransacaoMessage transacaoMessage = new TransacaoMessage( correlationId.toString(), valor.toValorDTO(), origem, contaDestino, tipoTransferencia);
+        TransferenciaSolicitadaEvent transferenciaSolicitadaEvent = new TransferenciaSolicitadaEvent(correlationId, transacaoMessage.toDto());
 
-        messageSender.publishKafka(transferenciaSolicitadaEvent);
+        TransferenciaSolicitadaEventModel solicitadaEventModel = new TransferenciaSolicitadaEventModel(
+                UUID.randomUUID(),
+                "transferencia_solicitada",
+                transferenciaSolicitadaEvent.correlationId(),
+                TransferenciaSolicitadaEvent.class.getTypeName(),
+                transferenciaSolicitadaEvent
+        );
+
+        //Implementado solução com o debezium sendo um padrão de ms o transactional outbox pattern
+        //Essa tabela está sendo monitorada pelo debezium que deverá publicar uma mensagem no topico transferencia_solicitada do kafka
+        transferenciaSolicitadaEventRepository.save(solicitadaEventModel);
+
+        //publicando evento direto em tópico do kafka
+//        messageSender.publishKafka(transferenciaSolicitadaEvent);
     }
 
 }
