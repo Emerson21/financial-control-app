@@ -16,9 +16,18 @@ public class TransferenciaComposite {
     private TransacoesService transferenciaInterna;
     private TransacoesService transferenciaExterna;
 
+    /*
+        Possíveis valores para qualifier para as transferencias externas
+
+     @Qualifier("transferenciaExterna") TransacoesService transferenciaExterna
+     @Qualifier("transferenciaExternaMS") TransacoesService transferenciaExterna
+     @Qualifier("transferenciaExternaOutbox") TransacoesService transferenciaExterna
+
+     */
+
     @Autowired
-    public TransferenciaComposite(@Qualifier("transferenciaInterna") TransferenciaInterna transferenciaInterna,
-                                  @Qualifier("transferenciaExterna") TransferenciaExterna transferenciaExterna) {
+    public TransferenciaComposite(@Qualifier("transferenciaInterna") TransacoesService transferenciaInterna,
+                                  @Qualifier("transferenciaExternaOutbox") TransacoesService transferenciaExterna) {
         this.transferenciaInterna = transferenciaInterna;
         this.transferenciaExterna = transferenciaExterna;
     }

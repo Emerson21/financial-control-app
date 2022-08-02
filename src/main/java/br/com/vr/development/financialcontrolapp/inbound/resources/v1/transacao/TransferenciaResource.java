@@ -22,6 +22,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.UUID;
+
 @Slf4j
 @RequestMapping("/api/transferencia")
 @RestController
@@ -46,18 +48,19 @@ public class TransferenciaResource {
                 ContaDestino contaDestino = new ContaDestinoBuilder(transacao.getConta(), contaOrigem.getBanco(), contaRepository).build();
 
                 composite.selecionarTransferencia(transacao.getConta(), contaOrigem.getBanco())
-                        .transacionar(transacao.toValorModel(), contaOrigem, contaDestino, transacao.getTipo());
+                        .transacionar(UUID.randomUUID(), transacao.toValorModel(), contaOrigem, contaDestino, transacao.getTipo());
 
             } catch (RetryableException e) {
                 log.error("Erro {}", e);
                 transacaoRepository.delete(entity);
                 return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-            } catch (JsonProcessingException e) {
-                log.error("Erro {}", e);
-                e.printStackTrace();
-                transacaoRepository.delete(entity);
-                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
             }
+//            catch (JsonProcessingException e) {
+//                log.error("Erro {}", e);
+//                e.printStackTrace();
+//                transacaoRepository.delete(entity);
+//                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
+//            }
         }
 
         return ResponseEntity.ok().body(new SucessoResponse("Transação realizada com sucesso."));

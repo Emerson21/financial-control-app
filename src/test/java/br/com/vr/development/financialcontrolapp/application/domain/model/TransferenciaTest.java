@@ -5,6 +5,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 import java.math.BigDecimal;
 import java.util.Arrays;
+import java.util.UUID;
 
 import br.com.vr.development.financialcontrolapp.application.domain.model.conta.Conta;
 import br.com.vr.development.financialcontrolapp.application.domain.model.conta.ContaCorrente;
@@ -43,7 +44,7 @@ class TransferenciaTest {
         Conta contaOrigem = getContaOrigem();
         Conta contaDestino = getContaDestino();
 
-        transferenciaInterna.transacionar(new Valor("10"), contaOrigem, contaDestino, TEF);
+        transferenciaInterna.transacionar(UUID.randomUUID(), new Valor("10"), contaOrigem, contaDestino, TEF);
         assertThat(contaOrigem.getSaldo()).isEqualTo(new Valor("40"));
         assertThat(contaDestino.getSaldo()).isEqualTo(new Valor("60"));
     }
@@ -51,7 +52,7 @@ class TransferenciaTest {
     @Test
     void deveLancarExceptionSaldoInsuficienteExceptionQuandoNaoHouverValorDisponivelParaSaque() {
         Assertions.assertThatThrownBy(() -> {
-            transferenciaInterna.transacionar(new Valor("50,01"), getContaOrigem(), getContaDestino(), TEF);
+            transferenciaInterna.transacionar(UUID.randomUUID(), new Valor("50,01"), getContaOrigem(), getContaDestino(), TEF);
         });
     }
 
@@ -60,7 +61,7 @@ class TransferenciaTest {
         Conta poupanca = getContaPoupanca();
         Conta origem = getContaOrigem();
 
-        transferenciaInterna.transacionar(new Valor("0.01"), origem, poupanca, TEF);
+        transferenciaInterna.transacionar(UUID.randomUUID(), new Valor("0.01"), origem, poupanca, TEF);
 
         assertThat(origem.getSaldo()).isEqualTo(new Valor("49.99"));
         assertThat(poupanca.getSaldo()).isEqualTo(new Valor("50.01"));

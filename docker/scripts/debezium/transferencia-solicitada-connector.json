@@ -9,7 +9,7 @@
     "mongodb.name": "transferencia-solicitada-connector-mongodb",
     "database.history.kafka.bootstrap.servers": "kafka:29092",
     "database.include.list": "transferencias",
-    "collection.include.list": "transferencia.solicitada",
+    "collection.include.list": "transferencias.solicitada",
     "include.schema.changes": "false",
     "key.converter": "org.apache.kafka.connect.json.JsonConverter",
     "key.converter.schemas.enable": "false",

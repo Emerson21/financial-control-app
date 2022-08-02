@@ -1,12 +1,9 @@
 package br.com.vr.development.financialcontrolapp.inbound.listeners;
 
 import br.com.vr.development.financialcontrolapp.application.domain.model.conta.ContaCorrente;
-import br.com.vr.development.financialcontrolapp.application.domain.model.messages.TransacaoMessage;
-import br.com.vr.development.financialcontrolapp.application.domain.service.MessageSender;
 import br.com.vr.development.financialcontrolapp.application.enums.TipoTransferencia;
 import br.com.vr.development.financialcontrolapp.fixtures.ContaCorrenteFixture;
 import br.com.vr.development.financialcontrolapp.inbound.listeners.events.TransferenciaRecebidaEvent;
-import br.com.vr.development.financialcontrolapp.inbound.resources.v1.transacao.dto.ValorDTO;
 import br.com.vr.development.financialcontrolapp.infrastructure.repository.TransferenciaRecebidaEventRepository;
 import br.com.vr.development.financialcontrolapp.infrastructure.repository.data.model.TransacaoMessageDTO;
 import org.junit.jupiter.api.Test;
@@ -76,8 +73,9 @@ public class TransferenciaRecebidaListenerTest {
         verify(listener, timeout(5000)).consumir(transferenciaRecebidaCaptor.capture());
         assertThat(transferenciaRecebidaCaptor.getValue()).isEqualTo(evento);
 
-        verify(eventRepository, times(1)).save(any(TransferenciaRecebidaEvent.class));
         verify(eventRepository, times(1)).findByCorrelationId(anyString());
+        verify(eventRepository, times(1)).save(any(TransferenciaRecebidaEvent.class));
+
     }
 
 

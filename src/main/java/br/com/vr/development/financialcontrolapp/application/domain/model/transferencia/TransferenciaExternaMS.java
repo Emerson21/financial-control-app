@@ -3,14 +3,12 @@ package br.com.vr.development.financialcontrolapp.application.domain.model.trans
 import br.com.vr.development.financialcontrolapp.application.domain.model.Valor;
 import br.com.vr.development.financialcontrolapp.application.domain.model.conta.ContaCorrente;
 import br.com.vr.development.financialcontrolapp.application.domain.model.events.TransferenciaEvent;
-import br.com.vr.development.financialcontrolapp.application.domain.model.messages.TransacaoMessage;
-import br.com.vr.development.financialcontrolapp.application.domain.service.MessageSender;
-import br.com.vr.development.financialcontrolapp.application.domain.service.transacoes.TransacaoExternaService;
 import br.com.vr.development.financialcontrolapp.application.domain.service.transacoes.TransacoesService;
 import br.com.vr.development.financialcontrolapp.application.enums.TipoTransferencia;
 import br.com.vr.development.financialcontrolapp.exception.SaldoInsuficienteException;
-import br.com.vr.development.financialcontrolapp.inbound.listeners.events.TransferenciaSolicitadaEvent;
+import br.com.vr.development.financialcontrolapp.infrastructure.gateway.TransferenciaExternaClient;
 import br.com.vr.development.financialcontrolapp.infrastructure.repository.ContaRepository;
+import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,15 +21,15 @@ import java.util.UUID;
 
 @Slf4j
 @Component
-@Qualifier("transferenciaExterna")
+@Qualifier("transferenciaExternaMS")
 @AllArgsConstructor
-public class TransferenciaExterna implements TransacoesService, TransacaoExternaService {
+public class TransferenciaExternaMS implements TransacoesService {
 
     @Autowired
     private ContaRepository contaRepository;
 
     @Autowired
-    private MessageSender messageSender;
+    private TransferenciaExternaClient transferenciaExternaClient;
 
     private ApplicationEventPublisher eventPublisher;
 
@@ -41,16 +39,21 @@ public class TransferenciaExterna implements TransacoesService, TransacaoExterna
         origem.saque(valor, tipoTransferencia);
         contaRepository.save((ContaCorrente) origem);
 
-        this.transacionarViaMessagem(correlationId, valor, origem, contaDestino, tipoTransferencia);
+        transacionarViaMicroServico(contaDestino);
 
         eventPublisher.publishEvent(
                 new TransferenciaEvent(correlationId,"TransferenciaExterna",
                         valor, contaDestino.getLancamentos(), tipoTransferencia));
     }
 
-    private void transacionarViaMessagem(UUID correlationId, Valor valor, ContaOrigem origem, ContaDestino contaDestino, TipoTransferencia tipoTransferencia) {
-        TransacaoMessage transacaoMessage = new TransacaoMessage( correlationId.toString(), valor.toValorDTO(), origem, contaDestino, tipoTransferencia);
-        messageSender.publishKafka(new TransferenciaSolicitadaEvent(correlationId, transacaoMessage.toDto()));
+    @CircuitBreaker(name = "ms-central-bank-cb", fallbackMethod = "fallback")
+    public void transacionarViaMicroServico(ContaDestino contaDestino) {
+        transferenciaExternaClient.depositar(contaDestino);
+    }
+
+    private void fallback(RuntimeException e) {
+        log.error("Executando FallBack do CircuitBreak ", e);
+        throw e;
     }
 
 }
